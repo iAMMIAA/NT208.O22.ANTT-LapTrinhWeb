@@ -1,0 +1,143 @@
+.profile{
+    height: 100%;
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
+    background-color: #E8EAED;
+    font-family: 'Josefin Sans', sans-serif;
+    flex-direction: column;
+    
+}
+
+.pro{
+    display: flex;
+    height: 99.5%;
+    width: 53%;
+    background-color: rgb(255, 255, 255);
+    border-radius: 20px;
+    flex-direction: column;
+    margin-left: 200px;
+}
+
+.title{
+    margin-top: 40px;
+    margin-left: 40px;
+    font-size: 32px;
+    
+}
+
+.underline {
+    width: 85%;
+    height:1.5px;
+    background: #4d5455;
+    border-radius: 9px;
+    margin-left: 40px;
+    margin-top: 10px;
+    
+}
+
+.username{
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px;
+    gap: 20px;
+    align-items: center;;
+}
+
+.username img{
+    width: 80px;
+    height: 80px;
+    margin-left: 40px;
+    border-radius: 50px;
+}
+
+.uname{
+    font-size: 32px;
+    color:#000000;
+    text-align: left;
+    overflow: hidden;
+}
+
+.realname, .workplace {
+    color:#828282;
+    font-size: 16px;
+    text-align: left;
+
+}
+
+.pesonalinfo{
+    display: flex;
+    margin-left: 40px;
+    gap: 0%;
+    
+}
+
+
+.title2{
+    margin-left: 40px;
+}
+
+.email{
+    order: -1;
+}
+
+.gender{
+    margin-top: 20px;
+    
+}
+.emailgender{
+    width: 50%;
+}
+.career {
+    order: 1;
+    margin-top: 20px;
+}
+
+.address{
+    display: flex;
+    margin-left: 40px;
+    
+}
+
+.country{
+    oder:-1;
+}
+
+.city{
+    oder:1;
+    
+}
+
+.areacode{
+    margin-top: 20px;
+}
+
+.countryareacode{
+    width: 50%;
+    
+}
+.pesonalinfo1{
+    color:#828282;
+    font-size: 24;
+}
+
+.pesonalinfo2{
+    color: 000000;
+    font-size: 24;
+}
+
+.edit{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 150px;
+    height: 59px;
+    color: #ffffff;
+    background: #37c1d0;
+    border-radius: 50px;
+    font-size: 19px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-left: 68%;
+
+}

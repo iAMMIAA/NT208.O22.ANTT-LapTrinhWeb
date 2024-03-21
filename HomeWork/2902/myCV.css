@@ -1,0 +1,144 @@
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    background-color: rgb(177, 175, 175);
+    font-family: 'Public Sans', sans-serif;
+}
+form{
+    width: 40%;
+    height: 90%;
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    background-color: aliceblue;
+    font-family: 'Public Sans', sans-serif;
+}
+.left-column{
+    flex: 1.5;
+    flex-direction: column;
+    background-color: #E3DBCC;
+    padding: 20px;
+    display: flex;
+}
+.avatar{
+    flex: 1;
+    padding: 30px;
+    
+}
+.circle-container{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    background-color: white;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+}
+.circle {
+    width: 90%; /* Đặt kích thước cho hình tròn */
+    height: 90%;
+    background-image: url('https://cdn.phunuvagiadinh.vn/thanhtruc_btv/auto/8_8_2023/ca-khuc-ngay-mai-gap-cua-tfboys-dat-thanh-tich-khung-can-moc-1-trieu-luot-like-sau-3-ngay-phat-hanh7-2023-08-09-15-20.jpg'); /* Đặt đường dẫn hình ảnh của bạn */
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: 50%; /* Tạo hình tròn */
+  }
+.circleImg{
+    width: 50%;
+    height: 50%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.Contact{
+    flex: 1;
+}
+.Education{
+    flex: 1;
+}
+.Language{
+    flex: 1;
+}
+.right-column{
+    flex: 2.5;
+    flex-direction: column;
+    display: flex;
+}
+.Info{
+    flex: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; 
+}
+.info-container{
+    background-color: #FAF6F1 ; 
+}
+.info-container2{
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+}
+.name{
+    font-size: 30px;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+.second{
+    font-size: 18px;
+    margin-top: 0px;
+    margin-bottom: 10px;
+}
+.third{
+    margin-top: 0px;
+    margin-bottom: 20px;
+}
+.Exper{
+    flex: 1;
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+}
+.ActAchie{
+    flex: 1;
+    padding-left: 20px;
+    margin: 0px;
+}
+.Skill{
+    flex: 1;
+    padding-left: 20px;
+    margin: 0px;
+}
+
+.tittle{
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0px;
+}
+.tittle2{
+    font-size: 17px;
+    font-weight: bolder;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+.list{
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+
+.contact-list {
+    list-style: none; /* Loại bỏ dấu chấm của danh sách */
+    padding: 0; /* Loại bỏ padding mặc định của danh sách */
+}
+
+.contact-list li {
+    margin-bottom: 10px; /* Khoảng cách giữa các mục trong danh sách */
+}
+
+.contact-list i {
+    margin-right: 5px; /* Khoảng cách giữa biểu tượng và văn bản */
+}
