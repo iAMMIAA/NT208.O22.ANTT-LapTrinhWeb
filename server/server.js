@@ -1,55 +1,51 @@
-//import express.js module
-const express = require('express')
+const express = require('express');
+const multer  = require('multer');
 const tf = require('@tensorflow/tfjs-node');
-const fs = require('fs');
+const { createCanvas, loadImage } = require('canvas');
 
-//create express application
 const app = express();
-const port = 3000;
+const upload = multer({ dest: 'uploads/' });
 
-//Load mode
-const MODEL_PATH = './ResNet18.pth';
+// Load pre-trained ResNet18 model
 let model;
 (async () => {
-    model = await tf.loadLayersModel('file://${MODEL_PATH}');
-    console.log('Model loaded');
+    model = await tf.loadLayersModel('file://path/to/resnet18/model.json');
 })();
 
-//define a route for your API
-app.get('/api', (req, res) => {
-    res.send("Welcome to my API!");
-})
+// Process image
+async function processImage(imagePath) {
+    const img = await loadImage(imagePath);
+    const canvas = createCanvas(img.width, img.height);
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(img, 0, 0);
+    const imageData = ctx.getImageData(0, 0, img.width, img.height);
 
-//api for classification the drug
-app.post('/upload', async(req, res) => {
-    try{
-        //read img from request
-        const imgData = req.body.image;
+    // Preprocess image data if needed
 
-        //convert imgData to tensor
-        const imgTensor = tf.node.decodeImage(new Uint8Array(imgData), 3);
-        const resizeImg = tf.image.resizeBilinear(imgTensor, [224, 224]);
+    // Convert to tensor
+    const tensor = tf.browser.fromPixels(imageData).toFloat().expandDims();
 
-        //normalize img
-        const normalizeImg = resizeImg.div(tf.scalar(255));
+    // Make prediction
+    const predictions = model.predict(tensor);
 
-        //make prediction
-        const prediction = model.predict(normalizeImg.expandDims(0));
-        const result = quediction.dataSync();
+    // Postprocess predictions if needed
 
-        //get predicted label (assuming the model output is softmax)
-        const predictedLabelIndex = result.indexOf(Math.max(...result));
+    return predictions;
+}
 
-        //send response with predicted label
-        res.json({result: predictedLabelIndex});
-
-    } catch(error) {
-        console.error('Error processing image: ', error);
-        res.status(500).json({error: 'Error processing image'});
+app.post('/upload', upload.single('image'), async (req, res) => {
+    try {
+        const imagePath = req.file.path;
+        const predictions = await processImage(imagePath);
+        
+        // Send predictions back to client
+        res.json({ predictions });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
     }
-})
+});
 
-//start the server
-app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
 });

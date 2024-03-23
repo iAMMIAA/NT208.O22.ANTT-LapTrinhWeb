@@ -14,9 +14,9 @@ app.post('/drug', (req, res) => {
     const imageData = req.body.imageData; // Dữ liệu hình ảnh từ client
     const options = {
         mode: 'text',
-        pythonPath: 'path/to/your/python.exe', // Đường dẫn đến trình thông dịch Python
+        pythonPath: 'C:\\Python311\\python.exe', // Đường dẫn đến trình thông dịch Python
         pythonOptions: ['-u'], // unbuffered binary stdout and stderr
-        scriptPath: 'C:\\Python311\\python.exe', // Đường dẫn đến thư mục chứa script Python
+        scriptPath: 'C:\\', // Đường dẫn đến thư mục chứa script Python
         args: [imageData] // Dữ liệu được truyền cho script Python (đường dẫn đến hình ảnh)
     };
 

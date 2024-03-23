@@ -1,3 +1,4 @@
+import sys
 import torch
 from torchvision import transforms, models
 from PIL import Image
@@ -31,6 +32,7 @@ def predict(image_path):
     _,predict_idx = torch.max(output, 1)
     return predict_idx.item()
 
-Image_path = sys.argv[1]
-predicted_idx = predict(image_path)
-print(predicted_idx)
+if __name__ == "__main__":
+    Image_path = sys.argv[1]
+    predicted_idx = predict(Image_path)
+    print(predicted_idx)
