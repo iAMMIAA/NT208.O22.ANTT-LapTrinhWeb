@@ -1,34 +1,29 @@
 const express = require('express');
-const { PythonShell } = require('python-shell');
+const multer =  require('multer'); // Thư viện multer để xử lý dữ liệu hình ảnh
+const { spawn } = require('child_process');
+
+
 const app = express();
 const port = 3000;
 
-// Đường dẫn đến script Python
-const pythonScriptPath = 'predict_drug.py';
+// Thiết lập multer để lưu trữ hình ảnh tạm thời trong thư mục uploads
+const upload = multer({dest: 'uploads/'});
 
-// Middleware để xử lý dữ liệu từ client
-app.use(express.json());
+app.post('/predict', upload.single('image'), (req, res) => {
+    const imagePath = req.file.path;
+    const pythonProcess = spawn('python', ['predict_drug.py', imagePath]);
 
-// Endpoint để nhận dữ liệu hình ảnh từ client và xử lý
-app.post('/drug', (req, res) => {
-    const imageData = req.body.imageData; // Dữ liệu hình ảnh từ client
-    const options = {
-        mode: 'text',
-        pythonPath: 'C:\\Python311\\python.exe', // Đường dẫn đến trình thông dịch Python
-        pythonOptions: ['-u'], // unbuffered binary stdout and stderr
-        scriptPath: 'C:\\', // Đường dẫn đến thư mục chứa script Python
-        args: [imageData] // Dữ liệu được truyền cho script Python (đường dẫn đến hình ảnh)
-    };
+    pythonProcess.stdout.on('data', (data) => {
+        console.log(`stdout: ${data}`);
+        res.send(data); 
+    });
 
-    // Gọi script Python bằng PythonShell
-    PythonShell.run(pythonScriptPath, options, function (err, results) {
-        if (err) {
-            console.error('Error:', err);
-            res.status(500).send('Internal Server Error');
-        } else {
-            // Trả kết quả nhận diện thuốc về cho client
-            res.send(results);
-        }
+    pythonProcess.stderr.on('data', (data) => {
+        console.error(`stderr: ${data}`);
+    });
+
+    pythonProcess.on('close', (code) => {
+        console.log(`Child process exited with code ${code}`);
     });
 });
 

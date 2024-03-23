@@ -1,51 +1,33 @@
 const express = require('express');
-const multer  = require('multer');
-const tf = require('@tensorflow/tfjs-node');
-const { createCanvas, loadImage } = require('canvas');
+const multer =  require('multer'); // Thư viện multer để xử lý dữ liệu hình ảnh
+const { spawn } = require('child_process');
+
 
 const app = express();
-const upload = multer({ dest: 'uploads/' });
+const port = 3000;
 
-// Load pre-trained ResNet18 model
-let model;
-(async () => {
-    model = await tf.loadLayersModel('file://path/to/resnet18/model.json');
-})();
+// Thiết lập multer để lưu trữ hình ảnh tạm thời trong thư mục uploads
+const upload = multer({dest: 'uploads/'});
 
-// Process image
-async function processImage(imagePath) {
-    const img = await loadImage(imagePath);
-    const canvas = createCanvas(img.width, img.height);
-    const ctx = canvas.getContext('2d');
-    ctx.drawImage(img, 0, 0);
-    const imageData = ctx.getImageData(0, 0, img.width, img.height);
+app.post('/predict', upload.single('image'), (req, res) => {
+    const imagePath = req.file.path;
+    const pythonProcess = spawn('python', ['predict_drug.py', imagePath]);
 
-    // Preprocess image data if needed
+    pythonProcess.stdout.on('data', (data) => {
+        console.log(`stdout: ${data}`);
+        res.send(data); 
+    });
 
-    // Convert to tensor
-    const tensor = tf.browser.fromPixels(imageData).toFloat().expandDims();
+    pythonProcess.stderr.on('data', (data) => {
+        console.error(`stderr: ${data}`);
+    });
 
-    // Make prediction
-    const predictions = model.predict(tensor);
-
-    // Postprocess predictions if needed
-
-    return predictions;
-}
-
-app.post('/upload', upload.single('image'), async (req, res) => {
-    try {
-        const imagePath = req.file.path;
-        const predictions = await processImage(imagePath);
-        
-        // Send predictions back to client
-        res.json({ predictions });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
+    pythonProcess.on('close', (code) => {
+        console.log(`Child process exited with code ${code}`);
+    });
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+// Khởi động server
+app.listen(port, () => {
+    console.log(`Server is listening at http://localhost:${port}`);
 });

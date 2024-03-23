@@ -35,4 +35,11 @@ def predict(image_path):
 if __name__ == "__main__":
     Image_path = sys.argv[1]
     predicted_idx = predict(Image_path)
-    print(predicted_idx)
+
+    classes = ['3B-Medi', 'Agifamcin', 'Agifovir', 'Alpha-Choay',
+               'Alprazolam-Mylam', 'Ambron', 'Ameflu-Daytime',
+               'Amlodipin', 'Apha-Bevagyl', 'Arcalion']
+
+    drug_name = classes[predicted_idx]
+
+    print(drug_name)
