@@ -39,7 +39,7 @@ function Home() {
                         <img src={drug6}></img>
                     </div>
                     <div className="today_pp_text">
-                        <Link to='/paper' className="today_pp_test_1">CẨM NANG CHĂM SÓC SỨC KHỎE</Link>
+                        <Link to='/paper2' className="today_pp_test_1">CẨM NANG CHĂM SÓC SỨC KHỎE</Link>
                         <div className="today_pp_time">
                             {/* <span id="today_pp_time_one">12 February 2024</span> */}
                             <span id="today_pp_time_two">Bác sĩ: Dương Thùy Chi</span>
@@ -51,7 +51,7 @@ function Home() {
                         <img src={drug7}></img>
                     </div>
                     <div className="today_pp_text">
-                        <Link className="today_pp_test_1" to='/paper' >CẨM NANG CHĂM SÓC SỨC KHỎE</Link>
+                        <Link className="today_pp_test_1" to='/paper2' >CẨM NANG CHĂM SÓC SỨC KHỎE</Link>
                         <div className="today_pp_time">
                             {/* <span id="today_pp_time_one">12 February 2024</span> */}
                             <span id="today_pp_time_two">Bác sĩ: Dương Thùy Chi</span>
@@ -63,7 +63,7 @@ function Home() {
                         <img src={drug8}></img>
                     </div>
                     <div className="today_pp_text">
-                        <Link to='/paper' className="today_pp_test_1">CẨM NANG CHĂM SÓC SỨC KHỎE</Link>
+                        <Link to='/paper2' className="today_pp_test_1">CẨM NANG CHĂM SÓC SỨC KHỎE</Link>
                         <div className="today_pp_time">
                             {/* <span id="today_pp_time_one">12 February 2024</span> */}
                             <span id="today_pp_time_two">Bác sĩ: Dương Thùy Chi</span>
@@ -74,7 +74,7 @@ function Home() {
                         <img src={drug9}></img>
                     </div>
                     <div className="today_pp_text">
-                        <Link to='/paper' className="today_pp_test_1">CẨM NANG CHĂM SÓC SỨC KHỎE</Link>
+                        <Link to='/paper2' className="today_pp_test_1">CẨM NANG CHĂM SÓC SỨC KHỎE</Link>
                         <div className="today_pp_time">
                             {/* <span id="today_pp_time_one">12 February 2024</span> */}
                             <span id="today_pp_time_two">Bác sĩ: Dương Thùy Chi</span>
@@ -95,13 +95,13 @@ function Home() {
                 </div>
             </div>
             <div className="three_container">
-                <div className="three_item">
+            <div className="three_item">
                     <img className='three_img' src={drug3} alt="" />
                     <div className="three_text">
-                        <span className="test_1">CẨM NANG CHĂM SÓC SỨC KHỎE</span>
+                        <Link to='/paper' className="test_1">CẨM NANG CHĂM SÓC SỨC KHỎE</Link>
                         <div className="three_time">
-                        <span id="time_one">12 February 2024</span>
-                        <span id="time_two">10:00 AM</span>
+                            <span id="time_one">12 February 2024</span>
+                            <span id="time_two">10:00 AM</span>
                         </div>
                     </div>
                 </div>

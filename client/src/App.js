@@ -13,6 +13,7 @@ import Profile from './router/MyProfile';
 import LogIn from './router/LogIn';
 import SignUp from './router/SignUp';
 import Paper1 from './router/paper/paper1';
+import Paper2 from './router/paper/paper2';
 import picRound from './router/pictures/round.png';
 
 
@@ -232,7 +233,7 @@ function App() {
                         <Route path='/setting' element={<Setting/>}></Route>
                         <Route path='/profile' element={<Profile/>}></Route>
                         <Route path='/paper' element={<Paper1/>}></Route>
-
+                        <Route path='/paper2' element={<Paper2/>}></Route>
                       </Routes>
                     </div>
                   </div>
