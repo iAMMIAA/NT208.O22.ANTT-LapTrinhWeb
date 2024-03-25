@@ -78,14 +78,14 @@ function App() {
     setShowLogIn(false);
   }
 
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const logIn = (formData) => {
     axios.post('http://localhost:3001/login', formData)
         .then(response => {
           const {message, token} = response.data;
           if(message === 'Success' && token)
             {
-              localStorage.setItem('isLoggedIn', 'false');
+              localStorage.setItem('isLoggedIn', 'true');
               localStorage.setItem('token', token);
             }
         })
@@ -104,8 +104,8 @@ function App() {
 
     useEffect(() => {
       const loggedInStatus = localStorage.getItem('isLoggedIn');
-      if (loggedInStatus === 'false') {
-        setIsLoggedIn(false);
+      if (loggedInStatus === 'true') {
+        setIsLoggedIn(true);
       } 
     }, []); 
 
@@ -201,47 +201,63 @@ function App() {
                         <div className='icon_notification' onClick={toggleNotification}>
                           <FontAwesomeIcon icon={faBell} className='icon_notification'/>
                         </div>
-                        {isOpenNotification && (
-                        <div className='form_notification'>
-                          <div className='notif_one_user'>
-                            <img src={picRound}></img>
-                            <div className='notifi_infomation'>
-                              <h5 className='notif_userName_1'>iAMMIA</h5>
-                              <p className='notif_userName_2'>framddddlpoukuhgruummmmme_get_notiffuck</p>
+                        {isLoggedIn && isOpenNotification && (
+                          <div className='form_notification'>
+                            <div className='notif_one_user'>
+                              <img src={picRound}></img>
+                              <div className='notifi_infomation'>
+                                <h5 className='notif_userName_1'>iAMMIA</h5>
+                                <p className='notif_userName_2'>framddddlpoukuhgruummmmme_get_notiffuck</p>
+                              </div>
+                            </div>
+                            <div className='notif_one_user'>
+                              <img src={picRound}></img>
+                              <div className='notifi_infomation'>
+                                <h5 className='notif_userName_1'>iAMMIA</h5>
+                                <p className='notif_userName_2'>framddddlpoukuhgruummmmme_get_notiffuck</p>
+                              </div>
+                            </div>
+                            <div className='notif_one_user'>
+                              <img src={picRound}></img>
+                              <div className='notifi_infomation'>
+                                <h5 className='notif_userName_1'>iAMMIA</h5>
+                                <p className='notif_userName_2'>framddddlpoukuhgruummmmme_get_notiffuck</p>
+                              </div>
+                            </div>
+                            <div className='notif_one_user'>
+                              <img src={picRound}></img>
+                              <div className='notifi_infomation'>
+                                <h5 className='notif_userName_1'>iAMMIA</h5>
+                                <p className='notif_userName_2'>framddddlpoukuhgruummmmme_get_notiffuck</p>
+                              </div>
+                            </div>
+                            <div className='notif_one_user'>
+                              <img src={picRound}></img>
+                              <div className='notifi_infomation'>
+                                <h5 className='notif_userName_1'>iAMMIA</h5>
+                                <p className='notif_userName_2'>framddddlpoukuhgruummmmme_get_notiffuck</p>
+                              </div>
                             </div>
                           </div>
-                          <div className='notif_one_user'>
-                            <img src={picRound}></img>
-                            <div className='notifi_infomation'>
-                              <h5 className='notif_userName_1'>iAMMIA</h5>
-                              <p className='notif_userName_2'>framddddlpoukuhgruummmmme_get_notiffuck</p>
-                            </div>
-                          </div>
-                          <div className='notif_one_user'>
-                            <img src={picRound}></img>
-                            <div className='notifi_infomation'>
-                              <h5 className='notif_userName_1'>iAMMIA</h5>
-                              <p className='notif_userName_2'>framddddlpoukuhgruummmmme_get_notiffuck</p>
-                            </div>
-                          </div>
-                          <div className='notif_one_user'>
-                            <img src={picRound}></img>
-                            <div className='notifi_infomation'>
-                              <h5 className='notif_userName_1'>iAMMIA</h5>
-                              <p className='notif_userName_2'>framddddlpoukuhgruummmmme_get_notiffuck</p>
-                            </div>
-                          </div>
-                          <div className='notif_one_user'>
-                            <img src={picRound}></img>
-                            <div className='notifi_infomation'>
-                              <h5 className='notif_userName_1'>iAMMIA</h5>
-                              <p className='notif_userName_2'>framddddlpoukuhgruummmmme_get_notiffuck</p>
-                            </div>
-                          </div>
-                        </div>
                         )}
                       </div>
                       {isLoggedIn ? (
+                        <div className="one_username">
+                        <div className="one_username_container">
+                          <div className='one_noname' onClick={toggleDropDown}>
+                            <span>Lê Phương Thảo</span>
+                            <img src={picTFBOYS} alt="" />
+                          </div>
+                          {isOpenDropDown && (
+                          <div className='one_dropDown'>
+                            <Link className='one_link_dropdown' to="/profile">My Profile</Link>
+                            <Link className='one_link_dropdown' to="/setting" >Setting</Link>
+                            <Link onClick={logOut} className='one_link_dropdown'>Log Out</Link>
+                          </div>
+                        )}
+                        </div>
+                      </div>
+                      ) : (
                         <div className="one_username">
                           <div className="one_username_container">
                             <div className='one_noname' onClick={toggleDropDown}>
@@ -256,22 +272,6 @@ function App() {
                           )}
                           </div>
                         </div>
-                      ) : (
-                        <div className="one_username">
-                          <div className="one_username_container">
-                            <div className='one_noname' onClick={toggleDropDown}>
-                              <span>Lê Phương Thảo</span>
-                              <img src={picTFBOYS} alt="" />
-                            </div>
-                            {isOpenDropDown && (
-                            <div className='one_dropDown'>
-                              <Link className='one_link_dropdown' to="/profile">My Profile</Link>
-                              <Link className='one_link_dropdown' to="/setting" >Setting</Link>
-                              <Link onClick={logOut} className='one_link_dropdown'>Log Out</Link>
-                            </div>
-                          )}
-                          </div>
-                        </div>
                       )}
                   </div>
 
@@ -279,16 +279,16 @@ function App() {
                     {isLoggedIn ? (
                       <Routes>
                         <Route path="/" exact element={<Home/>}></Route>
+                        <Route path='/exchange' element={<Exchange/>}></Route>
+                        <Route path='/lookup' element={<LookUp/>}></Route>
+                        <Route path='/setting' element={<Setting/>}></Route>
+                        <Route path='/profile' element={<Profile/>}></Route>
                         <Route path='/paper' element={<Paper1/>}></Route>
                         <Route path='/paper2' element={<Paper2/>}></Route>
                       </Routes>
                     ) : (
                       <Routes>
                         <Route path="/" exact element={<Home/>}></Route>
-                        <Route path='/exchange' element={<Exchange/>}></Route>
-                        <Route path='/lookup' element={<LookUp/>}></Route>
-                        <Route path='/setting' element={<Setting/>}></Route>
-                        <Route path='/profile' element={<Profile/>}></Route>
                         <Route path='/paper' element={<Paper1/>}></Route>
                         <Route path='/paper2' element={<Paper2/>}></Route>
                       </Routes>

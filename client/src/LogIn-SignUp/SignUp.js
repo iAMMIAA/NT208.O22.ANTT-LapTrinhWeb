@@ -1,79 +1,55 @@
 import React, { useState } from "react";
-import { Link, Navigate } from 'react-router-dom';
-import Validation from "./SignupValidation";
-import Axios from 'axios';
+import { Link } from 'react-router-dom';
 import './css/SignUp.css'
-import LogIn from "./LogIn";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClose} from '@fortawesome/free-solid-svg-icons';
+import axios from "axios";
 
 
 function SignUp({openLogIn, closeSignUp}) {
-    const [values, setValues] = useState({
-        
+    const [formSignUp, setFormSignUp] = useState({
         username: '',
-        email: '',
-        pass: '',
-        confirm_pass:'',
+        useremail: '',
+        userpassword: '',
+        confirm_password:'',
     });
-    const [errors, setErrors] = useState({});
-    const [isSubmitted, setIsSubmitted] = useState(false);
-    
-
     const handleInput = (event) => {
-        setValues(prev => ({ ...prev, [event.target.name]: event.target.value }));
-       
+        const{name, value} = event.target;
+        setFormSignUp({ ...formSignUp, [name]: value });
     }
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        setErrors(Validation(values));
-        if(Object.keys(errors).length===0){
-        try {
-            const res = await Axios.post('http://localhost:3001/signup', values);
-            if (res.data.message === 'Data inserted successfully') {
-                setIsSubmitted(true);
-            }
-        } catch (error) {
-            console.log(error);
-        }
-        }
+    const requestSignUp = () => {
+        axios.post('http://localhost:3001/signup', formSignUp)
+            .then(response => {
+                const message = response.data;
+                if(message === 'Data inserted successfully') closeSignUp();
+            })
     }
-    if (isSubmitted) {
-        return <Navigate to="/app" />;
-    }
+    
     return (
         <div className="signup">
             <div className='form_signup'>
                 <div className="close_sign_form" style={{alignItems: "flex-end"}}>
                     <FontAwesomeIcon onClick = {closeSignUp} icon={faClose} style={{ color: 'rgb(70, 90, 110)', fontSize: '20px' }} />
                 </div>
-                <form onSubmit={handleSubmit}>
+                <form>
                     <div className='mb-3'>
                         <label htmlFor='username'>Full name</label>
-                        <input type='text' placeholder='Enter fullname' name="username"
-                            onChange={handleInput} className='form-control rounded-0' />
-                        {errors.username && <span className='text-danger'>{errors.username}</span>}
+                        <input onChange={handleInput} placeholder='Username' name="username" className='form-control rounded-0' />
                     </div>
                     <div className='mb-3'>
                         <label htmlFor='email'>Email</label>
-                        <input type='email' placeholder='Enter email' name="email"
-                            onChange={handleInput} className='form-control rounded-0' />
-                        {errors.email && <span className='text-danger'>{errors.email}</span>}
+                        <input onChange={handleInput} placeholder='Email' name="useremail" className='form-control rounded-0' />
                     </div>
                     <div className='mb-3'>
                         <label htmlFor='pass'>Password</label>
-                        <input type='password' placeholder='Enter password' name="pass"
-                            onChange={handleInput} className='form-control rounded-0' />
-                    {errors.pass && <span className='text-danger'>{errors.pass}</span>}
+                        <input onChange={handleInput} placeholder='Password' name="userpassword" className='form-control rounded-0' />
                     </div>
                     <div className='mb-3'>
-                        <label htmlFor='confirm_pass'> Confirm Password</label>
-                        <input type='password' placeholder='Enter password' name="confirm_pass"
-                            onChange={handleInput} className='form-control rounded-0' />
-                        {errors.pass && <span className='text-danger'>{errors.pass}</span>}
+                        <label htmlFor='confirm_password'> Confirm Password</label>
+                        <input onChange={handleInput} placeholder='Confirm password' name="confirm_password" className='form-control rounded-0' />
                     </div>
-                    <button type="submit" className='btn btn-success w-100'><strong>Sign up</strong></button>
+                    <button onClick={requestSignUp} className='btn btn-success w-100'><strong>Sign up</strong></button>
                     <p></p>
                     <Link onClick={openLogIn} className='btn btn-default border w-100 text-decoration-none'>Sign in</Link>
                 </form>
