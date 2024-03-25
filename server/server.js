@@ -5,14 +5,14 @@ const multer =  require('multer'); // Thư viện multer để xử lý dữ li�
 const { spawn } = require('child_process');
 const mysql = require('mysql2');
 const { error } = require('console');
+const jwt = require('jsonwebtoken');
+
 
 const app = express();
 const port = 3001;
 
-//su dung CORS Middleware
-app.use(cors());
-// Middleware để phân tích dữ liệu JSON từ client
-app.use(bodyParser.json());
+app.use(cors()); //su dung CORS
+app.use(bodyParser.json()); // Middleware để phân tích dữ liệu JSON từ client
 
 const connection = mysql.createConnection({
     host: 'localhost',
@@ -22,11 +22,51 @@ const connection = mysql.createConnection({
     database: 'DrugWeb'
 });
 
+// SignUp
+app.post('/signup', (req, res) =>{
+    console.log('iammia', req.body);
+    const { username, useremail, userpassword, confirm_password }=req.body;
+    const query = 'insert into SignupLogIn(username, useremail, userpassword, confirm_password) values (?,?,?,?)';
+
+    connection.query(query,[username, useremail, userpassword, confirm_password],(err,data)=>{
+        if (err) {
+            console.error('Error inserting data into database: ' + err.stack);
+            return res.status(500).json({ error: 'Error inserting data into database' });
+        }
+        console.log('Data inserted into database');
+        res.status(200).json({ message: 'Data inserted successfully' });
+    })
+});
+
+//LogIn
+const jwtSecretKey = 'medicalweb';
+app.post('/login', (req,res) =>{
+    const {username,userpassword}=req.body;
+    const query = 'select * from SignupLogIn WHERE username=? AND userpassword=?';
+    
+    connection.query(query,[username,userpassword],(error,data)=>{
+        if (error) {
+            console.error('Error querying database: ' + err.stack);
+            return res.status(500).json({ error: 'Error querying database' });
+        }
+        if (data.length > 0) {
+            console.log('User found in database');
+            const user = data[0];
+            const token = jwt.sign({ username: user.username, userpassword:user.userpassword }, jwtSecretKey);
+            res.status(200).json({ message: 'Success', token: token }); 
+        } else {
+            console.log('User not found in database');
+            return res.status(401).json({ error: 'Invalid email or password' });
+        }
+    })
+});
+
 //Admin send data
 app.post('/posts', (req, res) =>{
+    console.log('iammia', req.body);
     const { title, author, cite_source, content } = req.body;
-
     const query = 'insert into POSTS(title, author, cite_source, content) values(?,?,?,?)';
+
     connection.query(query, [title, author, cite_source, content], (error, results) =>{
         if(error) {
             console.error('Error inserting data: ', error);

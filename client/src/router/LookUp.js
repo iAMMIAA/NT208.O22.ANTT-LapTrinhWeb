@@ -1,8 +1,6 @@
 import './css/LookUp.css';
 import axios from 'axios';
-import React, { useState, useEffect } from 'react';
-import bieu3 from './pictures/bieu3.jpg';
-import drugImg from './pictures/drug.png'
+import React, { useState } from 'react';
 
 function LookUp() {
   const[selectedImage, setSelectedImage] = useState(null);
@@ -26,7 +24,6 @@ function LookUp() {
 
     axios.post('http://localhost:3001/predict', formData)
       .then(Response => {
-        // setResultDrug(Response.data);
         const drug = Response.data;
         const nameDrug = drug.nameDrug;
         const cite = drug.cites;
@@ -34,7 +31,6 @@ function LookUp() {
         setResultDrug(nameDrug);
         setDetailDrug(detailDrug);
         setSourceInfo(cite);
-
       })
       .catch(error => {
         console.error("Error while fetching result: ", error);
