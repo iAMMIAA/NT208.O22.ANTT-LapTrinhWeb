@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import './router/css/App.css'; 
+import './css/App.css'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faForward, faBackward, faHome, faCommentMedical, faBell, faSearch, faGear, faRightFromBracket} from '@fortawesome/free-solid-svg-icons';
@@ -17,7 +17,17 @@ import Paper1 from './router/paper/paper1';
 import Paper2 from './router/paper/paper2';
 import picRound from './router/pictures/round.png';
 import axios from 'axios';
-
+import drug2 from './router/pictures/drug2.png'
+import drug3 from './router/pictures/drug3.png'
+import drug4 from './router/pictures/drug4.png'
+import drug5 from './router/pictures/drug5.jpg'
+import drug6 from './router/pictures/drug6.jpg'
+import drug7 from './router/pictures/drug7.jpg'
+import drug8 from './router/pictures/drug8.png'
+import drug9 from './router/pictures/drug9.jpg'
+import drug10 from './router/pictures/drug10.png'
+import drug11 from './router/pictures/drug11.png'
+import logo from './logo/logo5.png'
 
 function App() {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
@@ -118,10 +128,14 @@ function App() {
         {noShowSignUp && (
             <SignUp closeSignUp={()=>setShowSignUp(false)} openLogIn={setShowLogInForm}/>
         )}
-        <div className="container">
+        <div className="container_web">
           <div className={`layout_left ${isSidebarCollapsed ? 'active' : ''}`}>
               <div className={`left_first ${isSidebarCollapsed ? 'active' : ''}`}>
-                <div className="header_menu"></div>
+                <div className="header_menu">
+                  <div className='logo_web'>
+                    <img src={logo}></img>
+                  </div>
+                </div>
                   
                 <div className="list_menu">
                     <ul>

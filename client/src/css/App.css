@@ -3,12 +3,17 @@
     padding: 0px;
     height: 100vh;
     width: 100%;
+    display: flex;
+    justify-content: center;
     background-color: #E8EAED;
     font-family: system-ui, sans-serif;
 }
-.container{
+   
+
+.container_web{
+    font-family: system-ui, sans-serif;
     height: 100%;
-    width: 100%;
+    width: 99%;
     display: flex;    
 }
 
@@ -73,12 +78,27 @@
 .header_menu{
     width: 100%;
     height: 15%;
-    font-size: 25px;
+    font-size: 35px;
+    font-family: "Brush Script MT", cursive;
     color: rgb(255, 255, 255);
     display: flex;
     align-items: center;
     justify-content: center;
 }
+.logo_web{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 90%;
+    height: 90%;
+    /* background-color: #d2986f; */
+}
+.logo_web img{
+    height: 50%;
+    width: 100%;
+
+}
+
 .list_menu{
     width: 100%;
     height: 40%;

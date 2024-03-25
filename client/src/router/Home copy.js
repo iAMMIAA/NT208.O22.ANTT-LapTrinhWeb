@@ -9,8 +9,6 @@ import drug5 from './pictures/drug5.jpg'
 import drug6 from './pictures/drug6.jpg'
 import drug7 from './pictures/drug7.jpg'
 import drug8 from './pictures/drug8.png'
-import drug10 from './pictures/drug10.png'
-import drug11 from './pictures/drug11.png'
 import drug9 from './pictures/drug9.jpg'
 import MarkTwain from './pictures/MarkTwain.jpg';
 
@@ -33,15 +31,15 @@ function Home() {
 
         <div className="main_four">
             <div className="four_theme">
-                <span>Top Papers</span>
+            <span>Top Papers</span>
             </div>
             <div className="four_container">
                 <div className="today_pp">
                     <div className='today_pp_imgage'>
-                        <img src={drug11}></img>
+                        <img src={drug6}></img>
                     </div>
                     <div className="today_pp_text">
-                        <Link to='/paper2' className="today_pp_test_1">7 mẹo chăm sóc sức khỏe tuyệt vời ...</Link>
+                        <Link to='/paper2' className="today_pp_test_1">CẨM NANG CHĂM SÓC SỨC KHỎE</Link>
                         <div className="today_pp_time">
                             <span id="today_pp_time_two">Bác sĩ: Dương Thùy Chi</span>
                         </div>
@@ -52,7 +50,7 @@ function Home() {
                         <img src={drug7}></img>
                     </div>
                     <div className="today_pp_text">
-                        <Link className="today_pp_test_1" to='/paper2' >Bí kíp giúp tinh thần để luôn lạc quan, yêu đời!</Link>
+                        <Link className="today_pp_test_1" to='/paper2' >CẨM NANG CHĂM SÓC SỨC KHỎE</Link>
                         <div className="today_pp_time">
                             {/* <span id="today_pp_time_one">12 February 2024</span> */}
                             <span id="today_pp_time_two">Bác sĩ: Dương Thùy Chi</span>
@@ -61,22 +59,21 @@ function Home() {
                 </div>
                 <div className="today_pp">
                     <div className='today_pp_imgage'>
-                        <img src={drug10}></img>
+                        <img src={drug8}></img>
                     </div>
                     <div className="today_pp_text">
-                        <Link to='/paper2' className="today_pp_test_1">Lựa chọn nào tốt nhất cho sức khỏe tại nhà?</Link>
+                        <Link to='/paper2' className="today_pp_test_1">CẨM NANG CHĂM SÓC SỨC KHỎE</Link>
                         <div className="today_pp_time">
                             {/* <span id="today_pp_time_one">12 February 2024</span> */}
                             <span id="today_pp_time_two">Bác sĩ: Dương Thùy Chi</span>
                         </div>
                     </div>
-                </div>                
-                <div className="today_pp">
+                </div>                <div className="today_pp">
                     <div className='today_pp_imgage'>
-                        <img src={drug8}></img>
+                        <img src={drug9}></img>
                     </div>
                     <div className="today_pp_text">
-                        <Link to='/paper2' className="today_pp_test_1">Chia sẻ cách cân bằng sức khỏe thể chất ...</Link>
+                        <Link to='/paper2' className="today_pp_test_1">CẨM NANG CHĂM SÓC SỨC KHỎE</Link>
                         <div className="today_pp_time">
                             {/* <span id="today_pp_time_one">12 February 2024</span> */}
                             <span id="today_pp_time_two">Bác sĩ: Dương Thùy Chi</span>
@@ -93,16 +90,14 @@ function Home() {
                 <span>New Papers</span>
                 </div>
                 <div className="theme_second">
-                    <Link style={{color: '#37537B', textDecoration: 'none'}}>See more</Link>
+                <Link>See more</Link>
                 </div>
             </div>
             <div className="three_container">
-            <div className="three_item">
-                    <div className='three_img'>
-                        <img src={drug4} alt="" />
-                    </div>
+                <div className="three_item">
+                    <img className='three_img' src={drug3} alt="" />
                     <div className="three_text">
-                        <Link to='/paper' className="test_1">Cẩm nang Chăm sóc sức khỏe</Link>
+                        <Link to='/paper' className="test_1">CẨM NANG CHĂM SÓC SỨC KHỎE</Link>
                         <div className="three_time">
                             <span id="time_one">12 February 2024</span>
                             <span id="time_two">10:00 AM</span>
@@ -110,29 +105,25 @@ function Home() {
                     </div>
                 </div>
                 <div className="three_item">
-                    <div className='three_img'>
-                        <img src={drug3} alt="" />
-                    </div>
+                    <img className='three_img' src={drug4} alt="" />
                     <div className="three_text">
-                        <Link to='/paper' className="test_1">Cẩm nang Chăm sóc sức khỏe</Link>
+                        <Link to='/paper' className="test_1">CẨM NANG CHĂM SÓC SỨC KHỎE</Link>
                         <div className="three_time">
                             <span id="time_one">12 February 2024</span>
                             <span id="time_two">10:00 AM</span>
                         </div>
                     </div>
                 </div>
-                <div className="three_item">
-                    <div className='three_img'>
-                        <img src={drug5} alt="" />
-                    </div>
+                {/* <div className="three_item">
+                    <img className='three_img' src={drug5} alt="" />
                     <div className="three_text">
-                        <Link to='/paper' className="test_1">Cẩm nang Chăm sóc sức khỏe</Link>
+                        <Link to='/paper' className="test_1">CẨM NANG CHĂM SÓC SỨC KHỎE</Link>
                         <div className="three_time">
                             <span id="time_one">12 February 2024</span>
                             <span id="time_two">10:00 AM</span>
                         </div>
                     </div>
-                </div>
+                </div> */}
             </div>
             </div>
             <div className="three_flag"></div>

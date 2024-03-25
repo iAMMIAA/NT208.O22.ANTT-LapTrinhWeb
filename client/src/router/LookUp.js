@@ -1,6 +1,8 @@
 import './css/LookUp.css';
 import axios from 'axios';
 import React, { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUpload, faPrescription } from '@fortawesome/free-solid-svg-icons';
 
 function LookUp() {
   const[selectedImage, setSelectedImage] = useState(null);
@@ -40,15 +42,18 @@ function LookUp() {
   return (
       <div className='LookUp'>
           <div class = "uploadImage">
+            <div className='decor_uploadImage'>
+              <FontAwesomeIcon icon={faPrescription}></FontAwesomeIcon>
+            </div>
               <form class="drugForm" >
-                  <div class="input_group">
-                      <input type="file" class="form_control" placeholder="Tải ảnh lên" onChange={handleImageChange} name='image'/>
-                      <label class="input_group_text">Tải ảnh lên</label>
+                  <input class="form_control" type="file" placeholder="Tải ảnh lên" onChange={handleImageChange} name='image'/>
+                  <div className="input_group_text">
+                    <FontAwesomeIcon icon={faUpload}></FontAwesomeIcon>
                   </div>
-                  <br/>
               </form>
-              <button type="button" class="btn_check" onClick={handleLookUp}>Tra cứu</button>
+              <button class="btn_check" onClick={handleLookUp}>Tra cứu</button>
           </div>
+
           <div className="result">
               <div className='square1' style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
                 <div className='information_drug'>
