@@ -1,31 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './css/Exchange.css' 
 import tfboys from './pictures/tfboys.jpg';
 import ava1 from './pictures/ava1.jpg';
-import user from './pictures/user.png'
+import ava2 from './pictures/ava2.jpg';
+import ava3 from './pictures/ava3.jpg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faForward, faBackward, faHome, faCommentMedical, faBell, faSearch, faGear, faRightFromBracket} from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faComment, faBookmark } from '@fortawesome/free-regular-svg-icons';
+import PostPopup from './PopupPost.js';
 
 function Exchange(){
+    const [open, setOpen] = useState(false)
     return(
         <div class="Exchange">
             <div className = "hello_theme">
                 <span>Xin chào Lê Phương Thảo!</span>
                 <div className='upload-question'>
-                    <div className='ava-user-upload' >
-                        <img className='ava-user' src={tfboys}></img>
-                    </div>
-                    <button className='btn-question'>Câu hỏi của bạn....</button>
-                    {/* <FontAwesomeIcon icon={faSearch} style={{ color: 'rgb(70, 90, 110)' }} /> */}
+                    <button className='btn-question' onClick={()=> setOpen(true)}>Câu hỏi của bạn....</button>
+                    
                 </div>
             </div>
-            <h4 className='title'>Những bài đăng gần đây:</h4>
+            <h6 className='exchange_title'>Những bài đăng gần đây:</h6>
             <div className='newfeed'>
                 <div className = "post">
                     <div className='post-content'>
                         <div className="post-user">
                             <div className='post-user-avatar' >
-                                <img src={ava1}></img>
+                                <img src={ava1} className='img'></img>
                             </div>
                             <div className='post-user-info'>
                                 <div className='post-user-name'>Thanh Trúc</div>
@@ -38,68 +38,61 @@ function Exchange(){
                             <div className="comment">5 bình luận</div>
                         </div>
                     </div>
-                    <div class= 'post-action'> Action</div>
+                    <div class= 'post-action'> 
+                        <FontAwesomeIcon icon={faHeart} className='icon'/>
+                        <FontAwesomeIcon icon={faComment} className='icon' />
+                        <FontAwesomeIcon icon={faBookmark} className='icon' />
+                    </div>
+                </div>
+                <div className='post'>
+                    <div className='post-content'>
+                        <div className="post-user">
+                            <div className='post-user-avatar' >
+                                <img src={ava2} className='img'></img>
+                            </div>
+                            <div className='post-user-info'>
+                                <div className='post-user-name'>Thanh Trúc</div>
+                                <div className='post-user-time'>45 phút.</div>
+                            </div>
+                        </div>
+                        <div className="post-description">Mọi người cho mình xin review về tiêm HPV với ạ.</div>
+                        <div className='post-summary'>
+                            <div className="like"> 25 lượt thích</div>
+                            <div className="comment">10 bình luận</div>
+                        </div>
+                    </div>
+                    <div class= 'post-action'>
+                        <FontAwesomeIcon icon={faHeart} className='icon'/>
+                        <FontAwesomeIcon icon={faComment} className='icon' />
+                        <FontAwesomeIcon icon={faBookmark} className='icon' />
+                    </div>  
                 </div>
                 <div className = "post">
                     <div className='post-content'>
                         <div className="post-user">
                             <div className='post-user-avatar' >
-                                <img src={tfboys}></img>
+                                <img src={ava3} className='img'></img>
                             </div>
                             <div className='post-user-info'>
                                 <div className='post-user-name'>Thanh Trúc</div>
-                                <div className='post-user-time'>10 phút.</div>
+                                <div className='post-user-time'>1 giờ.</div>
                             </div>
                         </div>
                         <div className="post-description"> Gần đây trên mạng xã hội có nhiều thông tin “Ăn hoa quả lúc đói". Vậy nên ăn hoa quả trước hay sau bữa ăn sẽ tốt hơn?</div>
                         <div className='post-summary'>
-                            <div className="like"> 12 lượt thích</div>
-                            <div className="comment">5 bình luận</div>
+                            <div className="like"> 35 lượt thích</div>
+                            <div className="comment">20 bình luận</div>
                         </div>
                     </div>
-                    <div class= 'post-action'> Action</div>
-                </div>
-                <div className = "post">
-                    <div className='post-content'>
-                        <div className="post-user">
-                            <div className='post-user-avatar' >
-                                <img src={user}></img>
-                            </div>
-                            <div className='post-user-info'>
-                                <div className='post-user-name'>Thanh Trúc</div>
-                                <div className='post-user-time'>10 phút.</div>
-                            </div>
-                        </div>
-                        <div className="post-description"> Gần đây trên mạng xã hội có nhiều thông tin “Ăn hoa quả lúc đói". Vậy nên ăn hoa quả trước hay sau bữa ăn sẽ tốt hơn?</div>
-                        <div className='post-summary'>
-                            <div className="like"> 12 lượt thích</div>
-                            <div className="comment">5 bình luận</div>
-                        </div>
+                    <div class= 'post-action'>
+                        <FontAwesomeIcon icon={faHeart} className='icon'/>
+                        <FontAwesomeIcon icon={faComment} className='icon' />
+                        <FontAwesomeIcon icon={faBookmark} className='icon' />
                     </div>
-                    <div class= 'post-action'> Action</div>
-                </div>
-                <div className = "post">
-                    <div className='post-content'>
-                        <div className="post-user">
-                            <div className='post-user-avatar' >
-                                <img src={tfboys}></img>
-                            </div>
-                            <div className='post-user-info'>
-                                <div className='post-user-name'>Thanh Trúc</div>
-                                <div className='post-user-time'>10 phút.</div>
-                            </div>
-                        </div>
-                        <div className="post-description"> Gần đây trên mạng xã hội có nhiều thông tin “Ăn hoa quả lúc đói". Vậy nên ăn hoa quả trước hay sau bữa ăn sẽ tốt hơn?</div>
-                        <div className='post-summary'>
-                            <div className="like"> 12 lượt thích</div>
-                            <div className="comment">5 bình luận</div>
-                        </div>
-                    </div>
-                    <div class= 'post-action'> Action</div>
-                </div>
-            </div>                 
-        </div>
-            
+                </div> 
+            </div>
+            <PostPopup open={open} onClose={() => setOpen(false)} />                 
+        </div>    
     )
 }
 

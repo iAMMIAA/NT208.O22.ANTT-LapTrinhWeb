@@ -1,0 +1,11 @@
+{
+  "name": "nt208.o22.antt-laptrinhweb",
+  "version": "1.0.0",
+  "description": "1. Lê Phương Thảo - 21522608\r     2. Trần Thị Thanh Trúc - 21522722\r     3. Nguyễn Thị Yến Ly \r     4. Trịnh Vinh Đại\r     5. Trương Đức Minh Quang",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

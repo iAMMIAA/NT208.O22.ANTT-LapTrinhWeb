@@ -3,6 +3,7 @@ import './css/App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faForward, faBackward, faHome, faCommentMedical, faBell, faSearch, faGear, faRightFromBracket} from '@fortawesome/free-solid-svg-icons';
+
 import { BrowserRouter as Router, Link, Route, Routes } from 'react-router-dom';
 import picTFBOYS from './router/pictures/tfboys.jpg'
 import user from './router/pictures/user.png'
@@ -88,7 +89,7 @@ function App() {
     setShowLogIn(false);
   }
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const logIn = (formData) => {
     axios.post('http://localhost:3001/login', formData)
         .then(response => {
