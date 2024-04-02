@@ -1,9 +1,6 @@
-import {Sequelize} from "sequelize";
-import {APP_DB} from "../config";
+const { Sequelize } = require("sequelize");
 
-const sequelize = new Sequelize(APP_DB.database, APP_DB.username, APP_DB.password, {
-    host: APP_DB.host,
+const sequelize = new Sequelize(process.env.BD_DATABASE, process.env.DB_USERNAME, process.env.DB_PASSWORD, {
+    host: process.env.BD_HOST,
     dialect: 'mysql',
 })
-
-export default sequelize;
