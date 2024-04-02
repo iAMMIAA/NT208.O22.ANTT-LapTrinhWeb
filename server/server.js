@@ -6,13 +6,14 @@ const { spawn } = require('child_process');
 const mysql = require('mysql2');
 const { error } = require('console');
 const jwt = require('jsonwebtoken');
-
+import routes from './src/routes/routes';
 
 const app = express();
 const port = 3001;
 
 app.use(cors()); //su dung CORS
 app.use(bodyParser.json()); // Middleware để phân tích dữ liệu JSON từ client
+app.use(routes)
 
 const connection = mysql.createConnection({
     host: 'localhost',
