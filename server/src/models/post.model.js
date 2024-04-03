@@ -1,10 +1,8 @@
-const { DataTypes, Model } = require("sequelize");
+const { DataTypes } = require("sequelize");
 const { sequelize } = require('./base.model');
 
-class Post extends Model {
-}
 
-Post.init({
+exports.Post = sequelize.define('Posts', {
     id: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
@@ -31,6 +29,4 @@ Post.init({
     updatedAt: {
         type: DataTypes.DATE,
     }
-}, {
-    sequelize
-})
+});

@@ -1,6 +1,7 @@
 const { Sequelize } = require("sequelize");
+const { APP_DB } = require("../config")
 
-const sequelize = new Sequelize(process.env.BD_DATABASE, process.env.DB_USERNAME, process.env.DB_PASSWORD, {
-    host: process.env.BD_HOST,
+exports.sequelize = new Sequelize(APP_DB.database, APP_DB.username, APP_DB.password, {
+    host: APP_DB.host,
     dialect: 'mysql',
 })
