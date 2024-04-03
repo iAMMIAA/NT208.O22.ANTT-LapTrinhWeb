@@ -87,7 +87,9 @@ function App() {
     setShowSignUp(true);
     setShowLogIn(false);
   }
-
+  const [userData, setUserData] = useState({
+    name:''
+  });
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const logIn = (formData) => {
     axios.post('http://localhost:3001/login', formData)
@@ -118,7 +120,30 @@ function App() {
         setIsLoggedIn(true);
       } 
     }, []); 
-
+    useEffect(() => {
+      const fetchData = async () => {
+        const token = localStorage.getItem('token');
+    
+        if (!token) {
+          setIsLoggedIn(false);
+          return;
+        }
+        
+        try {
+          const res = await axios.get('http://localhost:3001/user', { headers: { Authorization: token } });
+          if (res.data.message === 'Success') {
+            setUserData(res.data.user);
+            setIsLoggedIn(true);
+          } else {
+            console.log('Error: Unable to fetch user information');
+          }
+        } catch (error) {
+          console.error('Error fetching user information:', error);
+        }
+      };
+      
+      fetchData();
+    }, []);
   return (
     <Router>
       <div className='drug_web'>
@@ -275,7 +300,7 @@ function App() {
                         <div className="one_username">
                           <div className="one_username_container">
                             <div className='one_noname' onClick={toggleDropDown}>
-                              <span>User</span>
+                            <span>{isLoggedIn ? userData.name : 'User'}</span>
                               <img src={user} alt="" />
                             </div>
                             {isOpenDropDown && (
