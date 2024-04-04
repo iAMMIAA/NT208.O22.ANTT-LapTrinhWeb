@@ -1,5 +1,7 @@
+<center>
 # Nhom5 - Drug Identification Website
 ![UIT](uit.png)
+</center>
 
 
 ## Danh sách thành viên:
