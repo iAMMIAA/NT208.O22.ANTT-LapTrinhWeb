@@ -1,11 +1,13 @@
 # Nhom5 - Drug Identification Website
 
 ## Danh sách thành viên:
-    1. Lê Phương Thảo - 21522608
-    2. Trần Thị Thanh Trúc - 21522722
-    3. Nguyễn Thị Yến Ly 
-    4. Trịnh Vinh Đại - 21521915
-    5. Trương Đức Minh Quang
+| MSSV       | Họ và Tên       | Email                  | Github                                                                                                                      |
+| ---------- | --------------- | ---------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| `21522608` | Lê Phương Thảo    | 21522608@gm.uit.edu.vn | [![](https://img.shields.io/badge/iAMMIAA-%2324292f.svg?style=flat-square&logo=github      )](https://github.com/iAMMIAA) |
+| `21522722` | Trần Thị Thanh Trúc            | 21522722@gm.uit.edu.vn|  [![](https://img.shields.io/badge/thtruct-%2324292f.svg?style=flat-square&logo=github      )](https://github.com/thtruct) |
+| `21522316` | Nguyễn Thị Yến Ly        | 21522316@gm.uit.edu.vn| [![](https://img.shields.io/badge/nguyenthiyenly0407-%2324292f.svg?style=flat-square&logo=github      )](https://github.com/nguyenthiyenly0407) |
+| `21521915` | Trịnh Vinh Đại         | 21521915@gm.uit.edu.vn|  [![](https://img.shields.io/badge/Daivjppro-%2324292f.svg?style=flat-square&logo=github      )](https://github.com/Daivjppro)  |
+| `21522521` | Trương Đức Minh Quang         | 21522521@gm.uit.edu.vn|  [![](https://img.shields.io/badge/tdmQuang-%2324292f.svg?style=flat-square&logo=github      )](https://github.com/tdmQuang)  |
 
 ## Mô tả ứng dụng:
 MedicalWeb. là blog nhỏ, nơi được dùng để cung cấp thêm nhiều kiến thức y học cho mọi người. 
