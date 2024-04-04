@@ -20,8 +20,8 @@ Ngoài ra, MedicalWeb. là một trang web phù hợp dành cho một tổ chứ
     3. LookUp: Nếu trước kia, khi người dùng không biết loại thuốc đơn đang dùng có vai trò trị bệnh gì thì họ phải tìm kiếm bằng cách tìm kiếm tên thuốc trên bao bì và tìm kiếm. Thì tại LookUp, người dùng chỉ cần chụp viên thuốc đang dùng đó là upload lên trang web, trang web sẽ cho biết đó là thuốc gì và cung cấp vai trò cũng như cách sử dụng thuốc như thế nào.
 
 - Các tính năng phụ:
-      + User: thay đổi các
-      + Setting: cài đặt trang web như thay đổi ngôn ngữ, thay đổi hình nền trắng đen của trang.
+      1. User: thay đổi các
+      2. Setting: cài đặt trang web như thay đổi ngôn ngữ, thay đổi hình nền trắng đen của trang.
 
 ## Flowchart:
 ![Flowchart](Nhom5.png)
