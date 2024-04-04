@@ -12,7 +12,7 @@
 | `21522521` | Trương Đức Minh Quang         | 21522521@gm.uit.edu.vn|  [![](https://img.shields.io/badge/tdmQuang-%2324292f.svg?style=flat-square&logo=github      )](https://github.com/tdmQuang)  |
 
 ## Mô tả ứng dụng:
-**MedicalWeb.** là blog nhỏ, nơi được dùng để cung cấp thêm nhiều kiến thức y học cho mọi người. 
+***MedicalWeb.*** là blog nhỏ, nơi được dùng để cung cấp thêm nhiều kiến thức y học cho mọi người. 
 Ngoài ra, MedicalWeb. là một trang web phù hợp dành cho một tổ chức sử dụng như các bệnh viện. Nơi có nhu cầu giúp đỡ các bệnh nhân và nâng cao chất lượng bệnh viện với mọi người. Tại đây, các bác sĩ, chuyên gia tư vấn của bệnh viện có thể sử dụng trang web để giúp các bệnh nhân trả lời các câu hỏi, thắc mắc. Từ đó cũng giúp phần nào việc giảm chi phí khám bệnh ở bệnh viện.
 1. Các tính năng chính phục vụ cho kiến thức y học:
     - **Home**: Là nơi cung cấp các bài viết về y khoa, cung cấp thêm các kĩ năng chăm sóc sức khỏe, ...
@@ -26,3 +26,4 @@ Ngoài ra, MedicalWeb. là một trang web phù hợp dành cho một tổ chứ
 ## Flowchart:
 ![Flowchart](Nhom5.png)
 
+## Nhiệm vụ của các thành viên:
