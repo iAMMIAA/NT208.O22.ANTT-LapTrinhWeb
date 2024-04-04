@@ -17,16 +17,6 @@ import Paper1 from './router/paper/paper1';
 import Paper2 from './router/paper/paper2';
 import picRound from './router/pictures/round.png';
 import axios from 'axios';
-import drug2 from './router/pictures/drug2.png'
-import drug3 from './router/pictures/drug3.png'
-import drug4 from './router/pictures/drug4.png'
-import drug5 from './router/pictures/drug5.jpg'
-import drug6 from './router/pictures/drug6.jpg'
-import drug7 from './router/pictures/drug7.jpg'
-import drug8 from './router/pictures/drug8.png'
-import drug9 from './router/pictures/drug9.jpg'
-import drug10 from './router/pictures/drug10.png'
-import drug11 from './router/pictures/drug11.png'
 import logo from './logo/logo5.png'
 
 function App() {
@@ -200,116 +190,120 @@ function App() {
                 )}
               </div>
 
-            </div>
-            <div className={`layout_main ${isSidebarCollapsed ? 'active': ''}`}>
-                <div className="main_container">
-                  <div className="main_one">
-                      <div className="one_find">
-                        <form className="search_form" action="/search" method="GET">
-                            <FontAwesomeIcon icon={faSearch} style={{ color: 'rgb(70, 90, 110)' }} />
-                            <label htmlFor="searchInput"></label>
-                            <input className="search_input" type="text" id="searchInput" name="q" placeholder="Tìm kiếm" />
-                        </form>
-                      </div>
-                      <div className="one_notification">
-                        <div className='icon_notification' onClick={toggleNotification}>
-                          <FontAwesomeIcon icon={faBell} className='icon_notification'/>
+          </div>
+
+          <div className={`layout_main ${isSidebarCollapsed ? 'active': ''}`}>
+              <div className="main_container">
+                <div className="main_one">
+                    <div className="one_find">
+                      <form className="search_form" action="/search" method="GET">
+                          <FontAwesomeIcon className='icon_search' icon={faSearch}/>
+                          {/* <label htmlFor="searchInput"></label> */}
+                          <input className="search_input" type="text" id="searchInput" name="q" placeholder="Tìm kiếm" />
+                      </form>
+                    </div>
+                    <div className="one_notification">
+                      <FontAwesomeIcon className='round_icon_notification' icon={faBell} onClick={toggleNotification}/>
+                      {/* <div className='icon_notification' >
+                        <div className='round_icon_notification'>
+                          <FontAwesomeIcon icon={faBell}/>
                         </div>
-                        {isLoggedIn && isOpenNotification && (
-                          <div className='form_notification'>
-                            <div className='notif_one_user'>
-                              <img src={picRound}></img>
-                              <div className='notifi_infomation'>
-                                <h5 className='notif_userName_1'>iAMMIA</h5>
-                                <p className='notif_userName_2'>framddddlpoukuhgruummmmme_get_notiffuck</p>
-                              </div>
-                            </div>
-                            <div className='notif_one_user'>
-                              <img src={picRound}></img>
-                              <div className='notifi_infomation'>
-                                <h5 className='notif_userName_1'>iAMMIA</h5>
-                                <p className='notif_userName_2'>framddddlpoukuhgruummmmme_get_notiffuck</p>
-                              </div>
-                            </div>
-                            <div className='notif_one_user'>
-                              <img src={picRound}></img>
-                              <div className='notifi_infomation'>
-                                <h5 className='notif_userName_1'>iAMMIA</h5>
-                                <p className='notif_userName_2'>framddddlpoukuhgruummmmme_get_notiffuck</p>
-                              </div>
-                            </div>
-                            <div className='notif_one_user'>
-                              <img src={picRound}></img>
-                              <div className='notifi_infomation'>
-                                <h5 className='notif_userName_1'>iAMMIA</h5>
-                                <p className='notif_userName_2'>framddddlpoukuhgruummmmme_get_notiffuck</p>
-                              </div>
-                            </div>
-                            <div className='notif_one_user'>
-                              <img src={picRound}></img>
-                              <div className='notifi_infomation'>
-                                <h5 className='notif_userName_1'>iAMMIA</h5>
-                                <p className='notif_userName_2'>framddddlpoukuhgruummmmme_get_notiffuck</p>
-                              </div>
+                      </div> */}
+                      {isLoggedIn && isOpenNotification && (
+                        <div className='form_notification'>
+                          <div className='notif_one_user'>
+                            <img src={picRound}></img>
+                            <div className='notifi_infomation'>
+                              <h5 className='notif_userName_1'>iAMMIA</h5>
+                              <p className='notif_userName_2'>framddddlpoukuhgruummmmme_get_notiffuck</p>
                             </div>
                           </div>
-                        )}
-                      </div>
-                      {isLoggedIn ? (
-                        <div className="one_username">
-                        <div className="one_username_container">
-                          <div className='one_noname' onClick={toggleDropDown}>
-                            <span>Lê Phương Thảo</span>
-                            <img src={picTFBOYS} alt="" />
-                          </div>
-                          {isOpenDropDown && (
-                          <div className='one_dropDown'>
-                            <Link className='one_link_dropdown' to="/profile">My Profile</Link>
-                            <Link className='one_link_dropdown' to="/setting" >Setting</Link>
-                            <Link onClick={logOut} className='one_link_dropdown'>Log Out</Link>
-                          </div>
-                        )}
-                        </div>
-                      </div>
-                      ) : (
-                        <div className="one_username">
-                          <div className="one_username_container">
-                            <div className='one_noname' onClick={toggleDropDown}>
-                              <span>User</span>
-                              <img src={user} alt="" />
+                          <div className='notif_one_user'>
+                            <img src={picRound}></img>
+                            <div className='notifi_infomation'>
+                              <h5 className='notif_userName_1'>iAMMIA</h5>
+                              <p className='notif_userName_2'>framddddlpoukuhgruummmmme_get_notiffuck</p>
                             </div>
-                            {isOpenDropDown && (
-                            <div className='one_dropDown'>
-                              <Link className='one_link_dropdown' onClick={setShowLogInForm} >Log In</Link>
-                              <Link className='one_link_dropdown' onClick={setShowSignUpForm}>Sign Up</Link>
+                          </div>
+                          <div className='notif_one_user'>
+                            <img src={picRound}></img>
+                            <div className='notifi_infomation'>
+                              <h5 className='notif_userName_1'>iAMMIA</h5>
+                              <p className='notif_userName_2'>framddddlpoukuhgruummmmme_get_notiffuck</p>
                             </div>
-                          )}
+                          </div>
+                          <div className='notif_one_user'>
+                            <img src={picRound}></img>
+                            <div className='notifi_infomation'>
+                              <h5 className='notif_userName_1'>iAMMIA</h5>
+                              <p className='notif_userName_2'>framddddlpoukuhgruummmmme_get_notiffuck</p>
+                            </div>
+                          </div>
+                          <div className='notif_one_user'>
+                            <img src={picRound}></img>
+                            <div className='notifi_infomation'>
+                              <h5 className='notif_userName_1'>iAMMIA</h5>
+                              <p className='notif_userName_2'>framddddlpoukuhgruummmmme_get_notiffuck</p>
+                            </div>
                           </div>
                         </div>
                       )}
-                  </div>
-
-                  <div className='main_router'>
+                    </div>
                     {isLoggedIn ? (
-                      <Routes>
-                        <Route path="/" exact element={<Home/>}></Route>
-                        <Route path='/exchange' element={<Exchange/>}></Route>
-                        <Route path='/lookup' element={<LookUp/>}></Route>
-                        <Route path='/setting' element={<Setting/>}></Route>
-                        <Route path='/profile' element={<Profile/>}></Route>
-                        <Route path='/paper' element={<Paper1/>}></Route>
-                        <Route path='/paper2' element={<Paper2/>}></Route>
-                      </Routes>
+                    <div className="one_username">
+                      <div className="one_username_container">
+                        <div className='one_noname' onClick={toggleDropDown}>
+                          <span>Lê Phương Thảo</span>
+                          <img src={picTFBOYS} alt="" />
+                        </div>
+                        {isOpenDropDown && (
+                        <div className='one_dropDown'>
+                          <Link className='one_link_dropdown' to="/profile">My Profile</Link>
+                          <Link className='one_link_dropdown' to="/setting" >Setting</Link>
+                          <Link onClick={logOut} className='one_link_dropdown'>Log Out</Link>
+                        </div>
+                      )}
+                      </div>
+                    </div>
                     ) : (
-                      <Routes>
-                        <Route path="/" exact element={<Home/>}></Route>
-                        <Route path='/paper' element={<Paper1/>}></Route>
-                        <Route path='/paper2' element={<Paper2/>}></Route>
-                      </Routes>
+                      <div className="one_username">
+                        <div className="one_username_container">
+                          <div className='one_noname' onClick={toggleDropDown}>
+                            <span>User</span>
+                            <img src={user} alt="" />
+                          </div>
+                          {isOpenDropDown && (
+                          <div className='one_dropDown'>
+                            <Link className='one_link_dropdown' onClick={setShowLogInForm} >Log In</Link>
+                            <Link className='one_link_dropdown' onClick={setShowSignUpForm}>Sign Up</Link>
+                          </div>
+                        )}
+                        </div>
+                      </div>
                     )}
-                  </div>
                 </div>
-            </div>
+
+                <div className='main_router'>
+                  {isLoggedIn ? (
+                    <Routes>
+                      <Route path="/" exact element={<Home/>}></Route>
+                      <Route path='/exchange' element={<Exchange/>}></Route>
+                      <Route path='/lookup' element={<LookUp/>}></Route>
+                      <Route path='/setting' element={<Setting/>}></Route>
+                      <Route path='/profile' element={<Profile/>}></Route>
+                      <Route path='/paper' element={<Paper1/>}></Route>
+                      <Route path='/paper2' element={<Paper2/>}></Route>
+                    </Routes>
+                  ) : (
+                    <Routes>
+                      <Route path="/" exact element={<Home/>}></Route>
+                      <Route path='/paper' element={<Paper1/>}></Route>
+                      <Route path='/paper2' element={<Paper2/>}></Route>
+                    </Routes>
+                  )}
+                </div>
+              </div>
+          </div>
         </div>
       </div>
     </Router>

@@ -18,7 +18,7 @@
     align-items: center;
     background-color: rgb(255, 255, 255);
     border-radius: 20px;
-    box-shadow: 0 0 1px #4e5a6b;
+    box-shadow: 0 0 20px #dcdbdb70;
 }
 .two_theme{
     display: flex;
@@ -97,8 +97,7 @@
     background-color: rgba(255, 255, 255, 0.877);
     /* background-color: rgba(60, 159, 181, 0.877); */
     border-radius: 20px;
-    box-shadow: 0 0 5px #d1d1d1;
-
+    box-shadow: 0 0 20px rgba(206, 205, 205, 0.463);
 }
 .today_pp_imgage{
     width: 100%;
