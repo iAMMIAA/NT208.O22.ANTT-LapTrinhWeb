@@ -1,8 +1,13 @@
-# Nhom5 - Drug Identification Website
-![UIT](uit.png)
+<div align="center">
+  <img src="uit.png" alt="UIT">
+</div>
 
+<div align="center">
+  <span style="font-size: 50px; font-weight: bold">MedicalWeb.</span>
+</div>
+<!-- # MedicalWeb. -->
 
-## Danh sách thành viên:
+## Nhóm 5: Danh sách thành viên:
 | MSSV       | Họ và Tên       | Email                  | Github                                                                                                                      |
 | ---------- | --------------- | ---------------------- | --------------------------------------------------------------------------------------------------------------------------- |
 | `21522608` | Lê Phương Thảo    | 21522608@gm.uit.edu.vn | [![](https://img.shields.io/badge/iAMMIAA-%2324292f.svg?style=flat-square&logo=github      )](https://github.com/iAMMIAA) |
