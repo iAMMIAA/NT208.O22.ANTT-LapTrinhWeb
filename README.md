@@ -1,5 +1,7 @@
-# Nhom5 - Drug Identification Website
-![UIT](uit.png)
+<p align="center">
+  <img src="uit.png" alt="UIT">
+</p>
+<h1 align="center">Nhom5 - MedicalWeb.</h1>
 
 
 ## Danh sách thành viên:
