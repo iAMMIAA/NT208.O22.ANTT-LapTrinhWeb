@@ -2,15 +2,15 @@ import React, {useState, useEffect} from 'react';
 import './css/App.css'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faForward, faBackward, faHome, faCommentMedical, faBell, faSearch, faGear, faRightFromBracket} from '@fortawesome/free-solid-svg-icons';
+import { faBars, faForward, faBackward, faHome, faCommentMedical, faBell, faSearch, faGear, faRightFromBracket} from '@fortawesome/free-solid-svg-icons';
 import { BrowserRouter as Router, Link, Route, Routes } from 'react-router-dom';
 import picTFBOYS from './router/pictures/tfboys.jpg'
 import user from './router/pictures/user.png'
 import Home from './router/Home';
 import Exchange from './router/Exchange';
 import LookUp from './router/LookUp';
-import Setting from './router/Setting';
-import Profile from './router/MyProfile';
+import Carousel from './router/Carousel';
+import Setting_Profile from './router/Setting_Profile';
 import LogIn from './LogIn-SignUp/LogIn';
 import SignUp from './LogIn-SignUp/SignUp';
 import Paper1 from './router/paper/paper1';
@@ -55,6 +55,33 @@ function App() {
     setIsOpenSetting(false);
   }
 
+  const [isOpenMenu, setIsOpenMenu] = useState(false);
+  const openMenu = () => {
+    setIsOpenMenu(true);
+  }
+  // Hàm để xử lý việc thiết lập isOpenMenu dựa trên độ dài màn hình
+  const handleWindowSizeChange = () => {
+    if (window.innerWidth >= 930) {
+      setIsOpenMenu(true);
+    } else {
+      setIsOpenMenu(false);
+    }
+  };
+
+  // Sử dụng useEffect để đăng ký sự kiện thay đổi kích thước cửa sổ
+  useEffect(() => {
+    // Gọi hàm handleWindowSizeChange khi component được render lại
+    handleWindowSizeChange();
+
+    // Đăng ký sự kiện cho việc thay đổi kích thước cửa sổ
+    window.addEventListener('resize', handleWindowSizeChange);
+
+    // Xóa sự kiện khi component unmount để tránh memory leak
+    return () => {
+      window.removeEventListener('resize', handleWindowSizeChange);
+    };
+  }, []); 
+
   const [isOpenDropDown, setIsOpenDropDown] = useState(false);
   const toggleDropDown = () =>{
     setIsOpenDropDown(!isOpenDropDown);
@@ -78,7 +105,7 @@ function App() {
     setShowLogIn(false);
   }
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const logIn = (formData) => {
     axios.post('http://localhost:3001/login', formData)
         .then(response => {
@@ -119,7 +146,8 @@ function App() {
             <SignUp closeSignUp={()=>setShowSignUp(false)} openLogIn={setShowLogInForm}/>
         )}
         <div className="container_web">
-          <div className={`layout_left ${isSidebarCollapsed ? 'active' : ''}`}>
+          {isOpenMenu && (
+            <div className={`layout_left ${isSidebarCollapsed ? 'active' : ''}`}>
               <div className={`left_first ${isSidebarCollapsed ? 'active' : ''}`}>
                 <div className="header_menu">
                   <div className='logo_web'>
@@ -137,7 +165,7 @@ function App() {
                         <FontAwesomeIcon icon={faCommentMedical} className='icon_left' /></Link></li>
                       <li><Link to='/lookup'>
                         <FontAwesomeIcon icon={faSearch} className='icon_left'/></Link></li>
-                      <li><Link to='/setting'>
+                      <li><Link to='/setting_profile'>
                         <FontAwesomeIcon icon={faGear} className='icon_left'/></Link></li>
                     </ul>
                 </div>
@@ -169,7 +197,7 @@ function App() {
                         </Link>
                       </li>
                       <li className={`itemMenu ${isOpenSetting ? 'active' : ''}`}>
-                        <Link className='text_left' to='/setting' onClick={openSetting}>
+                        <Link className='text_left' to='/setting_profile' onClick={openSetting}>
                           <span>SETTING</span>
                         </Link>
                       </li>
@@ -189,26 +217,23 @@ function App() {
                   <FontAwesomeIcon className='left_icon' onClick={toggleSidebar} icon={faBackward}/>
                 )}
               </div>
-
-          </div>
-
+            </div>
+          )}
+          
           <div className={`layout_main ${isSidebarCollapsed ? 'active': ''}`}>
               <div className="main_container">
                 <div className="main_one">
+                    <div className='one_menu'>
+                        <FontAwesomeIcon className='icon_bars' icon={faBars} onClick={openMenu}/>
+                    </div>
                     <div className="one_find">
                       <form className="search_form" action="/search" method="GET">
                           <FontAwesomeIcon className='icon_search' icon={faSearch}/>
-                          {/* <label htmlFor="searchInput"></label> */}
                           <input className="search_input" type="text" id="searchInput" name="q" placeholder="Tìm kiếm" />
                       </form>
                     </div>
                     <div className="one_notification">
                       <FontAwesomeIcon className='round_icon_notification' icon={faBell} onClick={toggleNotification}/>
-                      {/* <div className='icon_notification' >
-                        <div className='round_icon_notification'>
-                          <FontAwesomeIcon icon={faBell}/>
-                        </div>
-                      </div> */}
                       {isLoggedIn && isOpenNotification && (
                         <div className='form_notification'>
                           <div className='notif_one_user'>
@@ -253,13 +278,15 @@ function App() {
                     <div className="one_username">
                       <div className="one_username_container">
                         <div className='one_noname' onClick={toggleDropDown}>
-                          <span>Lê Phương Thảo</span>
-                          <img src={picTFBOYS} alt="" />
+                          <span className='name'>Lê Phương Thảo</span>
+                          <div className='one_avatar'>
+                            <img className='one_avatar_1' src={picTFBOYS} alt="" />
+                          </div>
                         </div>
                         {isOpenDropDown && (
                         <div className='one_dropDown'>
-                          <Link className='one_link_dropdown' to="/profile">My Profile</Link>
-                          <Link className='one_link_dropdown' to="/setting" >Setting</Link>
+                          <Link className='one_link_dropdown' to="/setting_profile">My Profile</Link>
+                          <Link className='one_link_dropdown' to="/setting_profile/setting" >Setting</Link>
                           <Link onClick={logOut} className='one_link_dropdown'>Log Out</Link>
                         </div>
                       )}
@@ -289,8 +316,7 @@ function App() {
                       <Route path="/" exact element={<Home/>}></Route>
                       <Route path='/exchange' element={<Exchange/>}></Route>
                       <Route path='/lookup' element={<LookUp/>}></Route>
-                      <Route path='/setting' element={<Setting/>}></Route>
-                      <Route path='/profile' element={<Profile/>}></Route>
+                      <Route path='/setting_profile/*' element={<Setting_Profile/>}></Route>
                       <Route path='/paper' element={<Paper1/>}></Route>
                       <Route path='/paper2' element={<Paper2/>}></Route>
                     </Routes>
@@ -306,7 +332,7 @@ function App() {
           </div>
         </div>
       </div>
-    </Router>
+    </Router> 
   );
 }
 

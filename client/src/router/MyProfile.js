@@ -1,84 +1,79 @@
 import React from 'react';
 import './css/MyProfile.css' 
-import tfboys from './pictures/tfboys.jpg'
+import ava from './pictures/tfboys.jpg';
 
-function MyProfile() {
-  return (
-    <div className='profile'>
-        <div className='pro'>
-            <h1 className='title'> My Profile </h1>
-            <div className="underline"></div>
-            <div className='username'>
-
-                <img src={tfboys} alt=""/> 
-                <div className='infousername'>
-                  <div className='uname'>iAMMIA </div>
-                  <div className='realname'>Lê Phương Thảo</div>
-                  <div className='workplace'>University Information Technology</div>
-                </div>
-                
-            </div>
-            <div className="underline"> </div>
-            
-            <h2 className='title2'>Pesonal Info</h2>
-            <div className='pesonalinfo'> 
-                
-                <div className='emailgender'>
-                <div className='email'>
-                  <div className='pesonalinfo1'> Email </div>
-                  <div className='pesonalinfo2'> abc@gmail.com</div>
-                </div>
-                <div className='gender'>
-                  <div className='pesonalinfo1'> Gender </div>
-                  <div className='pesonalinfo2'> Female </div>
-                </div>
-                </div>
-
-                <div className='phonecareer'>
-                <div className='phone'>
-                  <div className='pesonalinfo1'> Phone Number </div>
-                  <div className='pesonalinfo2'> 0123456789 </div>
-                </div>
-
-                <div className='career'>
-                  <div className='pesonalinfo1'> Career </div>
-                  <div className='pesonalinfo2'> Student</div>
-                </div>
-
-                </div>       
-            </div>
-           
-            <div className="underline"> </div>
-            <h2 className='title2'>Address</h2>
-            
-            <div className='address'>
-              <div className='countryareacode'>
-                <div className='country'>
-                  <div className='pesonalinfo1'> Country </div>
-                  <div className='pesonalinfo2'> Việt Nam</div>
-                </div>
-
-                <div className='areacode'>
-                  <div className='pesonalinfo1'> Area code </div>
-                  <div className='pesonalinfo2'> 0256</div>
-                </div>
-
-              </div>
-            
-              <div className='city'>
-                <div className='pesonalinfo1'> City </div>
-                <div className='pesonalinfo2'> Binh Dinh Province </div>
-              </div>
-            </div>
-
-            <div className='edit'> Edit </div>
-            
-
-
+function Setting_Profile() {
+  return (        
+    <div className='my_profile'>
+      <div className='my_profile_theme'>
+        <span>My Profile</span>
+      </div>
+      <div className='my_profile_name'>
+        <div className='my_profile_avatar'>
+          <img src={ava}></img>
         </div>
+        <div className='main_information'>
+          <span>iAMMIA</span>
+          <span style={{color: 'gray'}}>Lê Phương Thảo</span>
+          <span style={{color: 'gray'}}>University of Information Technology</span>
+        </div>
+      </div>
+      <div className='my_profile_infomation'>
+        <div className='personal_information'><span>Personal Information</span></div>
+        <div className='table_infor'>
+          <table className='table_personal_infor'>
+            <tbody>
+                <tr className='row_child' style={{color: 'gray'}}>
+                  <td className='column_1'>Email</td>
+                  <td className='column_1'>Phone number</td>
+                </tr>
+                <tr className='row_child'>
+                  <td className='column'>21522608@gm.uit.edu.vn</td>
+                  <td className='column'>0335739591</td>
+                </tr>
+                <tr className='row_child' style={{color: 'gray'}}>
+                  <td className='column_1'>Career</td>
+                  <td className='column_1'>Gender</td>
+                </tr>
+                <tr className='row_child'>
+                  <td className='column'>Student</td>
+                  <td className='column'>Female</td>
+                </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div className='my_profile_infomation'>
+        <div className='personal_information'><span>Address</span></div>
+        <div className='table_infor'>
+          <table className='table_personal_infor'>
+            <tbody>
+                <tr className='row_child' style={{color: 'gray'}}>
+                  <td className='column_1'>Country</td>
+                  <td className='column_1'>City</td>
+                </tr>
+                <tr className='row_child'>
+                  <td className='column'>Viet Nam</td>
+                  <td className='column'>Binh Dinh Province</td>
+                </tr>
+                <tr className='row_child' style={{color: 'gray'}}>
+                  <td className='column_1'>Area code</td>
+                  <td className='column_1'></td>
+                </tr>
+                <tr className='row_child'>
+                  <td className='column'>0256</td>
+                  <td className='column'></td>
+                </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div className='my_profile_btn_edit'>
+        <button>EDIT</button>
+      </div>
     </div>
 
   )
 }
 
-export default MyProfile;
+export default Setting_Profile;

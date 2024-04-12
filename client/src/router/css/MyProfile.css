@@ -1,143 +1,144 @@
-.profile{
+.my_profile{
     height: 100%;
     width: 100%;
-    margin: 0px;
-    padding: 0px;
-    background-color: #E8EAED;
-    font-family: 'Josefin Sans', sans-serif;
-    flex-direction: column;
-    
-}
-
-.pro{
     display: flex;
-    height: 99.5%;
-    width: 53%;
-    background-color: rgb(255, 255, 255);
-    border-radius: 20px;
     flex-direction: column;
-    margin-left: 200px;
+    /* background-color: #f48888; */
+    padding: 0px 40px 30px 40px;
 }
-
-.title{
-    margin-top: 40px;
-    margin-left: 40px;
-    font-size: 32px;
-    
+.my_profile_theme{
+    height: 12%;
+    display: flex;
+    align-items: center;
+    font-size: 25px;
 }
-
-.underline {
-    width: 85%;
-    height:1.5px;
-    background: #4d5455;
-    border-radius: 9px;
-    margin-left: 40px;
-    margin-top: 10px;
-    
-}
-
-.username{
+.my_profile_name{
+    height: 20%;
+    border-top: 1px solid #acacac;
+    margin: 0px 20px;
     display: flex;
     flex-direction: row;
-    margin-top: 10px;
-    gap: 20px;
-    align-items: center;;
 }
-
-.username img{
-    width: 80px;
-    height: 80px;
-    margin-left: 40px;
-    border-radius: 50px;
-}
-
-.uname{
-    font-size: 32px;
-    color:#000000;
-    text-align: left;
-    overflow: hidden;
-}
-
-.realname, .workplace {
-    color:#828282;
-    font-size: 16px;
-    text-align: left;
-
-}
-
-.pesonalinfo{
+.my_profile_avatar{
+    height: 100%;
+    width: 20%;
     display: flex;
-    margin-left: 40px;
-    gap: 0%;
-    
+    justify-content: flex-start;
+    align-items: center;
 }
-
-
-.title2{
-    margin-left: 40px;
+.my_profile_name img{
+    height: 100px;
+    width: 100px;
+    border-radius: 100%;
 }
-
-.email{
-    order: -1;
-}
-
-.gender{
-    margin-top: 20px;
-    
-}
-.emailgender{
-    width: 50%;
-}
-.career {
-    order: 1;
-    margin-top: 20px;
-}
-
-.address{
+.main_information{
+    height: 100%;
+    width: 80%;
     display: flex;
-    margin-left: 40px;
-    
+    flex-direction: column;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
 }
+tr, td {
+    /* border: 1px solid black;  */
+  }
 
-.country{
-    oder:-1;
+.my_profile_infomation{
+    height: 28%;
+    border-top: 1px solid #acacac;
+    margin: 0px 20px;
+    /* background-color: #82b5dc; */
 }
-
-.city{
-    oder:1;
-    
+.personal_information{
+    height: 30%;
+    display: flex;
+    align-items: center;
 }
-
-.areacode{
-    margin-top: 20px;
-}
-
-.countryareacode{
-    width: 50%;
-    
-}
-.pesonalinfo1{
-    color:#828282;
-    font-size: 24;
-}
-
-.pesonalinfo2{
-    color: 000000;
-    font-size: 24;
-}
-
-.edit{
+.table_infor{
+    height: 70%;
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 150px;
-    height: 59px;
-    color: #ffffff;
-    background: #37c1d0;
-    border-radius: 50px;
-    font-size: 19px;
-    font-weight: 700;
-    cursor: pointer;
-    margin-left: 68%;
+}
+.table_personal_infor{
+    height: 100%;
+    width: 90%;
+}
+.table_personal_infor tbody{
+    height: 100%;
+    width: 100%;
+    
+    /* display: flex; */
+    /* flex-direction: column; */
+}
+tr{
+    display: flex;
+    /* height: 25%; */
+}
+td{
+    width: 50%;
+    overflow: hidden;
+}
+.my_profile_btn_edit{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    height: 11%;
+    border-top: 1px solid #acacac;
+    margin: 0px 20px;
+}
+.my_profile_btn_edit button{
+    border: none;
+    padding: 10px 50px;
+    border-radius: 15px;
+    background-color: #82b5dc;
+    color: white;
+}
 
+@media (max-width: 600px) {
+    .my_profile{
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        padding: 0px 20px 10px 20px;
+    }
+    .my_profile_theme{
+        height: 10%;
+        font-size: 20px;
+    }
+    .my_profile_name{
+        height: 15%;
+    }
+    .main_information{
+        font-size: 13px;
+        width: 75%;
+    }
+    .my_profile_avatar{
+        width: 25%;
+    }
+    .my_profile_name img{
+        height: 55px;
+        width: 55px;
+        border-radius: 100%;
+    }
+    .my_profile_infomation{
+        height: 28%;
+    }
+    .my_profile_btn_edit{
+        height: 20%;
+    }
+    /* .personal_information{
+        height: 30%;
+    }
+    .table_infor{
+        height: 80%;
+    } */
+    .table_personal_infor{
+        font-size: 13px;
+        width: 95%;
+    }
 }

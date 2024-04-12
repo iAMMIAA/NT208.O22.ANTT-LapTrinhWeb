@@ -1,4 +1,4 @@
-.settings{
+.setting{
     height: 100%;
     width: 100%;
     margin: 0px;
@@ -8,42 +8,4 @@
     flex-direction: column;
     display: flex;
     flex-wrap: wrap;
-}
-
-.set{
-    display: flex;
-    margin-top: 24px;
-    height: 95.07%;
-    width: 60%;
-    background-color: rgb(255, 255, 255);
-    border-radius: 20px;
-    flex-direction: column;
-    gap: 18px;
-    margin-left: 200px
-}
-
-.function{
-    height: 12%;
-    width: 90%;
-    background-color: rgb(219, 241, 242);
-    flex-direction: row;
-    align-items: center;
-    border-radius: 20px;
-    display: flex;
-    gap: 15px;
-    margin-left: 5%;
-}
-
-.text{
-    display: flex;
-    margin: 0px;
-    align-items: center;
-    width: 70%;
-}
-
-.imgset{
-    margin-left: 40px;
-    height: 50px;
-    width: 50px;
-    margin-right: 5px;
 }

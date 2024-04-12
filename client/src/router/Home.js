@@ -13,11 +13,14 @@ import drug10 from './pictures/drug10.png'
 import drug11 from './pictures/drug11.png'
 import drug9 from './pictures/drug9.jpg'
 import MarkTwain from './pictures/MarkTwain.jpg';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Carousel from './Carousel';
 
 function Home() {
   return (
     <div className='home'>
         <div className="main_two">
+            
             <div className='two_theme'>
                 <div className="two_header"> 
                     <span className='two_hi_user'>Hello iAMMIA!</span>  
@@ -25,7 +28,6 @@ function Home() {
                     <p className='two_author'>Mark Twain</p>
                 </div>
             </div>
-            
             <div className='two_img'>
                 <img src={drug2}></img>
             </div>
@@ -41,18 +43,19 @@ function Home() {
                         <img src={drug11}></img>
                     </div>
                     <div className="today_pp_text">
-                        <Link to='/paper2' className="today_pp_test_1">7 mẹo chăm sóc sức khỏe tuyệt vời ...</Link>
+                        <Link to='/paper2' className="today_pp_test_1" id="demo">7 mẹo chăm sóc sức khỏe tuyệt vời ...</Link>
                         <div className="today_pp_time">
                             <span id="today_pp_time_two">Bác sĩ: Dương Thùy Chi</span>
                         </div>
                     </div>
+                    
                 </div>                
                 <div className="today_pp">
                     <div className='today_pp_imgage'>
                         <img src={drug7}></img>
                     </div>
                     <div className="today_pp_text">
-                        <Link className="today_pp_test_1" to='/paper2' >Bí kíp giúp tinh thần để luôn lạc quan, yêu đời!</Link>
+                        <Link className="today_pp_test_1" to='/paper2' >Bí kíp giúp tinh thần để luôn lạc quan, ...</Link>
                         <div className="today_pp_time">
                             {/* <span id="today_pp_time_one">12 February 2024</span> */}
                             <span id="today_pp_time_two">Bác sĩ: Dương Thùy Chi</span>
@@ -64,7 +67,7 @@ function Home() {
                         <img src={drug10}></img>
                     </div>
                     <div className="today_pp_text">
-                        <Link to='/paper2' className="today_pp_test_1">Lựa chọn nào tốt nhất cho sức khỏe tại nhà?</Link>
+                        <Link to='/paper2' className="today_pp_test_1">Lựa chọn nào tốt nhất cho sức khỏe...</Link>
                         <div className="today_pp_time">
                             {/* <span id="today_pp_time_one">12 February 2024</span> */}
                             <span id="today_pp_time_two">Bác sĩ: Dương Thùy Chi</span>
@@ -76,7 +79,7 @@ function Home() {
                         <img src={drug8}></img>
                     </div>
                     <div className="today_pp_text">
-                        <Link to='/paper2' className="today_pp_test_1">Chia sẻ cách cân bằng sức khỏe thể chất ...</Link>
+                        <Link to='/paper2' className="today_pp_test_1">Chia sẻ cách cân bằng thể chất ...</Link>
                         <div className="today_pp_time">
                             {/* <span id="today_pp_time_one">12 February 2024</span> */}
                             <span id="today_pp_time_two">Bác sĩ: Dương Thùy Chi</span>
@@ -90,7 +93,7 @@ function Home() {
             <div className="three_one">
             <div className="three_theme">
                 <div className="theme_first">
-                <span>New Papers</span>
+                    <span>New Papers</span>
                 </div>
                 <div className="theme_second">
                     <Link style={{color: '#37537B', textDecoration: 'none'}}>See more</Link>

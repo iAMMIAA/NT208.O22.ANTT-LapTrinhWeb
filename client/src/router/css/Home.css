@@ -5,9 +5,8 @@
     padding: 0px;
     background-color: #E8EAED;
     font-family: system-ui, sans-serif;
-    /* font-family: Arial, Helvetica, sans-serif; */
-
 }
+
 .main_two{
     display: flex;
     flex-direction: row;
@@ -26,12 +25,12 @@
     justify-content: center;
     height: 100%;
     width: 60%;
+    overflow: hidden; 
+    white-space: normal; 
 }
 .two_header{
     height: 60%;
     width: 80%;
-    /* background-color: #6F9CD2; */
-    /* margin: 5px 20px 5px 80px; */
 }
 .two_hi_user{
     color: #37537B;
@@ -42,6 +41,7 @@
     font-size: 20px;
     margin: 0px;
 }
+
 .two_author{
     font-size: 20px;
     color: rgb(108, 107, 107);
@@ -49,7 +49,6 @@
     justify-content: flex-end;
     padding-right: 50px;
 }
-
 .two_img{
     height: 100%;
     width: 40%;
@@ -62,7 +61,6 @@
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
 }
-
 .main_four{
     display: flex;
     flex-flow: column;
@@ -126,15 +124,16 @@
 }
 .today_pp_test_1{
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     height: 65%;
     width: 100%;
     font-size: 14px;
     font-weight: 600;
     text-decoration: none;
     color: #1b5279;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
-
 .today_pp_time{
     display: flex;
     justify-content: flex-end;
@@ -142,10 +141,10 @@
     width: 100%;
     font-size: 12px;
     color: rgb(90, 88, 88);
+    overflow: hidden;
 }
-/* #today_pp_time_one{
-    width: 70%;
-} */
+
+
 
 .main_three{
     display: flex;
@@ -207,14 +206,11 @@
     width: 20%;
     border-radius: 20px;
     background-color: #6F9CD2;
-
 }
 .three_img img{
     height: 68px;
     width: 68px;
     border-radius: 50%;
-    /* box-shadow: -1 -1 5px #ffffffa3; */
-    /* box-shadow: 10px 0px 10px rgba(131, 131, 131, 0.304); */
 }
 
 .three_text{
@@ -227,14 +223,19 @@
 }
 
 .test_1{
+    padding-top: 5px;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     height: 60%;
     width: 100%;
     font-size: 16px;
     text-decoration: none;
     color: #1b5279;
     font-weight: 600;
+    overflow: hidden; /* Ẩn nội dung bên ngoài khung */
+
+    /* Cho phép các phần tử con tự động xuống dòng khi cần */
+    white-space: normal; 
 }
 .three_time{
     display: flex;
@@ -243,6 +244,10 @@
     width: 100%;
     font-size: 13px;
     color: rgb(114, 112, 112);
+    overflow: hidden; /* Ẩn nội dung bên ngoài khung */
+
+    /* Cho phép các phần tử con tự động xuống dòng khi cần */
+    white-space: normal; 
 }
 #time_one{
     width: 70%;
@@ -250,11 +255,9 @@
 #time_two{
     width: 30%;
 }
-
 .three_flag{
     height: 100%;
     width: 5%;
-    /* background-color: #ffffff; */
 }
 
 .three_two{
@@ -264,3 +267,90 @@
     border-radius: 20px;
     /* margin: 0px 0px 0px 20px; */
 }
+@media (min-width: 600px) and (max-width: 930px){
+    .two_hi_user{
+        font-size: 30px;
+    }
+    .two_quote{
+        font-size: 15px;
+    }
+    .two_author{
+        font-size: 19px;
+        padding-right: 0px;
+    }
+    .today_pp_test_1{
+        font-size: 12px;
+    }
+    .today_pp_time{
+        font-size: 9px;
+    }
+    .three_img{
+        display: flex;
+        justify-content: center;
+        height: 100%;
+        width: 20%;
+        border-radius: 50%;
+        background-color: #ffffff;
+    }
+}
+@media (max-width: 600px){
+    .two_hi_user{
+        font-size: 20px;
+    }
+    .two_quote{
+        font-size: 15px;
+    }
+    .two_author{
+        font-size: 18px;
+        padding-right: 0px;
+    }
+    .four_theme{
+        font-size: 13px;
+    }
+    .today_pp_test_1{
+        font-size: 10px;
+    }
+    .today_pp_time{
+        font-size: 7px;
+    }
+    .theme_first, .theme_second{
+        font-size: 13px;
+    }
+    .test_1 {
+        font-size: 11px;
+    }
+    .three_time{
+        font-size: 10px;
+    }
+    .three_img{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        width: 20%;
+        border-radius: 50%;
+        background-color: #ffffff;
+    }
+    .three_img img{
+        height: 50px;
+        width: 50px;
+        border-radius: 50%;
+    }
+}
+@media (max-width: 450px){
+    .four_container{
+        overflow-x: auto;
+    }
+    .today_pp{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        width: 21%;
+        background-color: rgba(255, 255, 255, 0.877);
+        border-radius: 20px;
+        box-shadow: 0 0 20px rgba(206, 205, 205, 0.463);
+    }
+}
+
