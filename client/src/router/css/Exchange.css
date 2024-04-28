@@ -4,8 +4,8 @@
     display: flex;
     flex-direction: column;
     font-family: system-ui, sans-serif;
-    overflow: auto;
-    max-height: 100%;
+    /* overflow: auto; */
+    /* max-height: 100%; */
     /* overflow: hidden; */
 }
 .hello_theme{

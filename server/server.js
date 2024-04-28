@@ -96,6 +96,18 @@ app.get('/posts/:id', (req, res) => {
     });
 });
 
+app.get('/related_post', (req, res) => {
+    const query = 'select POSTS.title, POSTS.id, POSTS.author, POSTS.url_img from POSTS join TAGS on TAGS.tags = POSTS.tag where TAGS.tags = "#Chăm_sóc_sức_khỏe"';
+    connection.query(query, (error, results) => {
+        if(error) {
+            console.error('loi');
+            res.status(500).json({error: 'loi cmnr'});
+        } else {
+            res.status(200).json(results);
+        }
+    })
+});
+
 //LookUp
 // Thiết lập multer để lưu trữ hình ảnh tạm thời trong thư mục uploads
 const upload = multer({dest: 'uploads/'});
@@ -128,6 +140,7 @@ app.post('/predict', upload.single('image'), (req, res) => {
         console.log(`Child process exited with code ${code}`);
     });
 });
+
 
 // Khởi động server
 app.listen(port, () => {

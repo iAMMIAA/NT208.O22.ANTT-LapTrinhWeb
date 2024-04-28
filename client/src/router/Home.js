@@ -15,22 +15,16 @@ import drug9 from './pictures/drug9.jpg'
 import MarkTwain from './pictures/MarkTwain.jpg';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Carousel from './Carousel';
+import theme2 from './pictures/theme1.png'
+import queryString from 'query-string'; // Import thư viện query-string
 
 function Home() {
+    const queryParams = queryString.stringify({ id: 6 });
+
   return (
     <div className='home'>
         <div className="main_two">
-            
-            <div className='two_theme'>
-                <div className="two_header"> 
-                    <span className='two_hi_user'>Hello iAMMIA!</span>  
-                    <p className='two_quote'>“Be careful about reading health books. You may die of a misprint.“</p>   
-                    <p className='two_author'>Mark Twain</p>
-                </div>
-            </div>
-            <div className='two_img'>
-                <img src={drug2}></img>
-            </div>
+            <img src={theme2}></img>
         </div>
 
         <div className="main_four">
@@ -43,7 +37,7 @@ function Home() {
                         <img src={drug11}></img>
                     </div>
                     <div className="today_pp_text">
-                        <Link to='/paper2' className="today_pp_test_1" id="demo">7 mẹo chăm sóc sức khỏe tuyệt vời ...</Link>
+                        <Link to='/paper2/6' className="today_pp_test_1" id="demo">7 mẹo chăm sóc sức khỏe tuyệt vời ...</Link>
                         <div className="today_pp_time">
                             <span id="today_pp_time_two">Bác sĩ: Dương Thùy Chi</span>
                         </div>
@@ -55,9 +49,8 @@ function Home() {
                         <img src={drug7}></img>
                     </div>
                     <div className="today_pp_text">
-                        <Link className="today_pp_test_1" to='/paper2' >Bí kíp giúp tinh thần để luôn lạc quan, ...</Link>
+                        <Link className="today_pp_test_1" to='/paper2/8' >Bí kíp giúp tinh thần để luôn lạc quan, ...</Link>
                         <div className="today_pp_time">
-                            {/* <span id="today_pp_time_one">12 February 2024</span> */}
                             <span id="today_pp_time_two">Bác sĩ: Dương Thùy Chi</span>
                         </div>
                     </div>
@@ -67,9 +60,8 @@ function Home() {
                         <img src={drug10}></img>
                     </div>
                     <div className="today_pp_text">
-                        <Link to='/paper2' className="today_pp_test_1">Lựa chọn nào tốt nhất cho sức khỏe...</Link>
+                        <Link to='/paper2/11' className="today_pp_test_1">Lựa chọn nào tốt nhất cho sức khỏe...</Link>
                         <div className="today_pp_time">
-                            {/* <span id="today_pp_time_one">12 February 2024</span> */}
                             <span id="today_pp_time_two">Bác sĩ: Dương Thùy Chi</span>
                         </div>
                     </div>
@@ -79,9 +71,8 @@ function Home() {
                         <img src={drug8}></img>
                     </div>
                     <div className="today_pp_text">
-                        <Link to='/paper2' className="today_pp_test_1">Chia sẻ cách cân bằng thể chất ...</Link>
+                        <Link to='/paper2/12' className="today_pp_test_1">Chia sẻ cách cân bằng thể chất ...</Link>
                         <div className="today_pp_time">
-                            {/* <span id="today_pp_time_one">12 February 2024</span> */}
                             <span id="today_pp_time_two">Bác sĩ: Dương Thùy Chi</span>
                         </div>
                     </div>
@@ -91,55 +82,91 @@ function Home() {
 
         <div className="main_three">
             <div className="three_one">
-            <div className="three_theme">
-                <div className="theme_first">
-                    <span>New Papers</span>
-                </div>
-                <div className="theme_second">
-                    <Link style={{color: '#37537B', textDecoration: 'none'}}>See more</Link>
-                </div>
-            </div>
-            <div className="three_container">
-            <div className="three_item">
-                    <div className='three_img'>
-                        <img src={drug4} alt="" />
+                <div className="three_theme">
+                    <div className="theme_first">
+                        <span>New Papers</span>
                     </div>
-                    <div className="three_text">
-                        <Link to='/paper' className="test_1">Cẩm nang Chăm sóc sức khỏe</Link>
-                        <div className="three_time">
-                            <span id="time_one">12 February 2024</span>
-                            <span id="time_two">10:00 AM</span>
+                    <div className="theme_second">
+                        <Link style={{color: '#37537B', textDecoration: 'none'}}>See more</Link>
+                    </div>
+                </div>
+                <div className="three_container">
+                    <div className="three_item">
+                        <div className='three_img'>
+                            <img src={drug5} alt="" />
+                        </div>
+                        <div className="three_text">
+                            <Link to='/paper' className="test_1">Cẩm nang Chăm sóc sức khỏe</Link>
+                            <div className="three_time">
+                                <span id="time_one">12 February 2024</span>
+                                <span id="time_two">10:00 AM</span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div className="three_item">
-                    <div className='three_img'>
-                        <img src={drug3} alt="" />
-                    </div>
-                    <div className="three_text">
-                        <Link to='/paper' className="test_1">Cẩm nang Chăm sóc sức khỏe</Link>
-                        <div className="three_time">
-                            <span id="time_one">12 February 2024</span>
-                            <span id="time_two">10:00 AM</span>
+                    <div className="three_item">
+                        <div className='three_img'>
+                            <img src={drug5} alt="" />
+                        </div>
+                        <div className="three_text">
+                            <Link to='/paper' className="test_1">Cẩm nang Chăm sóc sức khỏe</Link>
+                            <div className="three_time">
+                                <span id="time_one">12 February 2024</span>
+                                <span id="time_two">10:00 AM</span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div className="three_item">
-                    <div className='three_img'>
-                        <img src={drug5} alt="" />
-                    </div>
-                    <div className="three_text">
-                        <Link to='/paper' className="test_1">Cẩm nang Chăm sóc sức khỏe</Link>
-                        <div className="three_time">
-                            <span id="time_one">12 February 2024</span>
-                            <span id="time_two">10:00 AM</span>
+                    <div className="three_item">
+                        <div className='three_img'>
+                            <img src={drug5} alt="" />
+                        </div>
+                        <div className="three_text">
+                            <Link to='/paper' className="test_1">Cẩm nang Chăm sóc sức khỏe</Link>
+                            <div className="three_time">
+                                <span id="time_one">12 February 2024</span>
+                                <span id="time_two">10:00 AM</span>
+                            </div>
                         </div>
                     </div>
+                    <div className="three_item">
+                        <div className='three_img'>
+                            <img src={drug5} alt="" />
+                        </div>
+                        <div className="three_text">
+                            <Link to='/paper' className="test_1">Cẩm nang Chăm sóc sức khỏe</Link>
+                            <div className="three_time">
+                                <span id="time_one">12 February 2024</span>
+                                <span id="time_two">10:00 AM</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="three_item">
+                        <div className='three_img'>
+                            <img src={drug5} alt="" />
+                        </div>
+                        <div className="three_text">
+                            <Link to='/paper' className="test_1">Cẩm nang Chăm sóc sức khỏe</Link>
+                            <div className="three_time">
+                                <span id="time_one">12 February 2024</span>
+                                <span id="time_two">10:00 AM</span>
+                            </div>
+                        </div>
+                    </div> 
                 </div>
-            </div>
             </div>
             <div className="three_flag"></div>
-            <div className="three_two"></div>
+            <div className="three_two">
+                <h3>Danh sách các mục</h3>
+                <div className='list_item'>
+                    <ul>
+                        <li>Bệnh</li>
+                        <li>Vitamin</li>
+                        <li>Các loại thuốc</li>
+                        <li>Chăm sóc sức khỏe</li>                        
+                        <li>Khác</li>
+                        
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
   );

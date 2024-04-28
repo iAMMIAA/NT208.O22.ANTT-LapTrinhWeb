@@ -13,10 +13,10 @@ import Carousel from './router/Carousel';
 import Setting_Profile from './router/Setting_Profile';
 import LogIn from './LogIn-SignUp/LogIn';
 import SignUp from './LogIn-SignUp/SignUp';
-import Paper1 from './router/paper/paper1';
-import Paper2 from './router/paper/paper2';
+import Paper from './router/paper/paper2';
 import picRound from './router/pictures/round.png';
 import axios from 'axios';
+// import logo from './logo/theme3.png'
 import logo from './logo/logo5.png'
 
 function App() {
@@ -317,16 +317,22 @@ function App() {
                       <Route path='/exchange' element={<Exchange/>}></Route>
                       <Route path='/lookup' element={<LookUp/>}></Route>
                       <Route path='/setting_profile/*' element={<Setting_Profile/>}></Route>
-                      <Route path='/paper' element={<Paper1/>}></Route>
-                      <Route path='/paper2' element={<Paper2/>}></Route>
+                      <Route path='/paper2/:id' element={<Paper/>}></Route>
                     </Routes>
                   ) : (
                     <Routes>
                       <Route path="/" exact element={<Home/>}></Route>
-                      <Route path='/paper' element={<Paper1/>}></Route>
-                      <Route path='/paper2' element={<Paper2/>}></Route>
+                      <Route path='/paper2/:id' element={<Paper/>}></Route>
                     </Routes>
                   )}
+                </div>
+
+                <div className='footer_web_site'>
+                  <div className='footer_header'>
+                    <img src={logo}></img>
+                    <h2 style={{marginLeft: '10px'}}>MedicalWeb.</h2>
+                  </div>
+                  <p><strong>Made by GroupFive</strong></p>
                 </div>
               </div>
           </div>

@@ -1,24 +1,28 @@
 .home{
-    height: 100%;
-    width: 100%;
+    /* height: 100%; */
+    /* width: 100%; */
     margin: 0px;
     padding: 0px;
-    background-color: #E8EAED;
+    /* background-color: #6b8fc5; */
     font-family: system-ui, sans-serif;
 }
-
 .main_two{
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    height: 30.07%;
+    height: 500px;
     width: 100%;
     align-items: center;
-    background-color: rgb(255, 255, 255);
-    border-radius: 20px;
+    background-color: rgb(217, 118, 118);
     box-shadow: 0 0 20px #dcdbdb70;
 }
+.main_two img{
+    height: 100%;
+    width: 100%;
+    border-radius: 20px;
+}
+
 .two_theme{
     display: flex;
     align-items: center;
@@ -64,7 +68,7 @@
 .main_four{
     display: flex;
     flex-flow: column;
-    height: 31.93%;
+    height: 250px;
     width: 100%;
     align-items: center;
     justify-content: center;
@@ -153,14 +157,14 @@
     /* margin: 10px; */
     /* justify-content: center; */
     /* align-items: center; */
-    padding-top: 12px;
-    /* background-color: #3bff34; */
+    margin-top: 30px;
 }
 .three_one{
     display: flex;
     flex-flow: column;
     height: 100%;
     width: 60%;
+    /* background-color: #3bff34; */
 }
 .three_theme{
     display: flex;
@@ -185,18 +189,21 @@
 }
 
 .three_container{
+    margin-top: 10px;
     display: flex;
     flex-flow: column;
     height: 90%;
     width: 100%;
     justify-content: space-between;
+    /* background-color: #1b5279; */
 }
 .three_item{
     display: flex;
-    height: 30%;
+    height: 100px;
     padding: 5px;
+    margin-bottom: 15px;
     background-color: #ffffff;
-    border-radius: 20px;
+    border-radius: 15px;
     box-shadow: 0 0 5px #d1d1d1;
 }
 .three_img{
@@ -208,9 +215,9 @@
     background-color: #6F9CD2;
 }
 .three_img img{
-    height: 68px;
-    width: 68px;
-    border-radius: 50%;
+    height: 100%;
+    width: 100%;
+    /* border-radius: 50%; */
 }
 
 .three_text{
@@ -264,9 +271,31 @@
     height: 100%;
     width: 35%;
     background-color: #ffffff;
-    border-radius: 20px;
-    /* margin: 0px 0px 0px 20px; */
+    border-radius: 10px;
+    padding: 10px;
 }
+.three_two h3{
+    text-align: center;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #2a2a2a;
+}
+.list_item{
+    padding: 0px 10px;
+    font-size: border;
+}
+.three_two ul{
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+    /* background-color: #6F9CD2; */
+}
+.three_two li{
+    margin: 10px;
+    padding: 10px;
+    list-style: none;
+    /* background-color: #1b5279; */
+}
+
 @media (min-width: 600px) and (max-width: 930px){
     .two_hi_user{
         font-size: 30px;
