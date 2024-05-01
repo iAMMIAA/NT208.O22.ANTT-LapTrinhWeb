@@ -21,6 +21,7 @@ import logo from './logo/logo5.png'
 
 function App() {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const toggleSidebar = () => {
     setIsSidebarCollapsed (!isSidebarCollapsed);
   }
@@ -105,22 +106,113 @@ function App() {
     setShowLogIn(false);
   }
 
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
-  const logIn = (formData) => {
-    axios.post('http://localhost:3001/login', formData)
-        .then(response => {
-          const {message, token} = response.data;
-          if(message === 'Success' && token)
-            {
-              localStorage.setItem('isLoggedIn', 'true');
-              localStorage.setItem('token', token);
-            }
-        })
-        .catch(error => {
-            console.error("Error while fetching result: ", error);
-        });
-    }
+  
+  const [formData, setFormData] = useState({
+    username: 'Le Phuong Thao',
+    userpassword: '123',
+  });
 
+  const logIn = async () => {
+    // try {
+    //   const response = await axios.post('http://localhost:3001/login', formData);
+    //   const data = response.data; // Dữ liệu người dùng trả về từ máy chủ
+    //   console.log("Response data:", data);
+  
+    //   // Cập nhật formData với dữ liệu từ máy chủ
+    //   setFormData({
+    //     username: data.username,
+    //     userpassword: data.userpassword,
+    //   });
+  
+    //   // Kiểm tra và đánh dấu trạng thái đăng nhập
+    //   const token = data.token || localStorage.getItem('token');
+    //   if (token) {
+    //     console.log("Đã đăng nhập!");
+    //     setIsLoggedIn(true);
+    //     localStorage.setItem('token', token); // Lưu token vào localStorage
+    //   } else {
+    //     console.log("Chưa đăng nhập!");
+    //     setIsLoggedIn(false);
+    //   }
+    // } catch (error) {
+    //   console.error("Error while logging in: ", error);
+    // }
+  };
+  useEffect(() => {
+    const autoLoginAndSaveToLocalStorage = async () => {
+        try {
+            const res = await axios.post('http://localhost:3001/login', formData);
+            const data = res.data; // Dữ liệu người dùng trả về từ máy chủ
+            console.log("Response data:", data);
+        
+            const token = data.token || localStorage.getItem('token');
+            if (token) {
+                console.log("Đăng nhập thành công!");
+                setIsLoggedIn(true);
+                localStorage.setItem('token', token); // Lưu token vào localStorage
+                localStorage.setItem('username', data.username); // Lưu username vào localStorage
+                localStorage.setItem('userpassword', data.userpassword); // Lưu userpassword vào localStorage
+            } else {
+                console.log("Đăng nhập thất bại!");
+                setIsLoggedIn(false);
+            }
+        } catch (error) {
+            console.error("Lỗi khi đăng nhập:", error);
+            setIsLoggedIn(false);
+        }
+    };
+
+    autoLoginAndSaveToLocalStorage();
+}, []); // Để rỗng để useEffect chỉ gọi một lần khi component được render
+
+
+
+//   useEffect(() => {
+//     const fetchData = async () => {
+//         const username = localStorage.getItem('username');
+//         const userpassword = localStorage.getItem('userpassword');
+//         console.log("username",username)
+//         console.log("userpassword",userpassword)
+//         if (!username || !userpassword) {
+//             // Không có thông tin người dùng trong localStorage, đánh dấu là chưa đăng nhập
+//             setIsLoggedIn(false);
+//             return;
+//         }
+
+//         try {
+//             const res = await axios.get('http://localhost:3001/user', {
+//                 params: {
+//                     username: username,
+//                     userpassword: userpassword
+//                 }
+//             });
+
+//             if (res.data.error) {
+//                 console.error('Error fetching user information:', res.data.error);
+//                 // Xảy ra lỗi khi truy vấn cơ sở dữ liệu, đánh dấu là chưa đăng nhập
+//                 setIsLoggedIn(false);
+//             } else {
+//                 // Có dữ liệu người dùng được trả về, đánh dấu là đã đăng nhập
+//                 setIsLoggedIn(true);
+//             }
+//         } catch (error) {
+//             console.error('Error fetching user information:', error);
+//             // Xảy ra lỗi khi gửi yêu cầu API, đánh dấu là chưa đăng nhập
+//             setIsLoggedIn(false);
+//         }
+//     };
+
+//     fetchData();
+// }, []);
+
+
+
+  // useEffect(() => {
+  //   // Loại bỏ cuộc gọi logIn() ở đây
+  //   logIn()
+  //   console.log("formdata",formData)
+  // }, []);
+     
   const logOut = () => {
     localStorage.removeItem('isLoggedIn');
     localStorage.removeItem('token');
@@ -129,12 +221,7 @@ function App() {
     window.location.href = 'http://localhost:3000/';
   }
 
-    useEffect(() => {
-      const loggedInStatus = localStorage.getItem('isLoggedIn');
-      if (loggedInStatus === 'true') {
-        setIsLoggedIn(true);
-      } 
-    }, []); 
+ 
 
   return (
     <Router>
@@ -278,7 +365,7 @@ function App() {
                     <div className="one_username">
                       <div className="one_username_container">
                         <div className='one_noname' onClick={toggleDropDown}>
-                          <span className='name'>Lê Phương Thảo</span>
+                          <span className='name'>{formData.username}</span>
                           <div className='one_avatar'>
                             <img className='one_avatar_1' src={picTFBOYS} alt="" />
                           </div>

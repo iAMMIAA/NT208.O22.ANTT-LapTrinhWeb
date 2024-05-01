@@ -5,9 +5,17 @@ CREATE TABLE SignupLogIn (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(255) NOT NULL,
     useremail VARCHAR(255) NOT NULL,
+    userphone VARCHAR(255) NOT NULL,
+    usercareer VARCHAR(255) NOT NULL,
+    usergender VARCHAR(255) NOT NULL,
+    usercountry VARCHAR(255) NOT NULL,
+    usercity VARCHAR(255) NOT NULL,
+    userareacode VARCHAR(255) NOT NULL,
     userpassword VARCHAR(255) NOT NULL,
     confirm_password VARCHAR(255) NOT NULL
 );
+insert into SignupLogin(username, useremail,userphone,usercareer,usergender, usercountry, usercity, userareacode, userpassword, confirm_password)
+ values('Le Phuong Thao', '21522608@gm.uit.edu.vn','0335739591','Student','Female','Viet Nam','Binh Dinh Province','0256', '123', '123');
 select * from SignupLogIn;
 
 -- CREATE TABLE login (
@@ -29,8 +37,7 @@ create table POSTS(
     cite_source varchar(255),
     content text
 );
-insert into POSTS (title, author, cite_source, content) 
-values();
+
 
 select * from POSTS;
 select * from POSTS where id=5;

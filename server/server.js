@@ -18,25 +18,25 @@ const connection = mysql.createConnection({
     host: 'localhost',
     port: '3306',
     user: 'root',
-    password: 'i.AMMIAK16',
+    password: '1234567',
     database: 'DrugWeb'
 });
 
 // SignUp
-app.post('/signup', (req, res) =>{
-    console.log('iammia', req.body);
-    const { username, useremail, userpassword, confirm_password }=req.body;
-    const query = 'insert into SignupLogIn(username, useremail, userpassword, confirm_password) values (?,?,?,?)';
+// app.post('/signup', (req, res) =>{
+//     console.log('iammia', req.body);
+//     const { username, useremail, userpassword, confirm_password }=req.body;
+//     const query = 'insert into SignupLogIn(username, useremail, userpassword, confirm_password) values (?,?,?,?)';
 
-    connection.query(query,[username, useremail, userpassword, confirm_password],(err,data)=>{
-        if (err) {
-            console.error('Error inserting data into database: ' + err.stack);
-            return res.status(500).json({ error: 'Error inserting data into database' });
-        }
-        console.log('Data inserted into database');
-        res.status(200).json({ message: 'Data inserted successfully' });
-    })
-});
+//     connection.query(query,[username, useremail, userpassword, confirm_password],(err,data)=>{
+//         if (err) {
+//             console.error('Error inserting data into database: ' + err.stack);
+//             return res.status(500).json({ error: 'Error inserting data into database' });
+//         }
+//         console.log('Data inserted into database');
+//         res.status(200).json({ message: 'Data inserted successfully' });
+//     })
+// });
 
 //LogIn
 const jwtSecretKey = 'medicalweb';
@@ -53,13 +53,48 @@ app.post('/login', (req,res) =>{
             console.log('User found in database');
             const user = data[0];
             const token = jwt.sign({ username: user.username, userpassword:user.userpassword }, jwtSecretKey);
-            res.status(200).json({ message: 'Success', token: token }); 
+            res.status(200).json({ message: 'Success', token: token,username: user.username, userpassword:user.userpassword  }); 
+            console.log("token:",token, username ,userpassword )
         } else {
             console.log('User not found in database');
             return res.status(401).json({ error: 'Invalid email or password' });
         }
     })
 });
+// Tạo một API endpoint để lấy thông tin đã insert từ bảng SignupLogIn
+app.get('/user', (req, res) => {
+    const { username,useremail,userphone,usercareer,usergender,usercountry,usercity,userareacode, userpassword } = req.query;
+    const query = 'SELECT * FROM SignupLogin';
+    
+    connection.query(query, [username,useremail,userphone,usercareer,usergender,usercountry,usercity,userareacode, userpassword], (error, results) => {
+        if (error) {
+            console.error('Lỗi khi truy vấn cơ sở dữ liệu:', error);
+            res.status(500).json({ error: 'Lỗi khi truy vấn cơ sở dữ liệu.' });
+        } else {
+            if (results.length > 0) {
+                res.json(results[0]); // Trả về thông tin người dùng đầu tiên tìm thấy
+            } else {
+                res.status(404).json({ error: 'Không tìm thấy thông tin người dùng.' });
+            }
+        }
+    });
+});
+app.post('/updateuser', (req, res) => {
+    const { username, useremail, userphone, usercareer, usergender, usercountry, usercity, userareacode, userpassword } = req.body;
+    const query = 'UPDATE SignupLogIn SET username = ?, useremail = ?, userphone = ?, usercareer = ?, usergender = ?, usercountry = ?, usercity = ?, userareacode = ?, userpassword = ? WHERE username = ?';
+  
+    connection.query(query, [username, useremail, userphone, usercareer, usergender, usercountry, usercity, userareacode, userpassword, username], (error, results) => {
+      if (error) {
+        console.error('Error updating user data:', error);
+        res.status(500).json({ error: 'Error updating user data.' });
+      } else {
+        console.log('User data updated successfully');
+        res.status(200).json({ message: 'User data updated successfully' });
+      }
+    });
+  });
+  
+
 
 //Admin send data
 app.post('/posts', (req, res) =>{
@@ -145,4 +180,5 @@ app.post('/predict', upload.single('image'), (req, res) => {
 // Khởi động server
 app.listen(port, () => {
     console.log(`Server is listening at http://localhost:${port}`);
+    
 });

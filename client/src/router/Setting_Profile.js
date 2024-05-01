@@ -5,6 +5,7 @@ import MyProfile from './MyProfile';
 import Setting from './Setting';
 
 function Setting_Profile() {
+    
   return (
       <div className='setting_profile'>
           <div className='left_setting_profile'>
