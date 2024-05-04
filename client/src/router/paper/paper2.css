@@ -37,11 +37,23 @@
 }
 .table_of_paper{
     width: 20%;
-    /* background-color: #1b5279; */
+    /* background-color: #23791b; */
 }
 .table_of_paper h4{
     text-align: center;
 }
+.fixed_table_of_paper{
+    position: fixed;
+    height: 100%;
+    top: 100px;
+    right: 69px;
+    width: 199px;
+    /* background-color: #1b5279; */
+}
+.fixed_table_of_paper h4{
+    text-align: center;
+}
+
 .theme_paper{
     display: flex;
     justify-content: center;

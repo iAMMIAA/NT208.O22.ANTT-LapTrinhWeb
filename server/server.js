@@ -81,23 +81,94 @@ app.post('/posts', (req, res) =>{
 //Home
 app.get('/posts/:id', (req, res) => {
     const postID = req.params.id;
-    const query = 'select * from POSTS where id = ?';
+    const query1 = 'update POSTS set number_of_viewer = number_of_viewer + 1 where id = ?';
+    const query2 = 'select * from POSTS where id = ?';
 
-    connection.query(query, [postID], (error, results) => {
+    connection.query(query1, [postID], (error, results) => {
         if(error) {
             res.status(500).json({error: 'Loi khi truy van co so du lieu.'});
         } else {
-            if(results.length > 0){
-                res.json(results[0]);
+            connection.query(query2, [postID], (error,results) =>{
+                if(error)
+                    res.status(500).json({error: 'Loi khi truy van co so du lieu.'});
+                else
+                        if(results.length > 0)
+                            res.json(results[0]);
+                        else 
+                            res.status(404).json({ error: 'Không tìm thấy bài viết' });
+                })
+            }
+        }
+    );
+});
+
+app.get('/posts', (req, res) => {
+    const query = `select * from POSTS`;
+
+    connection.query(query, (error, result) => {
+        if(error) {
+            res.status(500).json({error: 'Loi khi truy van co so du lieu.'});
+        } else {
+            if(result.length > 0){
+                res.json(result);
             } else {
                 res.status(404).json({ error: 'Không tìm thấy bài viết' });
             }
         }
-    });
-});
+    })
+})
 
-app.get('/related_post', (req, res) => {
-    const query = 'select POSTS.title, POSTS.id, POSTS.author, POSTS.url_img from POSTS join TAGS on TAGS.tags = POSTS.tag where TAGS.tags = "#Chăm_sóc_sức_khỏe"';
+// app.get('/related_post', (req, res) => {
+//     const query = `select POSTS.title, POSTS.id, POSTS.author, POSTS.url_img 
+//                     from POSTS 
+//                     join TAGS 
+//                     on TAGS.tags = POSTS.tag 
+//                     where TAGS.tags = "Chăm_sóc_sức_khỏe"`;
+//     connection.query(query, (error, results) => {
+//         if(error) {
+//             console.error('loi');
+//             res.status(500).json({error: 'loi cmnr'});
+//         } else {
+//             res.status(200).json(results);
+//         }
+//     })
+// });
+
+app.get('/related_post/:tag', (req, res) => {
+    const tagPost = req.params.tag;
+    console.log(tagPost);
+    const query = `select POSTS.title, POSTS.id, POSTS.author, POSTS.url_img, POSTS.date_update
+                    from POSTS 
+                    join TAGS 
+                    on TAGS.tags = POSTS.tag 
+                    where TAGS.tags = ?`;
+    connection.query(query, [tagPost], (error, results) => {
+        if(error) {
+            console.error('loi');
+            res.status(500).json({error: 'loi cmnr'});
+        } else {
+            res.status(200).json(results);
+        }
+    })
+});
+app.get('/related_drug/:tag', (req, res) => {
+    const tagPost = req.params.tag;
+    console.log(tagPost);
+    const query = `select POSTS.title, POSTS.id
+                    from POSTS 
+                    where POSTS.tag = ?`;
+    connection.query(query, [tagPost], (error, results) => {
+        if(error) {
+            console.error('loi');
+            res.status(500).json({error: 'loi cmnr'});
+        } else {
+            res.status(200).json(results);
+        }
+    })
+});
+app.get('/arrange_view', (req, res) => {
+    const query = `select * from POSTS 
+                    order by number_of_viewer desc`;
     connection.query(query, (error, results) => {
         if(error) {
             console.error('loi');
@@ -108,6 +179,21 @@ app.get('/related_post', (req, res) => {
     })
 });
 
+app.get('/arrange_dateupdate', (req, res) => {
+    const query = `select *
+                    from POSTS 
+                    order by date_update desc`;
+    connection.query(query, (error, results) => {
+        if(error) {
+            console.error('loi');
+            res.status(500).json({error: 'loi cmnr'});
+        } else {
+            res.status(200).json(results);
+        }
+    })
+});
+
+
 //LookUp
 // Thiết lập multer để lưu trữ hình ảnh tạm thời trong thư mục uploads
 const upload = multer({dest: 'uploads/'});
@@ -116,13 +202,13 @@ app.post('/predict', upload.single('image'), (req, res) => {
     const pythonProcess = spawn('python', ['predict_drug.py', imagePath]);
 
     pythonProcess.stdout.on('data', (data) => {
-        console.log(`stdout: ${data}`);
+        console.log(`Tên thuốc: ${data}`);
 
         const nameDrug = data.toString().trim();
         const query = 'select * from InformationDrug where nameDrug = ?';
         connection.query(query, [nameDrug], (error, results) => {
             if(error) {
-                console.error('Lỗi khi truy vấn cơ sở dữ liệu:', error);
+                console.error(results);
                 res.status(500).json({error: 'Loi khi truy van co so du lieu.'});
             }
             else {

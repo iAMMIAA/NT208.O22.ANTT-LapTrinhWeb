@@ -3,7 +3,7 @@ import './paper2.css';
 import { useState, useEffect } from 'react';
 import React from 'react';
 import '../css/Home.css'; 
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import drug7 from '../pictures/drug7.jpg'
 import drug8 from '../pictures/drug8.png'
 import drug10 from '../pictures/drug10.png'
@@ -21,26 +21,49 @@ function Paper() {
     const [contentPost, setContentPost] = useState(null);
     const [tagPost, setTagPost] = useState(null);
     const [dateUpdatePost, setDateUpdatePost] = useState(null);
+    const [fixedTableOfPaper, setFixedTableOfPaper] = useState();
 
     useEffect(() => {
         axios.get(`http://localhost:3001/posts/${id}`)
             .then(response => {
-                const post = response.data;
+                var post = response.data;
+                var tagRelatedPost = post.tag;
                 setTitlePost(post.title);
                 setAuthorPost(post.author)
                 setContentPost(post.content);
                 setTagPost(post.tag);
                 setDateUpdatePost(post.date_update);
 
-                axios.get(`http://localhost:3001/related_post`)
+                axios.get(`http://localhost:3001/related_post/${tagRelatedPost}`)
                     .then(response => {
-                        setIdRelatedPost(response.data);
+                        // alert(`tag: ${tagRelatedPost}`);
+                        const data = response.data;
+                        setIdRelatedPost(data);
                     })
             })
             .catch(error => {
                 console.error("Error fetching posts: ", error);
             });
-    }, []);
+
+            window.scrollTo(0, 0); //trang web sẽ tự động cuộn lên đầu trang
+
+    }, [id]); // Fetch lại dữ liệu khi `id` thay đổi
+    //useEffect sử dụng [id] là mảng dependency, để nó sẽ fetch dữ liệu mới khi id thay đổi.
+    // Không cập nhật useEffect khi id thay đổi: Trong useEffect, bạn đã sử dụng axios.get để fetch dữ liệu cho id được truyền từ useParams(). Tuy nhiên, useEffect này chỉ chạy một lần khi component được render lần đầu tiên (do mảng dependency là []). Điều này có nghĩa là nó chỉ fetch dữ liệu một lần cho id ban đầu. Khi id thay đổi (ví dụ: từ 5 sang 7), useEffect không được gọi lại để fetch dữ liệu mới cho id mới.
+
+
+    useEffect(() => {
+        const handleFixedTableOfPaper = () => {
+          const offset = window.scrollY;
+          setFixedTableOfPaper(offset > 42);
+        };
+    
+        window.addEventListener('scroll', handleFixedTableOfPaper);
+        return () => {
+          window.removeEventListener('scroll', handleFixedTableOfPaper);
+        };
+      }, []);
+    
 
      // Lấy danh sách tất cả các tiêu đề h2 từ nội dung
     const headings = document.querySelectorAll('.BaiViet > strong');
@@ -50,7 +73,6 @@ function Paper() {
         const headingText = heading.textContent;
         const anchorId = `toc-item-${index}`;
 
-        // Tạo các mục trong mục lục với các liên kết đến các tiêu đề
         return (
         <li key={index}>
             <a href={`#${anchorId}`}>{headingText}</a>
@@ -86,13 +108,9 @@ function Paper() {
                         <p style={{color: 'gray'}}>Đang xem: <strong style={{color: 'black'}}>{titlePost}</strong></p>
                     </div>
                 </div>
-                <div className='table_of_paper'>
+                <div className={fixedTableOfPaper ? 'fixed_table_of_paper':'table_of_paper'}>
                     <h4>Mục lục</h4>
                     <ul>{tocItems}</ul>
-                    {/* <p>1. Sparkling là gì?</p>
-                    <p>2. Những điều thú vị bạn chưa biết về sparkling</p>
-                    <p>3. Cách thưởng thức và lựa chọn sparkling</p>
-                    <p>4. Sparkling </p> */}
                 </div>
             </div>
            
@@ -102,7 +120,7 @@ function Paper() {
                 </div>
                 <div className="related_posts">
                     {idRelatedPost.map(post => (
-                        <div className="related_post">
+                        <div className="related_post" key={post.id}>
                             <div className='related_post_img'>
                                 <img src={post.url_img}></img>
                             </div>

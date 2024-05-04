@@ -15,9 +15,10 @@ function Setting_Profile() {
               <span>Setting</span>
             </Link>
           </div>
+
           <div className='right_setting_profile'>
             <Routes>
-            <Route path='' element={<MyProfile/>}></Route>
+              <Route path='' element={<MyProfile/>}></Route>
               <Route path='/setting' element={<Setting/>}></Route>
             </Routes>
           </div>

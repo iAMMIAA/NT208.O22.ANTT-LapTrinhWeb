@@ -4,26 +4,24 @@
     margin: 0px;
     padding: 0px;
     /* background-color: #6b8fc5; */
-    font-family: system-ui, sans-serif;
+    /* font-family: system-ui, sans-serif; */
 }
 .main_two{
-    display: flex;
+    /* display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
+    justify-content: center; */
     height: 500px;
     width: 100%;
-    align-items: center;
-    background-color: rgb(217, 118, 118);
     box-shadow: 0 0 20px #dcdbdb70;
 }
 .main_two img{
     height: 100%;
     width: 100%;
-    border-radius: 20px;
+    border-radius:20px;
 }
 
-.two_theme{
+/* .two_theme{
     display: flex;
     align-items: center;
     justify-content: center;
@@ -44,9 +42,8 @@
 .two_quote{
     font-size: 20px;
     margin: 0px;
-}
-
-.two_author{
+} */
+/* .two_author{
     font-size: 20px;
     color: rgb(108, 107, 107);
     display: flex;
@@ -56,24 +53,22 @@
 .two_img{
     height: 100%;
     width: 40%;
-    /* background-color: #6f9cd2; */
 }
 .two_img img{
     height: 100%;
     width: 100%;
-    /* border-radius: 20px; */
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
-}
+} */
 .main_four{
     display: flex;
+    align-items: center;
+    justify-content: center;
     flex-flow: column;
     height: 250px;
     width: 100%;
-    align-items: center;
-    justify-content: center;
-    /* background-color: rgb(66, 158, 250); */
     padding-top: 12px;
+    /* background-color: rgb(66, 158, 250); */
 }
 .four_theme{
     width: 100%;
@@ -111,9 +106,8 @@
     justify-content: center;
     /* background-color: rgb(171, 170, 170); */
     /* background-color: rgba(171, 170, 170, 0.485); */
-    background-color: rgba(209, 229, 245, 0.485);
-    /* box-shadow: 1px 1px 2px #646161a3; */
-
+    /* background-color: rgba(209, 229, 245, 0.485); */
+    background: radial-gradient(circle at 50% 50%, #8cb5e7, #dae7f8);
 }
 .today_pp_imgage img{
     height: 100%;
@@ -147,31 +141,27 @@
     color: rgb(90, 88, 88);
     overflow: hidden;
 }
-
-
-
 .main_three{
     display: flex;
     height: 38%;
     width: 100%;
-    /* margin: 10px; */
-    /* justify-content: center; */
-    /* align-items: center; */
     margin-top: 30px;
 }
 .three_one{
     display: flex;
     flex-flow: column;
-    height: 100%;
+    /* height: 500px; */
     width: 60%;
     /* background-color: #3bff34; */
 }
+
 .three_theme{
     display: flex;
     align-items: center;
     height: 10%;
     width: 100%;
     font-weight: bold;
+    /* background-color: #1b5279; */
 }
 .theme_first{
     display: flex;
@@ -180,22 +170,82 @@
     justify-content: flex-start;
     align-items: center;
 }
-.theme_second{
+.three_arrange{
     display: flex;
-    height: 100%;
-    width: 50%;
-    justify-content: flex-end;
     align-items: center;
+    justify-content: flex-end;
+    width: 50%;
+    height: 100%;
+    /* background-color: #c8e2f5; */
+}
+.three_arrange_container{
+    width: 50%;
+    height: 100%;
+    /* background-color: aquamarine; */
+}
+.three_arrange_first{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #ffffff;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(145, 144, 144);
+    border-radius: 10px;   
+    padding: 5px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
 
+.three_arrange_first span{
+    width: 70%;
+    height: 100%;
+    font-size: 15px;
+}
+.three_dropDown{
+    position: absolute;
+    margin-top: 5px;
+    height: 80px;
+    width: 150px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: width 0.6s ease;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+}
+.three_dropDown_item{
+    color: black;
+    text-decoration: none;
+    padding: 5px;
+    /* background-color: #1b5279; */
+    list-style: none;
+}
 .three_container{
     margin-top: 10px;
     display: flex;
     flex-flow: column;
-    height: 90%;
+    /* height: 90%; */
     width: 100%;
     justify-content: space-between;
     /* background-color: #1b5279; */
+}
+.pagination{
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    margin-top: 20px;
+    /* background-color: #1b5279; */
+}
+.pagination a{
+    color: #fff;
+    background-color: rgb(155, 155, 155);
+    margin-right: 5px;
+    padding: 10px;
+    border-radius: 10px;
+    list-style: none;
 }
 .three_item{
     display: flex;
@@ -267,33 +317,63 @@
     width: 5%;
 }
 
-.three_two{
+.default_menu{
     height: 100%;
     width: 35%;
-    background-color: #ffffff;
     border-radius: 10px;
     padding: 10px;
+    background-color: #ffffff;
 }
-.three_two h3{
+.default_menu h3{
     text-align: center;
     padding-bottom: 10px;
     border-bottom: 1px solid #2a2a2a;
 }
-.list_item{
-    padding: 0px 10px;
-    font-size: border;
-}
-.three_two ul{
+.default_menu ul{
     margin: 0px;
     padding: 0px;
     list-style: none;
     /* background-color: #6F9CD2; */
 }
-.three_two li{
+.default_menu li{
     margin: 10px;
     padding: 10px;
     list-style: none;
     /* background-color: #1b5279; */
+}
+.fix_menu{
+    position: fixed;
+    z-index: 1000; /* Đảm bảo menu hiển thị trên các phần tử khác */
+    top: 100px;
+    right: 70px;
+    width: 347px;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #ffffff;
+    /* background-color: #b53030; */
+
+}
+.fix_menu h3{
+    text-align: center;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #2a2a2a;
+}
+.fix_menu ul{
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+    /* background-color: #6F9CD2; */
+}
+.fix_menu li{
+    margin: 10px;
+    padding: 10px;
+    list-style: none;
+    /* background-color: #1b5279; */
+}
+
+.list_item{
+    padding: 0px 10px;
+    font-size: border;
 }
 
 @media (min-width: 600px) and (max-width: 930px){
