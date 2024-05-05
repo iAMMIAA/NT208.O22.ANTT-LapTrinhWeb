@@ -2,7 +2,7 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookmark, faComment, faHeart } from '@fortawesome/free-regular-svg-icons';
 
-function Post({ avatar, userName, time, description, likes, comments }) {
+function Post({ avatar, userName, time, description, likes, comments, openComment }) {
     return (
         <div className='post'>
             <div className='post-content'>
@@ -23,7 +23,7 @@ function Post({ avatar, userName, time, description, likes, comments }) {
             </div>
             <div className='post-action'>
                 <FontAwesomeIcon icon={faHeart} className='icon'/>
-                <FontAwesomeIcon icon={faComment} className='icon'/>
+                <FontAwesomeIcon icon={faComment} className='icon' onClick={() => openComment()}/>
                 <FontAwesomeIcon icon={faBookmark} className='icon'/>
             </div>
         </div>

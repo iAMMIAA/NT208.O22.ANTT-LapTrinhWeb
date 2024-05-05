@@ -5,7 +5,7 @@ const multer = require('multer'); // Thư viện multer để xử lý dữ li�
 const { spawn } = require('child_process');
 const mysql = require('mysql2');
 const jwt = require('jsonwebtoken');
-const { create, show, list } = require('./src/controllers/post.controller')
+const { create, show, list, createComment } = require('./src/controllers/post.controller')
 
 const app = express();
 const port = 3001;
@@ -130,6 +130,7 @@ app.post('/predict', upload.single('image'), (req, res) => {
 app.get('/posts', list)
 app.post('/posts', create)
 app.get('/posts/:id', show)
+app.post('/posts/:id/comment', createComment)
 
 // Khởi động server
 app.listen(port, () => {

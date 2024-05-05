@@ -5,11 +5,13 @@ import PostPopup from './PopupPost';
 import ava1 from './pictures/ava1.jpg';
 import ava2 from './pictures/ava2.jpg';
 import ava3 from './pictures/ava3.jpg';
+import CommentPopup from "./PopupComment";
 
 function Exchange() {
     const [open, setOpen] = useState(false);
+    const [opencmt, setOpencmt] = useState(false);
 
-   
+
     const posts = [
         {
             avatar: ava1,
@@ -56,10 +58,12 @@ function Exchange() {
                         description={post.description}
                         likes={post.likes}
                         comments={post.comments}
+                        openComment={() => setOpencmt(true)}
                     />
                 ))}
             </div>
             <PostPopup open={open} onClose={() => setOpen(false)}/>
+            <CommentPopup open={opencmt} onClose={() => setOpencmt(false)}/>
         </div>
     );
 }
