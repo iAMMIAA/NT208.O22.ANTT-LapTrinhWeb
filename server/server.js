@@ -18,7 +18,7 @@ const connection = mysql.createConnection({
     port: '3306',
     user: 'root',
     password: '12345678',
-    database: 'DrugWeb'
+    database: 'db_ttruc'
 });
 
 // SignUp
