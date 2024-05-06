@@ -117,7 +117,7 @@ function App() {
 
   useEffect(() => {
     // Xử lý các hành động sau khi userName_send được cập nhật
-    alert(`uffect: ${userName_send}`);
+    // alert(`uffect: ${userName_send}`);
   }, [userName_send]); // useEffect này sẽ chạy mỗi khi userName_send thay đổi
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -126,13 +126,14 @@ function App() {
         .then(response => {
           // var data = response.data;
           // alert(`${data}`);
-          const {message, token, userName, userpassword} = response.data;
+          const {message, token, idUser} = response.data;
           if(message === 'Success' && token)
             {
               localStorage.setItem('isLoggedIn', 'true');
               localStorage.setItem('token', token);
-              setUserName(formData.username);
-              setPassword(formData.userpassword);
+              localStorage.setItem('idUser', idUser);
+              // setUserName(formData.username);
+              // setPassword(formData.userpassword);
               // alert(`${formData.username}`);
             }
         })
@@ -144,6 +145,7 @@ function App() {
   const logOut = () => {
     localStorage.removeItem('isLoggedIn');
     localStorage.removeItem('token');
+    localStorage.removeItem('idUser');
 
     // Tải lại trang
     window.location.href = 'http://localhost:3000/';

@@ -37,7 +37,6 @@ app.post('/signup', (req, res) =>{
         res.status(200).json({ message: 'Data inserted successfully' });
     })
 });
-
 //LogIn
 const jwtSecretKey = 'medicalweb';
 app.post('/login', (req,res) =>{
@@ -53,31 +52,28 @@ app.post('/login', (req,res) =>{
             console.log('User found in database');
             const user = data[0];
             const token = jwt.sign({ username: user.username, userpassword:user.userpassword }, jwtSecretKey);
-            console.log(user.username + " " + user.userpassword)
-            res.status(200).json({ message: 'Success', token: token, userName: user.username, userpassword: user.userpassword }); 
+            console.log("id User: ", user.id)
+            res.status(200).json({ message: 'Success', token: token, idUser: user.id}); 
         } else {
             console.log('User not found in database');
             return res.status(401).json({ error: 'Invalid email or password' });
         }
     })
 });
-
-app.post('/update_profile', (req, res) => {
+app.post('/update_profile/:idUser', (req, res) => {
     const data = req.body;
-    console.log('dữ liệu đc gửi đến server: ', req);
-    console.log('body: ', data);
-    const query = `update SignupLogIn set fullName = ?, school = ?, phoneNumber = ?, career = ?, gender = ?, country = ?, city = ?, areaCode = ? where username = ? and userpassword = ?;`
-    connection.query(query, [data.fullName, data.school, data.phoneNumber, data.career, data.gender, data.country, data.city, data.areaCode, data.userName, data.password], (error, results) => {
+    const idUser = req.params.idUser;
+    const query = `update SignupLogIn set fullName = ?, school = ?, phoneNumber = ?, career = ?, gender = ?, country = ?, city = ?, areaCode = ? where id = ?;`
+    connection.query(query, [data.fullName, data.school, data.phoneNumber, data.career, data.gender, data.country, data.city, data.areaCode, idUser], (error, results) => {
         if(error) {
             console.error('Error inserting data: ', error);
             res.status(500).json({error: 'Internal server error.'});
         } else {
-            console.log('Data inserted successfully');
+            console.log('id user: ', idUser);
             res.status(200).json({ message: 'Data inserted successfully' });
         }
     })
 })
-
 //Admin send data
 app.post('/posts', (req, res) =>{
     console.log('iammia', req.body);
@@ -94,6 +90,38 @@ app.post('/posts', (req, res) =>{
         }
     })
 })
+//LookUp
+// Thiết lập multer để lưu trữ hình ảnh tạm thời trong thư mục uploads
+const upload = multer({dest: 'uploads/'});
+app.post('/predict', upload.single('image'), (req, res) => {
+    const imagePath = req.file.path;
+    const pythonProcess = spawn('python', ['predict_drug.py', imagePath]);
+
+    pythonProcess.stdout.on('data', (data) => {
+        console.log(`Tên thuốc: ${data}`);
+
+        const nameDrug = data.toString().trim();
+        const query = 'select * from InformationDrug where nameDrug = ?';
+        connection.query(query, [nameDrug], (error, results) => {
+            if(error) {
+                console.error(results);
+                res.status(500).json({error: 'Loi khi truy van co so du lieu.'});
+            }
+            else {
+                if (results.length > 0) res.json(results[0]);
+                else res.status(404).json({ error: 'Không tìm thấy thông tin thuốc.' });
+            }
+        })
+    });
+
+    pythonProcess.stderr.on('data', (data) => {
+        console.error(`stderr: ${data}`);
+    });
+
+    pythonProcess.on('close', (code) => {
+        console.log(`Child process exited with code ${code}`);
+    });
+});
 
 //Home
 app.get('/posts/:id', (req, res) => {
@@ -134,7 +162,6 @@ app.get('/posts', (req, res) => {
         }
     })
 })
-
 // app.get('/related_post', (req, res) => {
 //     const query = `select POSTS.title, POSTS.id, POSTS.author, POSTS.url_img 
 //                     from POSTS 
@@ -195,7 +222,6 @@ app.get('/arrange_view', (req, res) => {
         }
     })
 });
-
 app.get('/arrange_dateupdate', (req, res) => {
     const query = `select *
                     from POSTS 
@@ -209,41 +235,18 @@ app.get('/arrange_dateupdate', (req, res) => {
         }
     })
 });
-
-
-//LookUp
-// Thiết lập multer để lưu trữ hình ảnh tạm thời trong thư mục uploads
-const upload = multer({dest: 'uploads/'});
-app.post('/predict', upload.single('image'), (req, res) => {
-    const imagePath = req.file.path;
-    const pythonProcess = spawn('python', ['predict_drug.py', imagePath]);
-
-    pythonProcess.stdout.on('data', (data) => {
-        console.log(`Tên thuốc: ${data}`);
-
-        const nameDrug = data.toString().trim();
-        const query = 'select * from InformationDrug where nameDrug = ?';
-        connection.query(query, [nameDrug], (error, results) => {
-            if(error) {
-                console.error(results);
-                res.status(500).json({error: 'Loi khi truy van co so du lieu.'});
-            }
-            else {
-                if (results.length > 0) res.json(results[0]);
-                else res.status(404).json({ error: 'Không tìm thấy thông tin thuốc.' });
-            }
-        })
-    });
-
-    pythonProcess.stderr.on('data', (data) => {
-        console.error(`stderr: ${data}`);
-    });
-
-    pythonProcess.on('close', (code) => {
-        console.log(`Child process exited with code ${code}`);
-    });
-});
-
+app.get('/user/:idUser', (req, res) => {
+    const idUser = req.params.idUser;
+    console.log('myprofile: ', idUser);
+    const query = `select * from SignupLogIn where id=?`
+    connection.query(query, [idUser], (error, results) => {
+        if(error) res.status(500).json({error: 'loi cmnr'});
+        else {
+            console.log(results);
+            res.status(200).json(results[0]);
+        }
+    })
+})
 
 // Khởi động server
 app.listen(port, () => {

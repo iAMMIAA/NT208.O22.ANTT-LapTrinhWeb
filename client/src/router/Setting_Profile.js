@@ -4,10 +4,7 @@ import { Link, Route, Routes } from 'react-router-dom';
 import MyProfile from './MyProfile';
 import Setting from './Setting';
 
-function Setting_Profile({data}) {
-  // const { data1, data2 } = data;
-  alert(`${data}`);
-
+function Setting_Profile() {
   return (
       <div className='setting_profile'>
           <div className='left_setting_profile'>

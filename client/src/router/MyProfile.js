@@ -1,16 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './css/MyProfile.css' 
 import ava from './pictures/tfboys.jpg';
 import axios from 'axios';
 
-function Setting_Profile(infoUser) {
-  const [openStateEdit, setOpenStateEdit] =useState(true);
-  const { data1, data2} = infoUser;
-  // alert(`${data1}`);
-  // alert('pw:', data1);
+function Setting_Profile() {
+  const [openStateEdit, setOpenStateEdit] =useState(false);
   const [updateFormProfile, setUpdateFormProfile] = useState({
-    userName: data1,
-    password: data2,
     fullName: '',
     school: '',
     email: '',
@@ -21,6 +16,28 @@ function Setting_Profile(infoUser) {
     city: '',
     areaCode: ''
   });
+  
+  useEffect(() => {
+    axios.get(`http://localhost:3001/user/${localStorage.getItem('idUser')}`)
+        .then(response => {
+          const infoUser = response.data;
+          setUpdateFormProfile({
+            fullName: infoUser.fullName,
+            school: infoUser.school,
+            email: infoUser.useremail,
+            phoneNumber: infoUser.phoneNumber,
+            career: infoUser.career,
+            gender: infoUser.gender,
+            country: infoUser.country,
+            city: infoUser.city,
+            areaCode: infoUser.areaCode
+          })
+        })
+        .catch(error => {
+          console.error('error: ', error);
+          alert('loi cmnr');
+        })
+  }, []);
 
   const handleOpenStateEdit = () =>{
     setOpenStateEdit(true);
@@ -32,19 +49,18 @@ function Setting_Profile(infoUser) {
       [name]: value,
     });
   };
-
+  const cancelEditProfile = () => {
+    setOpenStateEdit(false);
+  }
   const sendFormUpdatedProfile = (event) => {
     event.preventDefault();
-    console.log(FormData);
-
-    axios.post('http://localhost:3001/update_profile', updateFormProfile)
+    axios.post(`http://localhost:3001/update_profile/${localStorage.getItem('idUser')}`, updateFormProfile)
         .then(Response => {
           console.log('Response: ', Response.data);
           setOpenStateEdit(false);
         })
         .catch(error => {
           console.error('Loi cmnr: ', error);
-          alert('Cập nhật thông tin thất bại!');
         })
   }
 
@@ -118,6 +134,7 @@ function Setting_Profile(infoUser) {
             </div>
           </form>
           <div className='my_profile_btn_edit'>
+            <button onClick={cancelEditProfile}>CANCEL</button>
             <button onClick={sendFormUpdatedProfile}>SAVE</button>
           </div>
         </div>
@@ -132,8 +149,8 @@ function Setting_Profile(infoUser) {
             </div>
             <div className='main_information'>
               <span>iAMMIA</span>
-              <span style={{color: 'gray'}}>Lê Phương Thảo</span>
-              <span style={{color: 'gray'}}>University of Information Technology</span>
+              <span style={{color: 'gray'}}>{updateFormProfile.fullName}</span>
+              <span style={{color: 'gray'}}>{updateFormProfile.school}</span>
             </div>
           </div>
           <div className='my_profile_infomation'>
@@ -146,16 +163,16 @@ function Setting_Profile(infoUser) {
                       <td className='column_1'>Phone number</td>
                     </tr>
                     <tr className='row_child'>
-                      <td className='column'>21522608@gm.uit.edu.vn</td>
-                      <td className='column'>0335739591</td>
+                      <td className='column'>{updateFormProfile.email}</td>
+                      <td className='column'>{updateFormProfile.phoneNumber}</td>
                     </tr>
                     <tr className='row_child' style={{color: 'gray'}}>
                       <td className='column_1'>Career</td>
                       <td className='column_1'>Gender</td>
                     </tr>
                     <tr className='row_child'>
-                      <td className='column'>Student</td>
-                      <td className='column'>Female</td>
+                      <td className='column'>{updateFormProfile.career}</td>
+                      <td className='column'>{updateFormProfile.gender}</td>
                     </tr>
                 </tbody>
               </table>
@@ -171,15 +188,15 @@ function Setting_Profile(infoUser) {
                       <td className='column_1'>City</td>
                     </tr>
                     <tr className='row_child'>
-                      <td className='column'>Viet Nam</td>
-                      <td className='column'>Binh Dinh Province</td>
+                      <td className='column'>{updateFormProfile.country}</td>
+                      <td className='column'>{updateFormProfile.city}</td>
                     </tr>
                     <tr className='row_child' style={{color: 'gray'}}>
                       <td className='column_1'>Area code</td>
                       <td className='column_1'></td>
                     </tr>
                     <tr className='row_child'>
-                      <td className='column'>0256</td>
+                      <td className='column'>{updateFormProfile.areaCode}</td>
                       <td className='column'></td>
                     </tr>
                 </tbody>
