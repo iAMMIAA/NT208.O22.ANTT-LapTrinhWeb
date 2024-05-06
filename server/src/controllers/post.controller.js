@@ -39,3 +39,19 @@ exports.list = async (req, res) => {
         })
     }
 }
+
+exports.createComment = async (req, res) => {
+    try {
+        const postId = req.params.id;
+        const data = await Comment.create({
+            postId,
+            userId: 1, // TODO: get userId từ jwt token
+            content: req.body.content,
+        })
+        return res.status(200).send(data)
+    } catch (e) {
+        return res.status(500).send({
+            message: e.message || 'Internal Server Error'
+        })
+    }
+}
