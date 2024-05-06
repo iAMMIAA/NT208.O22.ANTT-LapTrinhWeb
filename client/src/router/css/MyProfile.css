@@ -6,6 +6,16 @@
     /* background-color: #f48888; */
     padding: 0px 40px 30px 40px;
 }
+.test{
+    height: 100%;
+    width: 100%;
+}
+input{
+    border-radius: 10px;
+    /* padding: 5px; */
+    border: 1px solid #11254f;
+    background-color: #d8e6f8c0;
+}
 .my_profile_theme{
     height: 12%;
     display: flex;
@@ -41,9 +51,9 @@
     justify-content: center;
     align-items: flex-start;
 }
-tr, td {
-    /* border: 1px solid black;  */
-  }
+/* tr, td {
+    border: 1px solid black; 
+  } */
 
 .my_profile_infomation{
     height: 28%;

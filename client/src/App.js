@@ -9,7 +9,6 @@ import user from './router/pictures/user.png'
 import Home from './router/Home';
 import Exchange from './router/Exchange';
 import LookUp from './router/LookUp';
-// import Carousel from './router/Carousel';
 import Setting_Profile from './router/Setting_Profile';
 import LogIn from './LogIn-SignUp/LogIn';
 import SignUp from './LogIn-SignUp/SignUp';
@@ -22,6 +21,8 @@ import logo from './logo/logo5.png'
 function App() {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [fixPositionScroll, setFixPositionScroll] = useState();
+  const [userName_send, setUserName] = useState('Khung');
+  const [password_send, setPassword] = useState();
 
   const toggleSidebar = () => {
     setIsSidebarCollapsed (!isSidebarCollapsed);
@@ -114,15 +115,25 @@ function App() {
     setShowLogIn(false);
   }
 
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  useEffect(() => {
+    // Xử lý các hành động sau khi userName_send được cập nhật
+    alert(`uffect: ${userName_send}`);
+  }, [userName_send]); // useEffect này sẽ chạy mỗi khi userName_send thay đổi
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const logIn = (formData) => {
     axios.post('http://localhost:3001/login', formData)
         .then(response => {
-          const {message, token} = response.data;
+          // var data = response.data;
+          // alert(`${data}`);
+          const {message, token, userName, userpassword} = response.data;
           if(message === 'Success' && token)
             {
               localStorage.setItem('isLoggedIn', 'true');
               localStorage.setItem('token', token);
+              setUserName(formData.username);
+              setPassword(formData.userpassword);
+              // alert(`${formData.username}`);
             }
         })
         .catch(error => {
@@ -327,8 +338,8 @@ function App() {
                         <Route path="/" exact element={<Home/>}></Route>
                         <Route path='/exchange' element={<Exchange/>}></Route>
                         <Route path='/lookup' element={<LookUp/>}></Route>
-                        <Route path='/setting_profile/*' element={<Setting_Profile/>}></Route>
                         <Route path='/paper2/:id' element={<Paper/>}></Route>
+                        <Route path='/setting_profile/*' element={<Setting_Profile data={userName_send}/>}></Route>
                       </Routes>
                     ) : (
                       <Routes>

@@ -53,13 +53,30 @@ app.post('/login', (req,res) =>{
             console.log('User found in database');
             const user = data[0];
             const token = jwt.sign({ username: user.username, userpassword:user.userpassword }, jwtSecretKey);
-            res.status(200).json({ message: 'Success', token: token }); 
+            console.log(user.username + " " + user.userpassword)
+            res.status(200).json({ message: 'Success', token: token, userName: user.username, userpassword: user.userpassword }); 
         } else {
             console.log('User not found in database');
             return res.status(401).json({ error: 'Invalid email or password' });
         }
     })
 });
+
+app.post('/update_profile', (req, res) => {
+    const data = req.body;
+    console.log('dữ liệu đc gửi đến server: ', req);
+    console.log('body: ', data);
+    const query = `update SignupLogIn set fullName = ?, school = ?, phoneNumber = ?, career = ?, gender = ?, country = ?, city = ?, areaCode = ? where username = ? and userpassword = ?;`
+    connection.query(query, [data.fullName, data.school, data.phoneNumber, data.career, data.gender, data.country, data.city, data.areaCode, data.userName, data.password], (error, results) => {
+        if(error) {
+            console.error('Error inserting data: ', error);
+            res.status(500).json({error: 'Internal server error.'});
+        } else {
+            console.log('Data inserted successfully');
+            res.status(200).json({ message: 'Data inserted successfully' });
+        }
+    })
+})
 
 //Admin send data
 app.post('/posts', (req, res) =>{
