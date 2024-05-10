@@ -7,9 +7,16 @@ import { BrowserRouter as Link} from 'react-router-dom';
 
 function LookUp() {
   const[selectedImage, setSelectedImage] = useState(null);
+  //Information drug
   const[resultDrug, setResultDrug] = useState(null);
   const[detailDrug, setDetailDrug] = useState(null);
   const[sourceInfo, setSourceInfo] = useState(null);
+  const[imgDrug, setImgDrug] = useState(null);
+  const[colorDrug, setColorDrug] = useState(null);
+  const[shapeDrug, setShapeDrug] = useState(null);
+  const[imprintDrug, setImprintDrug] = useState(null);
+  const[describeDrug, setDescribeDrug] = useState(null);
+
   const [relatedDrug, setRelatedDrug] = useState([]);
   const [fixedResult, setFixedResult] = useState();
 
@@ -21,7 +28,6 @@ function LookUp() {
         setFixedResult(true);
       else setFixedResult(false);
     }
-    
     window.addEventListener('scroll', handleFixedListResult);
     return () => {
       window.removeEventListener('scroll', handleFixedListResult);
@@ -49,6 +55,11 @@ function LookUp() {
         setResultDrug(drug.nameDrug);
         setDetailDrug(drug.detail);
         setSourceInfo(drug.cites);
+        setImgDrug(drug.imgDrug);
+        setColorDrug(drug.colorDrug);
+        setShapeDrug(drug.shapeDrug);
+        setImprintDrug(drug.imprintDrug);
+        setDescribeDrug(drug.describeDrug);
 
         axios.get(`http://localhost:3001/related_drug/${tagDrug}`)
             .then(response => {
@@ -78,24 +89,27 @@ function LookUp() {
           <div className="result">
               <div className='square1'>
                   <div className='name_drug'>
-                    <p>Dilantin</p>
+                    <p>{resultDrug}</p>
                   </div>
                   <div className='over_drug'>
                     <div className='describe_drug'>
-                        <p><strong>Color: </strong> white</p>
-                        <p><strong>Shape: </strong> round</p>
-                        <p><strong>Imprint: </strong> L403 325MG</p>
+                        <p><strong>Color: </strong> {colorDrug}</p>
+                        <p><strong>Shape: </strong> {shapeDrug}</p>
+                        <p><strong>Imprint: </strong> {imprintDrug}</p>
                         <p></p>
-                        <p><em>"Dilantin is used to control seizures. Phenytoin does not treat all types of seizures, and your doctor will determine if it is the right medicine for you."</em></p>
+                        <p><em>"{describeDrug}"</em></p>
                     </div>
                     {/* <p className='detail_drug' dangerouslySetInnerHTML={{ __html: detailDrug }}></p> */}
                     <div className='information_source'>
                       <img src="https://suckhoedoisong.qltns.mediacdn.vn/324455921873985536/2023/12/28/ceef2be96f71c72f9e60-1703752254941963328669.jpg"/>
-                      <p><span> Medically reviewed by <strong>Philip Thornton, DipPharm</strong>.</span></p>
+                      <p><span> Medically reviewed by <strong>{sourceInfo}</strong>.</span></p>
                     </div>
                   </div>
-                  
                   <div className='detail_drug'>
+                    <p><h3>Thông tin chi tiết:</h3></p>
+                    <p className='detail_drug' dangerouslySetInnerHTML={{ __html: detailDrug }}></p>
+                  </div>
+                  {/* <div className='detail_drug'>
                     <p><h3>Thông tin chi tiết:</h3></p>
                     <p>
                         <span>
@@ -103,7 +117,6 @@ function LookUp() {
                         </span>
                         <div style={{display: 'flex', flexDirection: 'column', height: '300px', width: '100%', textAlign: 'center'}}>
                             <img style={{height: '100%', textAlign: 'center'}} src={'https://cdn.tgdd.vn//News/0//cach-lam-sua-hanh-nhan-bang-may-xay-845x564-1.jpg'}/>
-                            {/* <span><em>Ảnh: Sparkling là gì</em></span> */}
                         </div>
                     </p>
                     <h2>
@@ -195,8 +208,8 @@ function LookUp() {
                             Uống trực tiếp là cách đơn giản và tiện lợi để tận hưởng giá trị dinh dưỡng từ nguồn sữa hạnh nhân. Bạn có thể uống trực tiếp, phù hợp cho một bữa sáng tiện lợi. Trước khi uống, lắc đều hộp sữa hạnh nhân để đảm bảo các thành phần hỗn hợp đều. Sau khi mở nắp sữa hạnh nhân, hãy đậy kín và bảo quản trong tủ lạnh đồng thời tuân thủ hướng dẫn về thời gian sử dụng và lưu trữ trên bao bì sản phẩm.
                         </span>        
                     </p>
-                  </div>
-                <p className='source_info_drug'>Trích dẫn: "{sourceInfo}"</p>
+                  </div> */}
+                {/* <p className='source_info_drug'>Trích dẫn: "{sourceInfo}"</p> */}
               </div>
               <div className='result_flag'>
               </div>
@@ -209,7 +222,7 @@ function LookUp() {
                   </div> */}
                   <div className='square3'>
                     <div className='defineImage'>
-                      <img src='https://www.drugs.com/images/pills/fio/SHR00340.JPG'></img>
+                      <img src={imgDrug}></img>
                       <p>Ảnh mặc định</p>
                     </div>
                     <div className='drugImage'>

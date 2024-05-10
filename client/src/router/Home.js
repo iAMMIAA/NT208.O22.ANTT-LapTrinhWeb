@@ -4,21 +4,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import picRound from './pictures/round.png'
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import drug2 from './pictures/drug2.png'
-import drug3 from './pictures/drug3.png'
-import drug4 from './pictures/drug4.png'
-import drug5 from './pictures/drug5.jpg'
-import drug6 from './pictures/drug6.jpg'
 import drug7 from './pictures/drug7.jpg'
 import drug8 from './pictures/drug8.png'
 import drug10 from './pictures/drug10.png'
 import drug11 from './pictures/drug11.png'
-import drug9 from './pictures/drug9.jpg'
-import MarkTwain from './pictures/MarkTwain.jpg';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Carousel from './Carousel';
 import theme2 from './pictures/theme1.png'
-import queryString from 'query-string'; // Import thư viện query-string
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLayerGroup} from '@fortawesome/free-solid-svg-icons';

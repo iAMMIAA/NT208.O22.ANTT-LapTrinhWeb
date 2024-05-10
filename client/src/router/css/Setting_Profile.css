@@ -1,5 +1,5 @@
 .setting_profile{
-    height: 615px;
+    /* height: 615px; */
     width: 100%;
     margin: 0px;
     padding: 0px;
@@ -10,7 +10,6 @@
 }
 
 .left_setting_profile{
-    height: 100%;
     width: 28%;
     background-color: #ffffff;
     border-top-left-radius: 25px;
@@ -19,6 +18,12 @@
     flex-direction: column;
     align-items: center;
     padding-top: 30px;
+}
+.right_setting_profile{
+    width: 71%;
+    background-color: #ffffff;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
 }
 .render_profile{
     height: 50px;
@@ -42,14 +47,6 @@
     color: rgb(8, 8, 8);
     margin: 5px;
     text-decoration: none;
-}
-
-.right_setting_profile{
-    height: 100%;
-    width: 71%;
-    background-color: #ffffff;
-    border-top-right-radius: 25px;
-    border-bottom-right-radius: 25px;
 }
 
 @media (max-width: 600px) {

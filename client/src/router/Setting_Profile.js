@@ -9,10 +9,10 @@ function Setting_Profile() {
       <div className='setting_profile'>
           <div className='left_setting_profile'>
             <Link className='render_profile' to='/setting_profile'>
-              <span>My Profile</span>
+              <span>Thông tin cá nhân</span>
             </Link>
             <Link className='render_setting' to='/setting_profile/setting'>
-              <span>Setting</span>
+              <span>Cài đặt</span>
             </Link>
           </div>
 

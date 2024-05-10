@@ -3,27 +3,41 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    /* background-color: #f48888; */
-    padding: 0px 40px 30px 40px;
+    padding: 50px 40px;
+    /* background-color: #11254f; */
 }
 .test{
     height: 100%;
     width: 100%;
+    /* background-color: #11254f; */
 }
-input{
-    border-radius: 10px;
-    /* padding: 5px; */
-    border: 1px solid #11254f;
-    background-color: #d8e6f8c0;
-}
-.my_profile_theme{
-    height: 12%;
+.column_1{
+    height: 25px;
     display: flex;
     align-items: center;
+}
+.column{
+    height: 40px;
+    display: flex;
+    align-items: center;
+    /* padding-left: 10px; */
+}
+.column span{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+}
+.my_profile_theme{
+    height: 50px;
+    display: flex;
+    /* align-items: center; */
     font-size: 25px;
+    /* background-color:#64728f; */
 }
 .my_profile_name{
-    height: 20%;
+    height: 120px;
+    /* height: 30%; */
     border-top: 1px solid #acacac;
     margin: 0px 20px;
     display: flex;
@@ -50,16 +64,44 @@ input{
     display: flex;
     justify-content: center;
     align-items: flex-start;
+    /* background-color: #64728f; */
+}
+.main_information input{
+    height: 30px;
+    width: 100%;
+    margin: 3px;
+    padding: 0px 0px 0px 10px;
+    border: 0px;
+    border-radius: 10px;
+    background-color: #c9d9ecc0;
+}
+.main_information span{
+    height: 28px;
+    width: 100%;
+    margin: 1px;
+    font-size: 17px;
+    /* background-color: #82b5dc; */
+    display: flex;
+    padding-left: 10px;
+    align-items: center;
 }
 /* tr, td {
     border: 1px solid black; 
   } */
 
 .my_profile_infomation{
-    height: 28%;
+    height: 200px;
     border-top: 1px solid #acacac;
     margin: 0px 20px;
     /* background-color: #82b5dc; */
+}
+.my_profile_infomation input{
+    height: 100%;
+    border-radius: 10px;
+    border: 0px solid #64728f;
+    padding: 0px 0px 0px 10px;
+    margin: 0px;
+    background-color: #c9d9ecc0;
 }
 .personal_information{
     height: 30%;
@@ -96,16 +138,18 @@ td{
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    height: 11%;
     border-top: 1px solid #acacac;
     margin: 0px 20px;
+    /* background-color: #64728f; */
 }
 .my_profile_btn_edit button{
     border: none;
-    padding: 10px 50px;
+    width: 140px;
+    padding: 10px;
     border-radius: 15px;
     background-color: #82b5dc;
     color: white;
+    margin: 20px 0px 0px 20px;
 }
 
 @media (max-width: 600px) {

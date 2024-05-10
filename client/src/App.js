@@ -21,8 +21,8 @@ import logo from './logo/logo5.png'
 function App() {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [fixPositionScroll, setFixPositionScroll] = useState();
-  const [userName_send, setUserName] = useState('Khung');
-  const [password_send, setPassword] = useState();
+  const [fullName, setFullName] = useState('Username');
+
 
   const toggleSidebar = () => {
     setIsSidebarCollapsed (!isSidebarCollapsed);
@@ -114,12 +114,6 @@ function App() {
     setShowSignUp(true);
     setShowLogIn(false);
   }
-
-  useEffect(() => {
-    // Xử lý các hành động sau khi userName_send được cập nhật
-    // alert(`uffect: ${userName_send}`);
-  }, [userName_send]); // useEffect này sẽ chạy mỗi khi userName_send thay đổi
-
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const logIn = (formData) => {
     axios.post('http://localhost:3001/login', formData)
@@ -151,12 +145,22 @@ function App() {
     window.location.href = 'http://localhost:3000/';
   }
 
-    useEffect(() => {
-      const loggedInStatus = localStorage.getItem('isLoggedIn');
-      if (loggedInStatus === 'true') {
-        setIsLoggedIn(true);
-      } 
-    }, []); 
+  useEffect(() => {
+    const loggedInStatus = localStorage.getItem('isLoggedIn');
+    if (loggedInStatus === 'true') {
+      setIsLoggedIn(true);
+      
+      axios.get(`http://localhost:3001/user/${localStorage.getItem('idUser')}`)
+      .then(response => {
+        const infoUser = response.data;
+        setFullName(infoUser.fullName);
+      })
+      .catch(error => {
+        console.error('error: ', error);
+        alert('loi cmnr');
+      })
+    } 
+  }, []); 
 
   return (
     <Router>
@@ -301,7 +305,7 @@ function App() {
                         <div className="one_username">
                           <div className="one_username_container">
                             <div className='one_noname' onClick={toggleDropDown}>
-                              <span className='name'>Lê Phương Thảo</span>
+                              <span className='name'>{fullName}</span>
                               <div className='one_avatar'>
                                 <img className='one_avatar_1' src={picTFBOYS} alt="" />
                               </div>
@@ -319,7 +323,7 @@ function App() {
                           <div className="one_username">
                             <div className="one_username_container">
                               <div className='one_noname' onClick={toggleDropDown}>
-                                <span>User</span>
+                                <span>{fullName}</span>
                                 <img src={user} alt="" />
                               </div>
                               {isOpenDropDown && (
@@ -341,7 +345,7 @@ function App() {
                         <Route path='/exchange' element={<Exchange/>}></Route>
                         <Route path='/lookup' element={<LookUp/>}></Route>
                         <Route path='/paper2/:id' element={<Paper/>}></Route>
-                        <Route path='/setting_profile/*' element={<Setting_Profile data={userName_send}/>}></Route>
+                        <Route path='/setting_profile/*' element={<Setting_Profile/>}></Route>
                       </Routes>
                     ) : (
                       <Routes>

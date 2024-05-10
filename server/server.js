@@ -43,7 +43,7 @@ app.post('/login', (req,res) =>{
     const {username,userpassword}=req.body;
     const query = 'select * from SignupLogIn WHERE username=? AND userpassword=?';
     
-    connection.query(query,[username,userpassword],(error,data)=>{
+    connection.query(query,[username,userpassword],(error,data) => {
         if (error) {
             console.error('Error querying database: ' + err.stack);
             return res.status(500).json({ error: 'Error querying database' });
@@ -52,7 +52,6 @@ app.post('/login', (req,res) =>{
             console.log('User found in database');
             const user = data[0];
             const token = jwt.sign({ username: user.username, userpassword:user.userpassword }, jwtSecretKey);
-            console.log("id User: ", user.id)
             res.status(200).json({ message: 'Success', token: token, idUser: user.id}); 
         } else {
             console.log('User not found in database');
