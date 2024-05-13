@@ -3,8 +3,8 @@ import './css/MyProfile.css'
 import ava from './pictures/tfboys.jpg';
 import axios from 'axios';
 
-function Setting_Profile() {
-  const [openStateEdit, setOpenStateEdit] =useState(false);
+function MyProfile() {
+  const [openStateEdit, setOpenStateEdit] = useState(false);
   const [updateFormProfile, setUpdateFormProfile] = useState({
     fullName: '',
     school: '',
@@ -215,4 +215,4 @@ function Setting_Profile() {
   )
 }
 
-export default Setting_Profile;
+export default MyProfile;

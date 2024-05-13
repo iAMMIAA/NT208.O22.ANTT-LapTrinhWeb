@@ -1,4 +1,4 @@
-import React from 'react';
+import {React, useEffect} from 'react';
 import './css/Exchange.css' 
 import tfboys from './pictures/tfboys.jpg';
 import ava1 from './pictures/ava1.jpg';
@@ -7,6 +7,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faForward, faBackward, faHome, faCommentMedical, faBell, faSearch, faGear, faRightFromBracket} from '@fortawesome/free-solid-svg-icons';
 
 function Exchange(){
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    })
     return(
         <div class="Exchange">
             <div className = "hello_theme">

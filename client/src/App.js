@@ -184,15 +184,15 @@ function App() {
                 <div className="list_menu">
                     <ul>
                       <li><Link to='/'>
-                        <FontAwesomeIcon icon={faHome} className='icon_left'/>
+                        <FontAwesomeIcon icon={faHome} className='icon_left'onClick={openItemMenu}/>
                         </Link>
                       </li>
                       <li><Link to='/exchange'>
-                        <FontAwesomeIcon icon={faCommentMedical} className='icon_left' /></Link></li>
+                        <FontAwesomeIcon icon={faCommentMedical} className='icon_left' onClick={openExchange}/></Link></li>
                       <li><Link to='/lookup'>
-                        <FontAwesomeIcon icon={faSearch} className='icon_left'/></Link></li>
+                        <FontAwesomeIcon icon={faSearch} className='icon_left' onClick={openLookUp}/></Link></li>
                       <li><Link to='/setting_profile'>
-                        <FontAwesomeIcon icon={faGear} className='icon_left'/></Link></li>
+                        <FontAwesomeIcon icon={faGear} className='icon_left' onClick={openSetting}/></Link></li>
                     </ul>
                 </div>
                 <div className='logout'>
@@ -324,7 +324,9 @@ function App() {
                             <div className="one_username_container">
                               <div className='one_noname' onClick={toggleDropDown}>
                                 <span>{fullName}</span>
-                                <img src={user} alt="" />
+                                <div className='one_avatar'>
+                                  <img className='one_avatar_1' src={user} alt="" />
+                                </div>
                               </div>
                               {isOpenDropDown && (
                               <div className='one_dropDown'>

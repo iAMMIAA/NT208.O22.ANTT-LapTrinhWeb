@@ -77,7 +77,7 @@ function Home() {
         axios.get(`http://localhost:3001/posts`)
             .then(Response => {
                 const data = Response.data;
-                setDailyPost(data);
+                if(data.length > 0) setDailyPost(data);
             })
             .catch(error => {
                 console.error("Error fetching posts: ", error);

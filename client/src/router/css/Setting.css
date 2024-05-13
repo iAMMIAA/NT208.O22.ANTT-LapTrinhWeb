@@ -1,11 +1,16 @@
 .setting{
     height: 100%;
     width: 100%;
-    margin: 0px;
-    padding: 0px;
-    background-color: #E8EAED;
-    font-family: 'Josefin Sans', sans-serif;
-    flex-direction: column;
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
+    padding: 50px 40px;
+}
+.test{
+    height: 100%;
+    width: 100%;
+}
+.setting_theme{
+    height: 50px;
+    display: flex;
+    font-size: 25px;
 }

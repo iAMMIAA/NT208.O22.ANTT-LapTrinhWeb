@@ -22,6 +22,14 @@ const connection = mysql.createConnection({
     database: 'DrugWeb'
 });
 
+// const connection = mysql.createConnection({
+//     host: 'medicaldb.mysql.database.azure.com',
+//     // port: '1433',
+//     user: 'nhom5',
+//     password: 'GROUP5.4321',
+//     database: 'DrugWeb'
+// });
+
 // SignUp
 app.post('/signup', (req, res) =>{
     console.log('iammia', req.body);

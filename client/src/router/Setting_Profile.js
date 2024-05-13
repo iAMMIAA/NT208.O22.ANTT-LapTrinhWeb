@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './css/Setting_Profile.css' 
 import { Link, Route, Routes } from 'react-router-dom';
 import MyProfile from './MyProfile';
 import Setting from './Setting';
 
 function Setting_Profile() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  })
   return (
       <div className='setting_profile'>
           <div className='left_setting_profile'>
