@@ -1,10 +1,34 @@
-const { Post } = require('../models/post.model');
+const { Exchange } = require('../models/exchange.model');
+const { ExchangeComment } = require('../models/comment.model');
 const { ValidationError } = require("sequelize");
 
 exports.create = async (req, res) => {
     try {
-        const data = await Post.create(req.body)
+        const { content } = req.body;
+        const data = await Exchange.create({content, createdBy: 1}) // FIXME: get userId from jwt token
         return res.status(200).send(data)
+    } catch (e) {
+        console.error(e);
+        if (e instanceof ValidationError) {
+            return res.status(400).send({
+                message: e.errors[0].message || e.message
+            })
+        }
+        return res.status(500).send({
+            message: e.message || 'Internal Server Error'
+        })
+    }
+}
+
+exports.update = async (req, res) => {
+    try {
+        const [count, rows] = await Exchange.update(req.body, {returning: true});
+        if (!count) {
+            return res.status(404).send({
+                message: 'Not Found',
+            })
+        }
+        return res.status(200).send(rows[0]);
     } catch (e) {
         console.error(e);
         if (e instanceof ValidationError) {
@@ -20,7 +44,7 @@ exports.create = async (req, res) => {
 
 exports.show = async (req, res) => {
     try {
-        const data = await Post.findByPk(req.params.id)
+        const data = await Exchange.findByPk(req.params.id)
         return res.status(200).send(data)
     } catch (e) {
         return res.status(500).send({
@@ -31,7 +55,9 @@ exports.show = async (req, res) => {
 
 exports.list = async (req, res) => {
     try {
-        const data = await Post.findAll()
+        const data = await Exchange.findAll({
+            include: ['user']
+        })
         return res.status(200).send(data)
     } catch (e) {
         return res.status(500).send({
@@ -43,7 +69,7 @@ exports.list = async (req, res) => {
 exports.createComment = async (req, res) => {
     try {
         const postId = req.params.id;
-        const data = await Comment.create({
+        const data = await ExchangeComment.create({
             postId,
             userId: 1, // TODO: get userId từ jwt token
             content: req.body.content,

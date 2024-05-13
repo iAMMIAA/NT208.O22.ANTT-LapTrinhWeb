@@ -1,7 +1,7 @@
 'use strict';
 
 const {DataTypes} = require("sequelize");
-const TABLE_NAME = 'Posts';
+const TABLE_NAME = 'Exchanges';
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
     async up(queryInterface, Sequelize) {

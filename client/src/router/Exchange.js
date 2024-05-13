@@ -1,6 +1,5 @@
-import {useEffect} from 'react';
-import './css/Exchange.css' 
-import tfboys from './pictures/tfboys.jpg';
+import {useEffect, useState} from 'react';
+import './css/Exchange.css'
 import ava1 from './pictures/ava1.jpg';
 import ava2 from './pictures/ava2.jpg';
 import ava3 from './pictures/ava3.jpg';

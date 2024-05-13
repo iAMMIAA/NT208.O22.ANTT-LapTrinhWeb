@@ -1,8 +1,10 @@
 const { DataTypes } = require("sequelize");
 const { sequelize } = require('./base.model');
+const { ExchangeComment } = require('./comment.model');
+const {User} = require("./user.model");
 
 
-exports.Post = sequelize.define('Posts', {
+const Exchange = sequelize.define('Exchanges', {
     id: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
@@ -14,6 +16,11 @@ exports.Post = sequelize.define('Posts', {
         allowNull: false,
     },
     likeNumber: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+    },
+    shareNumber: {
         type: DataTypes.INTEGER,
         allowNull: false,
         defaultValue: 0,
@@ -30,3 +37,18 @@ exports.Post = sequelize.define('Posts', {
         type: DataTypes.DATE,
     }
 });
+
+Exchange.hasMany(ExchangeComment, {
+    foreignKey: 'exchangeId',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+    as: 'comments',
+})
+
+Exchange.belongsTo(User, {
+    foreignKey: 'createdBy',
+    targetKey: 'id',
+    as: 'user',
+})
+
+exports.Exchange = Exchange;

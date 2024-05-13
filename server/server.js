@@ -5,7 +5,7 @@ const multer = require('multer'); // Thư viện multer để xử lý dữ li�
 const { spawn } = require('child_process');
 const mysql = require('mysql2');
 const jwt = require('jsonwebtoken');
-const { create, show, list, createComment } = require('./src/controllers/post.controller')
+const { create, show, list, createComment, update } = require('./src/controllers/post.controller')
 const {APP_DB} = require("./src/config");
 
 const app = express();
@@ -255,10 +255,11 @@ app.get('/user/:idUser', (req, res) => {
     })
 })
 
-app.get('/posts', list)
-app.post('/posts', create)
-app.get('/posts/:id', show)
-app.post('/posts/:id/comment', createComment)
+app.get('/exchanges', list)
+app.post('/exchanges', create)
+app.get('/exchanges/:id', show)
+app.patch('/exchanges/:id', update)
+app.post('/exchanges/:id/comment', createComment)
 
 // Khởi động server
 app.listen(port, () => {

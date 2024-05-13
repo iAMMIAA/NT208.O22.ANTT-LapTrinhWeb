@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const { sequelize } = require('./base.model');
 
-exports.Comment = sequelize.define('Comments', {
+exports.ExchangeComment = sequelize.define('ExchangeComments', {
     id: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,

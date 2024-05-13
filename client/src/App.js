@@ -114,7 +114,7 @@ function App() {
     setShowSignUp(true);
     setShowLogIn(false);
   }
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const logIn = (formData) => {
     axios.post('http://localhost:3001/login', formData)
         .then(response => {
