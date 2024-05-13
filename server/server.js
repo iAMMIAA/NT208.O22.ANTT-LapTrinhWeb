@@ -6,6 +6,7 @@ const { spawn } = require('child_process');
 const mysql = require('mysql2');
 const jwt = require('jsonwebtoken');
 const { create, show, list, createComment } = require('./src/controllers/post.controller')
+const {APP_DB} = require("./src/config");
 
 const app = express();
 const port = 3001;
@@ -14,11 +15,11 @@ app.use(cors()); //su dung CORS
 app.use(bodyParser.json()); // Middleware để phân tích dữ liệu JSON từ client
 
 const connection = mysql.createConnection({
-    host: 'localhost',
+    host: APP_DB.host || 'localhost',
     port: '3306',
-    user: 'root',
-    password: '12345678',
-    database: 'db_ttruc'
+    user: APP_DB.username || 'root',
+    password: APP_DB.password || '12345678',
+    database: APP_DB.database || 'db_ttruc'
 });
 
 // const connection = mysql.createConnection({
