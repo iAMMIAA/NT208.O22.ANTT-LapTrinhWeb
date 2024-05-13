@@ -2,36 +2,28 @@ import React, {useState, useEffect} from 'react';
 import './css/App.css'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faForward, faBackward, faHome, faCommentMedical, faBell, faSearch, faGear, faRightFromBracket} from '@fortawesome/free-solid-svg-icons';
-
+import { faBars, faForward, faBackward, faHome, faCommentMedical, faBell, faSearch, faGear, faRightFromBracket} from '@fortawesome/free-solid-svg-icons';
 import { BrowserRouter as Router, Link, Route, Routes } from 'react-router-dom';
 import picTFBOYS from './router/pictures/tfboys.jpg'
 import user from './router/pictures/user.png'
 import Home from './router/Home';
 import Exchange from './router/Exchange';
 import LookUp from './router/LookUp';
-import Setting from './router/Setting';
-import Profile from './router/MyProfile';
+import Setting_Profile from './router/Setting_Profile';
 import LogIn from './LogIn-SignUp/LogIn';
 import SignUp from './LogIn-SignUp/SignUp';
-import Paper1 from './router/paper/paper1';
-import Paper2 from './router/paper/paper2';
+import Paper from './router/paper/paper2';
 import picRound from './router/pictures/round.png';
 import axios from 'axios';
-import drug2 from './router/pictures/drug2.png'
-import drug3 from './router/pictures/drug3.png'
-import drug4 from './router/pictures/drug4.png'
-import drug5 from './router/pictures/drug5.jpg'
-import drug6 from './router/pictures/drug6.jpg'
-import drug7 from './router/pictures/drug7.jpg'
-import drug8 from './router/pictures/drug8.png'
-import drug9 from './router/pictures/drug9.jpg'
-import drug10 from './router/pictures/drug10.png'
-import drug11 from './router/pictures/drug11.png'
+// import logo from './logo/theme3.png'
 import logo from './logo/logo5.png'
 
 function App() {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [fixPositionScroll, setFixPositionScroll] = useState();
+  const [fullName, setFullName] = useState('Username');
+
+
   const toggleSidebar = () => {
     setIsSidebarCollapsed (!isSidebarCollapsed);
   }
@@ -66,6 +58,40 @@ function App() {
     setIsOpenSetting(false);
   }
 
+  const [isOpenMenu, setIsOpenMenu] = useState(false);
+  const openMenu = () => {
+    setIsOpenMenu(true);
+  }
+  // Hàm để xử lý việc thiết lập isOpenMenu dựa trên độ dài màn hình
+  const handleWindowSizeChange = () => {
+    if (window.innerWidth >= 930) {
+      setIsOpenMenu(true);
+    } else {
+      setIsOpenMenu(false);
+    }
+  };
+  const handleFixPositionScroll = () => {
+    if (window.scrollY > 0) setFixPositionScroll(true);
+    else setFixPositionScroll(false);
+}
+
+  // Sử dụng useEffect để đăng ký sự kiện thay đổi kích thước cửa sổ
+  useEffect(() => {
+    // Gọi hàm handleWindowSizeChange khi component được render lại
+    handleWindowSizeChange();
+
+    // Đăng ký sự kiện
+    window.addEventListener('resize', handleWindowSizeChange);
+    window.addEventListener('scroll', handleFixPositionScroll);
+
+    // Xóa sự kiện
+    return () => {
+      window.removeEventListener('resize', handleWindowSizeChange);
+      window.removeEventListener('scroll', handleFixPositionScroll);
+    };
+
+  }, []);
+
   const [isOpenDropDown, setIsOpenDropDown] = useState(false);
   const toggleDropDown = () =>{
     setIsOpenDropDown(!isOpenDropDown);
@@ -88,16 +114,21 @@ function App() {
     setShowSignUp(true);
     setShowLogIn(false);
   }
-
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const logIn = (formData) => {
     axios.post('http://localhost:3001/login', formData)
         .then(response => {
-          const {message, token} = response.data;
+          // var data = response.data;
+          // alert(`${data}`);
+          const {message, token, idUser} = response.data;
           if(message === 'Success' && token)
             {
               localStorage.setItem('isLoggedIn', 'true');
               localStorage.setItem('token', token);
+              localStorage.setItem('idUser', idUser);
+              // setUserName(formData.username);
+              // setPassword(formData.userpassword);
+              // alert(`${formData.username}`);
             }
         })
         .catch(error => {
@@ -108,17 +139,28 @@ function App() {
   const logOut = () => {
     localStorage.removeItem('isLoggedIn');
     localStorage.removeItem('token');
+    localStorage.removeItem('idUser');
 
     // Tải lại trang
     window.location.href = 'http://localhost:3000/';
   }
 
-    useEffect(() => {
-      const loggedInStatus = localStorage.getItem('isLoggedIn');
-      if (loggedInStatus === 'true') {
-        setIsLoggedIn(true);
-      } 
-    }, []); 
+  useEffect(() => {
+    const loggedInStatus = localStorage.getItem('isLoggedIn');
+    if (loggedInStatus === 'true') {
+      setIsLoggedIn(true);
+
+      axios.get(`http://localhost:3001/user/${localStorage.getItem('idUser')}`)
+      .then(response => {
+        const infoUser = response.data;
+        setFullName(infoUser.fullName);
+      })
+      .catch(error => {
+        console.error('error: ', error);
+        alert('loi cmnr');
+      })
+    }
+  }, []);
 
   return (
     <Router>
@@ -130,7 +172,8 @@ function App() {
             <SignUp closeSignUp={()=>setShowSignUp(false)} openLogIn={setShowLogInForm}/>
         )}
         <div className="container_web">
-          <div className={`layout_left ${isSidebarCollapsed ? 'active' : ''}`}>
+          {isOpenMenu && (
+            <div className={`layout_left ${isSidebarCollapsed ? 'active' : ''}`}>
               <div className={`left_first ${isSidebarCollapsed ? 'active' : ''}`}>
                 <div className="header_menu">
                   <div className='logo_web'>
@@ -141,15 +184,15 @@ function App() {
                 <div className="list_menu">
                     <ul>
                       <li><Link to='/'>
-                        <FontAwesomeIcon icon={faHome} className='icon_left'/>
+                        <FontAwesomeIcon icon={faHome} className='icon_left'onClick={openItemMenu}/>
                         </Link>
                       </li>
                       <li><Link to='/exchange'>
-                        <FontAwesomeIcon icon={faCommentMedical} className='icon_left' /></Link></li>
+                        <FontAwesomeIcon icon={faCommentMedical} className='icon_left' onClick={openExchange}/></Link></li>
                       <li><Link to='/lookup'>
-                        <FontAwesomeIcon icon={faSearch} className='icon_left'/></Link></li>
-                      <li><Link to='/setting'>
-                        <FontAwesomeIcon icon={faGear} className='icon_left'/></Link></li>
+                        <FontAwesomeIcon icon={faSearch} className='icon_left' onClick={openLookUp}/></Link></li>
+                      <li><Link to='/setting_profile'>
+                        <FontAwesomeIcon icon={faGear} className='icon_left' onClick={openSetting}/></Link></li>
                     </ul>
                 </div>
                 <div className='logout'>
@@ -180,7 +223,7 @@ function App() {
                         </Link>
                       </li>
                       <li className={`itemMenu ${isOpenSetting ? 'active' : ''}`}>
-                        <Link className='text_left' to='/setting' onClick={openSetting}>
+                        <Link className='text_left' to='/setting_profile' onClick={openSetting}>
                           <span>SETTING</span>
                         </Link>
                       </li>
@@ -200,114 +243,126 @@ function App() {
                   <FontAwesomeIcon className='left_icon' onClick={toggleSidebar} icon={faBackward}/>
                 )}
               </div>
-
             </div>
+          )}
+
             <div className={`layout_main ${isSidebarCollapsed ? 'active': ''}`}>
                 <div className="main_container">
-                  <div className="main_one">
-                      <div className="one_find">
-                        <form className="search_form" action="/search" method="GET">
-                            <FontAwesomeIcon icon={faSearch} style={{ color: 'rgb(70, 90, 110)' }} />
-                            <label htmlFor="searchInput"></label>
-                            <input className="search_input" type="text" id="searchInput" name="q" placeholder="Tìm kiếm" />
-                        </form>
-                      </div>
-                      <div className="one_notification">
-                        <div className='icon_notification' onClick={toggleNotification}>
-                          <FontAwesomeIcon icon={faBell} className='icon_notification'/>
+                  <div className={fixPositionScroll ? 'fixed_main_one':'main_one'}>
+                    <div className='main_one_container'>
+                        <div className='one_menu'>
+                            <FontAwesomeIcon className='icon_bars' icon={faBars} onClick={openMenu}/>
                         </div>
-                        {isLoggedIn && isOpenNotification && (
-                          <div className='form_notification'>
-                            <div className='notif_one_user'>
-                              <img src={picRound}></img>
-                              <div className='notifi_infomation'>
-                                <h5 className='notif_userName_1'>iAMMIA</h5>
-                                <p className='notif_userName_2'>framddddlpoukuhgruummmmme_get_notiffuck</p>
-                              </div>
-                            </div>
-                            <div className='notif_one_user'>
-                              <img src={picRound}></img>
-                              <div className='notifi_infomation'>
-                                <h5 className='notif_userName_1'>iAMMIA</h5>
-                                <p className='notif_userName_2'>framddddlpoukuhgruummmmme_get_notiffuck</p>
-                              </div>
-                            </div>
-                            <div className='notif_one_user'>
-                              <img src={picRound}></img>
-                              <div className='notifi_infomation'>
-                                <h5 className='notif_userName_1'>iAMMIA</h5>
-                                <p className='notif_userName_2'>framddddlpoukuhgruummmmme_get_notiffuck</p>
-                              </div>
-                            </div>
-                            <div className='notif_one_user'>
-                              <img src={picRound}></img>
-                              <div className='notifi_infomation'>
-                                <h5 className='notif_userName_1'>iAMMIA</h5>
-                                <p className='notif_userName_2'>framddddlpoukuhgruummmmme_get_notiffuck</p>
-                              </div>
-                            </div>
-                            <div className='notif_one_user'>
-                              <img src={picRound}></img>
-                              <div className='notifi_infomation'>
-                                <h5 className='notif_userName_1'>iAMMIA</h5>
-                                <p className='notif_userName_2'>framddddlpoukuhgruummmmme_get_notiffuck</p>
-                              </div>
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                      {isLoggedIn ? (
-                        <div className="one_username">
-                        <div className="one_username_container">
-                          <div className='one_noname' onClick={toggleDropDown}>
-                            <span>Lê Phương Thảo</span>
-                            <img src={picTFBOYS} alt="" />
-                          </div>
-                          {isOpenDropDown && (
-                          <div className='one_dropDown'>
-                            <Link className='one_link_dropdown' to="/profile">My Profile</Link>
-                            <Link className='one_link_dropdown' to="/setting" >Setting</Link>
-                            <Link onClick={logOut} className='one_link_dropdown'>Log Out</Link>
-                          </div>
-                        )}
+                        <div className="one_find">
+                          <form className="search_form" action="/search" method="GET">
+                              <FontAwesomeIcon className='icon_search' icon={faSearch}/>
+                              <input className="search_input" type="text" id="searchInput" name="q" placeholder="Tìm kiếm" />
+                          </form>
                         </div>
-                      </div>
-                      ) : (
+                        <div className="one_notification">
+                          <FontAwesomeIcon className='round_icon_notification' icon={faBell} onClick={toggleNotification}/>
+                          {isLoggedIn && isOpenNotification && (
+                            <div className='form_notification'>
+                              <div className='notif_one_user'>
+                                <img src={picRound}></img>
+                                <div className='notifi_infomation'>
+                                  <h5 className='notif_userName_1'>iAMMIA</h5>
+                                  <p className='notif_userName_2'>framddddlpoukuhgruummmmme_get_notiffuck</p>
+                                </div>
+                              </div>
+                              <div className='notif_one_user'>
+                                <img src={picRound}></img>
+                                <div className='notifi_infomation'>
+                                  <h5 className='notif_userName_1'>iAMMIA</h5>
+                                  <p className='notif_userName_2'>framddddlpoukuhgruummmmme_get_notiffuck</p>
+                                </div>
+                              </div>
+                              <div className='notif_one_user'>
+                                <img src={picRound}></img>
+                                <div className='notifi_infomation'>
+                                  <h5 className='notif_userName_1'>iAMMIA</h5>
+                                  <p className='notif_userName_2'>framddddlpoukuhgruummmmme_get_notiffuck</p>
+                                </div>
+                              </div>
+                              <div className='notif_one_user'>
+                                <img src={picRound}></img>
+                                <div className='notifi_infomation'>
+                                  <h5 className='notif_userName_1'>iAMMIA</h5>
+                                  <p className='notif_userName_2'>framddddlpoukuhgruummmmme_get_notiffuck</p>
+                                </div>
+                              </div>
+                              <div className='notif_one_user'>
+                                <img src={picRound}></img>
+                                <div className='notifi_infomation'>
+                                  <h5 className='notif_userName_1'>iAMMIA</h5>
+                                  <p className='notif_userName_2'>framddddlpoukuhgruummmmme_get_notiffuck</p>
+                                </div>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                        {isLoggedIn ? (
                         <div className="one_username">
                           <div className="one_username_container">
                             <div className='one_noname' onClick={toggleDropDown}>
-                              <span>User</span>
-                              <img src={user} alt="" />
+                              <span className='name'>{fullName}</span>
+                              <div className='one_avatar'>
+                                <img className='one_avatar_1' src={picTFBOYS} alt="" />
+                              </div>
                             </div>
                             {isOpenDropDown && (
                             <div className='one_dropDown'>
-                              <Link className='one_link_dropdown' onClick={setShowLogInForm} >Log In</Link>
-                              <Link className='one_link_dropdown' onClick={setShowSignUpForm}>Sign Up</Link>
+                              <Link className='one_link_dropdown' to="/setting_profile">My Profile</Link>
+                              <Link className='one_link_dropdown' to="/setting_profile/setting" >Setting</Link>
+                              <Link onClick={logOut} className='one_link_dropdown'>Log Out</Link>
                             </div>
                           )}
                           </div>
                         </div>
-                      )}
+                        ) : (
+                          <div className="one_username">
+                            <div className="one_username_container">
+                              <div className='one_noname' onClick={toggleDropDown}>
+                                <span>{fullName}</span>
+                                <div className='one_avatar'>
+                                  <img className='one_avatar_1' src={user} alt="" />
+                                </div>
+                              </div>
+                              {isOpenDropDown && (
+                              <div className='one_dropDown'>
+                                <Link className='one_link_dropdown' onClick={setShowLogInForm} >Log In</Link>
+                                <Link className='one_link_dropdown' onClick={setShowSignUpForm}>Sign Up</Link>
+                              </div>
+                            )}
+                            </div>
+                          </div>
+                        )}
+                    </div>
                   </div>
 
-                  <div className='main_router'>
+                  <div className={fixPositionScroll ? 'fixed_main_router':'main_router'}>
                     {isLoggedIn ? (
                       <Routes>
                         <Route path="/" exact element={<Home/>}></Route>
                         <Route path='/exchange' element={<Exchange/>}></Route>
                         <Route path='/lookup' element={<LookUp/>}></Route>
-                        <Route path='/setting' element={<Setting/>}></Route>
-                        <Route path='/profile' element={<Profile/>}></Route>
-                        <Route path='/paper' element={<Paper1/>}></Route>
-                        <Route path='/paper2' element={<Paper2/>}></Route>
+                        <Route path='/paper2/:id' element={<Paper/>}></Route>
+                        <Route path='/setting_profile/*' element={<Setting_Profile/>}></Route>
                       </Routes>
                     ) : (
                       <Routes>
                         <Route path="/" exact element={<Home/>}></Route>
-                        <Route path='/paper' element={<Paper1/>}></Route>
-                        <Route path='/paper2' element={<Paper2/>}></Route>
+                        <Route path='/paper2/:id' element={<Paper/>}></Route>
                       </Routes>
                     )}
+                  </div>
+
+                  <div className='footer_web_site'>
+                    <div className='footer_header'>
+                      <img src={logo}></img>
+                      <h2 style={{marginLeft: '10px'}}>MedicalWeb.</h2>
+                    </div>
+                    <p><strong>Made by GroupFive</strong></p>
                   </div>
                 </div>
             </div>

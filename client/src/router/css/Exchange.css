@@ -9,8 +9,8 @@
     font-weight: bold;
     font-size: 20px;
     margin-top: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);  
-    color: #37537B; 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    color: #37537B;
     
     .btn-question{
         padding: 10px;
@@ -35,7 +35,7 @@
     overflow-y: auto;
     max-height: 80%;
     height: 80%;
-    
+
 }
 .post{
     background-color: white;
@@ -62,7 +62,7 @@
     display: flex;
     align-items: center;
     gap: 10px;
-           
+
 }
 .post-user-avatar{
     height: 50px;
@@ -80,19 +80,19 @@
     .post-user-name{
         font-weight: bold;
     }
-    
+
     .post-user-time{
         font-size: 12px;
     }
-}     
+}
 .post-action{
     padding: 10px;
     border-top: 1.5px solid rgba(181, 177, 177, 50%);
     display: flex;
     gap:10px;
-             
+
 }
 .icon{
     height: 20px;
     width:  20px;
-}   
+}

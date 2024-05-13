@@ -1,46 +1,33 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './css/Setting.css' 
-
+import ava from './pictures/tfboys.jpg';
+import axios from 'axios';
+import { faCircleHalfStroke, faLanguage, faHistory, faDashboard} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleHalfStroke, faUser, faGlobe,faLock, faCircleQuestion, faCircleInfo, faChevronRight} from '@fortawesome/free-solid-svg-icons';
-
 
 function Setting() {
-  return (
-    <div className='settings'>
-        <div className="set">
-          <h1 className='title'> Setting</h1>
-            <div className='function'>
-              <FontAwesomeIcon className="imgset" icon={faCircleHalfStroke} />
-              <h3 className='text'> Dark Mode</h3>
-              <FontAwesomeIcon className="imgset1" icon={faChevronRight} />
-            </div>
-            <div className='function'>
-              <FontAwesomeIcon className="imgset" icon={faGlobe} />
-              <h3 className='text'> Change Language</h3>
-              <FontAwesomeIcon className="imgset1" icon={faChevronRight} />
-            </div>
 
-            <div className='function'>
-              <FontAwesomeIcon className="imgset" icon={faLock} />
-              <h3 className='text'> Change Password</h3>
-              <FontAwesomeIcon className="imgset1" icon={faChevronRight} />
-            </div>
-
-            <div className='function'>
-              <FontAwesomeIcon className="imgset" icon={faCircleQuestion} />
-              <h3 className='text'> Feedback</h3>
-              <FontAwesomeIcon className="imgset1" icon={faChevronRight} />
-            </div>
-
-            <div className='function'>
-              <FontAwesomeIcon className="imgset" icon={faCircleInfo} />
-              <h3 className='text'> About</h3>
-              <FontAwesomeIcon className="imgset1" icon={faChevronRight} />
-            </div>
-
+  return (    
+    <div className='setting'>
+      <div className='setting_theme'>
+        <span>Cài đặt trang web</span>
+      </div>
+      <div className='setting_container'>
+        <div>
+          <p><FontAwesomeIcon icon={faCircleHalfStroke}/> Giao diện</p>
         </div>
+        <div>
+          <p><FontAwesomeIcon icon={faLanguage}/> Chuyển đổi ngôn ngữ</p>
+        </div>
+        <p><FontAwesomeIcon icon={faHistory}/> Xem các bài viết hỏi đáp</p>
+        <p style={{color: 'red'}}>Xóa tài khoản</p>
+      </div>
+      <div className='my_profile_btn_edit'>
+        <button>Lưu</button>
+      </div>   
     </div>
+    
+
   )
 }
 

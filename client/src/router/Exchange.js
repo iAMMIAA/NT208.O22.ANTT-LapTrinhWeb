@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import {useEffect} from 'react';
 import './css/Exchange.css' 
 import tfboys from './pictures/tfboys.jpg';
 import ava1 from './pictures/ava1.jpg';
@@ -9,6 +9,9 @@ import { faHeart, faComment, faBookmark } from '@fortawesome/free-regular-svg-ic
 import PostPopup from './PopupPost.js';
 
 function Exchange(){
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    })
     const [open, setOpen] = useState(false)
     return(
         <div class="Exchange">
@@ -16,7 +19,7 @@ function Exchange(){
                 <span>Xin chào Lê Phương Thảo!</span>
                 <div className='upload-question'>
                     <button className='btn-question' onClick={()=> setOpen(true)}>Câu hỏi của bạn....</button>
-                    
+
                 </div>
             </div>
             <h6 className='exchange_title'>Những bài đăng gần đây:</h6>
@@ -38,7 +41,7 @@ function Exchange(){
                             <div className="comment">5 bình luận</div>
                         </div>
                     </div>
-                    <div class= 'post-action'> 
+                    <div class= 'post-action'>
                         <FontAwesomeIcon icon={faHeart} className='icon'/>
                         <FontAwesomeIcon icon={faComment} className='icon' />
                         <FontAwesomeIcon icon={faBookmark} className='icon' />
@@ -65,7 +68,7 @@ function Exchange(){
                         <FontAwesomeIcon icon={faHeart} className='icon'/>
                         <FontAwesomeIcon icon={faComment} className='icon' />
                         <FontAwesomeIcon icon={faBookmark} className='icon' />
-                    </div>  
+                    </div>
                 </div>
                 <div className = "post">
                     <div className='post-content'>
@@ -89,10 +92,10 @@ function Exchange(){
                         <FontAwesomeIcon icon={faComment} className='icon' />
                         <FontAwesomeIcon icon={faBookmark} className='icon' />
                     </div>
-                </div> 
+                </div>
             </div>
-            <PostPopup open={open} onClose={() => setOpen(false)} />                 
-        </div>    
+            <PostPopup open={open} onClose={() => setOpen(false)} />
+        </div>
     )
 }
 
