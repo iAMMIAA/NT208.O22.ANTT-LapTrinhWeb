@@ -126,6 +126,7 @@ function App() {
               localStorage.setItem('isLoggedIn', 'true');
               localStorage.setItem('token', token);
               localStorage.setItem('idUser', idUser);
+              axios.defaults.headers.common.Authorization = `Bearer ${token}`;
               // setUserName(formData.username);
               // setPassword(formData.userpassword);
               // alert(`${formData.username}`);

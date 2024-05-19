@@ -8,7 +8,7 @@ exports.ExchangeComment = sequelize.define('ExchangeComments', {
         primaryKey: true,
         allowNull: false,
     },
-    postId: {
+    exchangeId: {
         type: DataTypes.UUID,
         allowNull: false,
         references: {

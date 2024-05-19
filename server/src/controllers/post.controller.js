@@ -1,6 +1,6 @@
 const { Exchange } = require('../models/exchange.model');
 const { ExchangeComment } = require('../models/comment.model');
-const { ValidationError } = require("sequelize");
+const { ValidationError, fn} = require("sequelize");
 const {ExchangeLike} = require("../models/like.model");
 
 exports.create = async (req, res) => {
@@ -57,7 +57,8 @@ exports.show = async (req, res) => {
 exports.list = async (req, res) => {
     try {
         const data = await Exchange.findAll({
-            include: ['user']
+            include: ['user'],
+            order: [['createdAt', 'DESC']]
         })
         return res.status(200).send(data)
     } catch (e) {
@@ -117,6 +118,21 @@ exports.like = async (req, res) => {
         });
         return res.status(200).send(data)
     } catch (e) {
+        return res.status(500).send({
+            message: e.message || 'Internal Server Error'
+        })
+    }
+}
+
+exports.countComment = async (req, res) => {
+    try {
+        const data = await ExchangeComment.findAll({
+            group: ['exchangeId'],
+            attributes: ['exchangeId', [fn('COUNT', 'exchangeId'), 'value']],
+        })
+        return res.status(200).send(data)
+    } catch (e) {
+        console.log('error', e)
         return res.status(500).send({
             message: e.message || 'Internal Server Error'
         })
