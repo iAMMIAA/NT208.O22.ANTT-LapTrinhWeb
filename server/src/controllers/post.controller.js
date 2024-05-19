@@ -96,6 +96,11 @@ exports.like = async (req, res) => {
 
         if (like) {
             await like.destroy();
+            await Exchange.update({
+                likeNumber: Exchange.sequelize.literal('likeNumber - 1')
+            }, {
+                where: {id: postId}
+            });
             return res.status(200).send({
                 message: 'Unlike successfully'
             })
@@ -105,6 +110,11 @@ exports.like = async (req, res) => {
             postId,
             userId: 1, // TODO: get userId từ jwt token
         })
+        await Exchange.update({
+            likeNumber: Exchange.sequelize.literal('likeNumber + 1')
+        }, {
+            where: {id: postId}
+        });
         return res.status(200).send(data)
     } catch (e) {
         return res.status(500).send({
