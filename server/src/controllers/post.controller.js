@@ -1,6 +1,7 @@
 const { Exchange } = require('../models/exchange.model');
 const { ExchangeComment } = require('../models/comment.model');
 const { ValidationError } = require("sequelize");
+const {ExchangeLike} = require("../models/like.model");
 
 exports.create = async (req, res) => {
     try {
@@ -73,6 +74,36 @@ exports.createComment = async (req, res) => {
             postId,
             userId: 1, // TODO: get userId từ jwt token
             content: req.body.content,
+        })
+        return res.status(200).send(data)
+    } catch (e) {
+        return res.status(500).send({
+            message: e.message || 'Internal Server Error'
+        })
+    }
+}
+
+exports.like = async (req, res) => {
+    try {
+        const postId = req.params.id;
+        const like = await ExchangeLike.findOne({
+            where: {
+                postId,
+                userId: 1, // TODO: get userId từ jwt token
+            },
+            attributes: ['id'],
+        })
+
+        if (like) {
+            await like.destroy();
+            return res.status(200).send({
+                message: 'Unlike successfully'
+            })
+        }
+
+        const data = await ExchangeLike.create({
+            postId,
+            userId: 1, // TODO: get userId từ jwt token
         })
         return res.status(200).send(data)
     } catch (e) {
