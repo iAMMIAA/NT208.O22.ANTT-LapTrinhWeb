@@ -1,7 +1,8 @@
 const { DataTypes } = require("sequelize");
 const { sequelize } = require('./base.model');
+const {User} = require("./user.model");
 
-exports.ExchangeComment = sequelize.define('ExchangeComments', {
+const ExchangeComment = sequelize.define('ExchangeComments', {
     id: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
@@ -22,7 +23,7 @@ exports.ExchangeComment = sequelize.define('ExchangeComments', {
         type: DataTypes.INTEGER,
         allowNull: false
     },
-    content: {
+    contentComment: {
         type: DataTypes.TEXT,
         allowNull: false
     },
@@ -35,3 +36,11 @@ exports.ExchangeComment = sequelize.define('ExchangeComments', {
         type: DataTypes.DATE,
     }
 });
+
+ExchangeComment.belongsTo(User, {
+    foreignKey: 'userId',
+    targetKey: 'id',
+    as: 'user',
+})
+
+exports.ExchangeComment = ExchangeComment;

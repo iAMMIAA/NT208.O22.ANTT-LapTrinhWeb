@@ -5,7 +5,7 @@ const multer = require('multer'); // Thư viện multer để xử lý dữ li�
 const { spawn } = require('child_process');
 const mysql = require('mysql2');
 const jwt = require('jsonwebtoken');
-const { create, show, list, createComment, update, like, countComment } = require('./src/controllers/post.controller')
+const { create, show, list, createComment, update, like, countComment, getComments } = require('./src/controllers/post.controller')
 const {APP_DB} = require("./src/config");
 
 const app = express();
@@ -59,7 +59,7 @@ app.post('/login', (req, res) => {
         if (data.length > 0) {
             console.log('User found in database');
             const user = data[0];
-            const token = jwt.sign({ username: user.username, userpassword:user.userpassword }, jwtSecretKey);
+            const token = jwt.sign({ userId: user.id, username: user.username, userpassword:user.userpassword }, jwtSecretKey);
             res.status(200).json({ message: 'Success', token: token, idUser: user.id});
         } else {
             console.log('User not found in database');
@@ -259,7 +259,8 @@ app.get('/exchanges', list)
 app.post('/exchanges', create)
 app.get('/exchanges/:id', show)
 app.patch('/exchanges/:id', update)
-app.post('/exchanges/:id/comment', createComment)
+app.get('/exchanges/:id/comments', getComments)
+app.post('/exchanges/:id/comments', createComment)
 app.post('/exchanges/:id/like', like)
 app.get('/comments/count', countComment)
 

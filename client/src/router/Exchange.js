@@ -11,6 +11,7 @@ import {likeExchange, useCountComment, useGetExchangeList} from "../api/exchange
 import TimeAgo from "../components/TimeAgo";
 import {Avatar} from "@mui/material";
 import {createExchange} from "../api/exchange.api";
+import CommentPopup from "./PopupComment";
 
 function Exchange(){
     const {data, mutate} = useGetExchangeList();
@@ -31,7 +32,7 @@ function Exchange(){
                 if (item.id === exchangeId) {
                   return {
                     ...item,
-                    likeNumber: item.likeNumber + 1,
+                    likeNumber: item.like.length > 0 ? item.likeNumber - 1 : item.likeNumber + 1,
                     like: item.like.length > 0 ? []: [newData],
                   }
                 }
@@ -46,6 +47,13 @@ function Exchange(){
     }
 
     const [open, setOpen] = useState(false)
+    const [openComment, setOpenComment] = useState(false)
+    const [exchangeId, setExchangeId] = useState(false)
+
+    const handleClickComment = (exchangeId) => {
+      setExchangeId(exchangeId);
+      setOpenComment(true);
+    }
     return(
         <div className="Exchange">
             <div className = "hello_theme">
@@ -78,8 +86,8 @@ function Exchange(){
                       </div>
                       <div className='post-action'>
                           <FontAwesomeIcon icon={post.like.length > 0 ? faHeartSolid : faHeart} color={post.like.length > 0 ? 'red' : ''} className='icon' onClick={() => like(post.id)}/>
-                          <FontAwesomeIcon icon={faComment} className='icon'/>
-                          <FontAwesomeIcon icon={faBookmark} className='icon'/>
+                          <FontAwesomeIcon icon={faComment} className='icon' onClick={() => handleClickComment(post.id)}/>
+                          {/*<FontAwesomeIcon icon={faBookmark} className='icon'/>*/}
                       </div>
                   </div>
                 ))}
@@ -88,6 +96,7 @@ function Exchange(){
               await createExchange(content);
               await mutate();
             }} />
+            <CommentPopup open={openComment} onClose={() => setOpenComment(false)} exchangeId={exchangeId} />
         </div>
     )
 }

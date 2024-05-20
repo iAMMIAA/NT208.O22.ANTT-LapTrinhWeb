@@ -75,14 +75,16 @@ exports.list = async (req, res) => {
 
 exports.createComment = async (req, res) => {
     try {
-        const postId = req.params.id;
+        const exchangeId = req.params.id;
         const data = await ExchangeComment.create({
-            postId,
+            exchangeId,
             userId: 1, // TODO: get userId từ jwt token
-            content: req.body.content,
+            contentComment: req.body.content,
         })
-        return res.status(200).send(data)
+        const user = await data.getUser();
+        return res.status(200).send({...data.dataValues, user})
     } catch (e) {
+        console.log('error', e)
         return res.status(500).send({
             message: e.message || 'Internal Server Error'
         })
@@ -138,6 +140,20 @@ exports.countComment = async (req, res) => {
         return res.status(200).send(data)
     } catch (e) {
         console.log('error', e)
+        return res.status(500).send({
+            message: e.message || 'Internal Server Error'
+        })
+    }
+}
+
+exports.getComments = async (req, res) => {
+    try {
+        const data = await ExchangeComment.findAll({
+            where: {exchangeId: req.params.id},
+            include: ['user'],
+        })
+        return res.status(200).send(data)
+    } catch (e) {
         return res.status(500).send({
             message: e.message || 'Internal Server Error'
         })

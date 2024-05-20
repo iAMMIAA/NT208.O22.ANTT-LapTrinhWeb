@@ -45,3 +45,22 @@ export function createExchange(content) {
 export function likeExchange(exchangeId) {
   return axiosInstance.post(`${endpoints.exchange.like(exchangeId)}`);
 }
+
+export function useGetCommentList(exchangeId) {
+  const URL = endpoints.exchange.comment(exchangeId);
+  const { data, isLoading, isValidating, error, mutate } = useSWR(URL, fetcher, options);
+  return useMemo(
+    () => ({
+      data: data,
+      isLoading,
+      isValidating,
+      error,
+      mutate,
+    }),
+    [data, isLoading, isValidating, error, mutate]
+  );
+}
+
+export const createComment = (exchangeId, content) => {
+  return axiosInstance.post(endpoints.exchange.comment(exchangeId), { content });
+}

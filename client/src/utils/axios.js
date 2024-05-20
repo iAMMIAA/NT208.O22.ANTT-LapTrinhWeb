@@ -29,7 +29,7 @@ export const endpoints = {
   exchange: {
     list: `${HOST_API}exchanges`,
     new: `${HOST_API}exchanges`,
-    details: (id) => `${HOST_API}exchanges/${id}`,
+    comment: (id) => `${HOST_API}exchanges/${id}/comments`,
     like: (id) => `${HOST_API}exchanges/${id}/like`,
   },
   comment: {
