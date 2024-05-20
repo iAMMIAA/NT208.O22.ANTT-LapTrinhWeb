@@ -57,7 +57,12 @@ exports.show = async (req, res) => {
 exports.list = async (req, res) => {
     try {
         const data = await Exchange.findAll({
-            include: ['user'],
+            include: ['user', {
+                model: ExchangeLike,
+                required: false,
+                as: 'like',
+                where: { userId: 1 }, // FIXME: get userId from jwt token
+            }],
             order: [['createdAt', 'DESC']]
         })
         return res.status(200).send(data)
@@ -86,10 +91,10 @@ exports.createComment = async (req, res) => {
 
 exports.like = async (req, res) => {
     try {
-        const postId = req.params.id;
+        const exchangeId = req.params.id;
         const like = await ExchangeLike.findOne({
             where: {
-                postId,
+                exchangeId,
                 userId: 1, // TODO: get userId từ jwt token
             },
             attributes: ['id'],
@@ -100,7 +105,7 @@ exports.like = async (req, res) => {
             await Exchange.update({
                 likeNumber: Exchange.sequelize.literal('likeNumber - 1')
             }, {
-                where: {id: postId}
+                where: {id: exchangeId}
             });
             return res.status(200).send({
                 message: 'Unlike successfully'
@@ -108,13 +113,13 @@ exports.like = async (req, res) => {
         }
 
         const data = await ExchangeLike.create({
-            postId,
+            exchangeId,
             userId: 1, // TODO: get userId từ jwt token
         })
         await Exchange.update({
             likeNumber: Exchange.sequelize.literal('likeNumber + 1')
         }, {
-            where: {id: postId}
+            where: {id: exchangeId}
         });
         return res.status(200).send(data)
     } catch (e) {

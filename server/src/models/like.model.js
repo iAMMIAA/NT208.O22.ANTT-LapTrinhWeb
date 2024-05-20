@@ -8,7 +8,7 @@ exports.ExchangeLike = sequelize.define('ExchangeLikes', {
         primaryKey: true,
         allowNull: false,
     },
-    postId: {
+    exchangeId: {
         type: DataTypes.UUID,
         allowNull: false,
         references: {

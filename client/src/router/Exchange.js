@@ -5,8 +5,9 @@ import ava2 from './pictures/ava2.jpg';
 import ava3 from './pictures/ava3.jpg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faComment, faBookmark } from '@fortawesome/free-regular-svg-icons';
+import { faHeart as faHeartSolid  } from '@fortawesome/free-solid-svg-icons';
 import PostPopup from './PopupPost.js';
-import {useCountComment, useGetExchangeList} from "../api/exchange.api";
+import {likeExchange, useCountComment, useGetExchangeList} from "../api/exchange.api";
 import TimeAgo from "../components/TimeAgo";
 import {Avatar} from "@mui/material";
 import {createExchange} from "../api/exchange.api";
@@ -20,6 +21,28 @@ function Exchange(){
 
     const getCommentCount = (exchangeId) => {
       return commentCount?.find((item) => item.exchangeId === exchangeId)?.value || 0;
+    }
+
+    const like = async (exchangeId) => {
+        try {
+          await mutate(likeExchange(exchangeId), {
+            populateCache: (newData) => {
+              return data.map((item) => {
+                if (item.id === exchangeId) {
+                  return {
+                    ...item,
+                    likeNumber: item.likeNumber + 1,
+                    like: item.like.length > 0 ? []: [newData],
+                  }
+                }
+                return item;
+              })
+            },
+            revalidate: false,
+          })
+        } catch (e) {
+          console.error(e)
+        }
     }
 
     const [open, setOpen] = useState(false)
@@ -54,7 +77,7 @@ function Exchange(){
                           </div>
                       </div>
                       <div className='post-action'>
-                          <FontAwesomeIcon icon={faHeart} className='icon'/>
+                          <FontAwesomeIcon icon={post.like.length > 0 ? faHeartSolid : faHeart} color={post.like.length > 0 ? 'red' : ''} className='icon' onClick={() => like(post.id)}/>
                           <FontAwesomeIcon icon={faComment} className='icon'/>
                           <FontAwesomeIcon icon={faBookmark} className='icon'/>
                       </div>

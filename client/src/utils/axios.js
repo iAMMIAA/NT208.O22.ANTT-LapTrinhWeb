@@ -30,6 +30,7 @@ export const endpoints = {
     list: `${HOST_API}exchanges`,
     new: `${HOST_API}exchanges`,
     details: (id) => `${HOST_API}exchanges/${id}`,
+    like: (id) => `${HOST_API}exchanges/${id}/like`,
   },
   comment: {
     count: `${HOST_API}comments/count`,

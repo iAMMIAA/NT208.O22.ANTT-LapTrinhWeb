@@ -41,3 +41,7 @@ export function useCountComment() {
 export function createExchange(content) {
   return axiosInstance.post(endpoints.exchange.new, { content });
 }
+
+export function likeExchange(exchangeId) {
+  return axiosInstance.post(`${endpoints.exchange.like(exchangeId)}`);
+}

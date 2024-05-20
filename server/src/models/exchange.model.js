@@ -2,6 +2,7 @@ const { DataTypes } = require("sequelize");
 const { sequelize } = require('./base.model');
 const { ExchangeComment } = require('./comment.model');
 const {User} = require("./user.model");
+const {ExchangeLike} = require("./like.model");
 
 
 const Exchange = sequelize.define('Exchanges', {
@@ -43,7 +44,9 @@ Exchange.hasMany(ExchangeComment, {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
     as: 'comments',
-})
+});
+
+Exchange.hasMany(ExchangeLike, { foreignKey: 'exchangeId', as: 'like' })
 
 Exchange.belongsTo(User, {
     foreignKey: 'createdBy',
