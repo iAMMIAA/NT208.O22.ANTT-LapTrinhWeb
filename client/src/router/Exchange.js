@@ -9,9 +9,10 @@ import PostPopup from './PopupPost.js';
 import {useCountComment, useGetExchangeList} from "../api/exchange.api";
 import TimeAgo from "../components/TimeAgo";
 import {Avatar} from "@mui/material";
+import {createExchange} from "../api/exchange.api";
 
 function Exchange(){
-    const {data} = useGetExchangeList();
+    const {data, mutate} = useGetExchangeList();
     const {data: commentCount} = useCountComment();
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -32,8 +33,8 @@ function Exchange(){
             </div>
             <h6 className='exchange_title'>Những bài đăng gần đây:</h6>
             <div className='newfeed'>
-                {data?.map((post) => (
-                  <div className="post">
+                {data?.map((post, key) => (
+                  <div className="post" key={key}>
                       <div className='post-content'>
                           <div className="post-user">
                               <div className='post-user-avatar'>
@@ -60,7 +61,10 @@ function Exchange(){
                   </div>
                 ))}
             </div>
-            <PostPopup open={open} onClose={() => setOpen(false)} />
+            <PostPopup open={open} onClose={() => setOpen(false)} createExchange={async (content) => {
+              await createExchange(content);
+              await mutate();
+            }} />
         </div>
     )
 }

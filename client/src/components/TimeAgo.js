@@ -3,7 +3,7 @@ import {useTimeAgo} from "../hooks/useTimeAgo";
 export default function TimeAgo({date}) {
   const {days, hours, minutes, seconds} = useTimeAgo(date);
 
-  if (days) {
+  if (parseInt(days)) {
     return (
       <span>
         {days} ngày.
@@ -11,7 +11,7 @@ export default function TimeAgo({date}) {
     );
   }
 
-  if (hours) {
+  if (parseInt(hours)) {
     return (
       <span>
         {hours} giờ.
@@ -19,7 +19,7 @@ export default function TimeAgo({date}) {
     );
   }
 
-  if (minutes) {
+  if (parseInt(minutes)) {
     return (
       <span>
         {minutes} phút.
@@ -27,7 +27,7 @@ export default function TimeAgo({date}) {
     );
   }
 
-  if (seconds) {
+  if (parseInt(seconds)) {
     return (
       <span>
         {seconds} giây.

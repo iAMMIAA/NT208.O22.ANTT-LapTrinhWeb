@@ -1,4 +1,4 @@
-import {endpoints, fetcher} from "../utils/axios";
+import axiosInstance, {endpoints, fetcher} from "../utils/axios";
 import useSWR from "swr";
 import {useMemo} from "react";
 
@@ -36,4 +36,8 @@ export function useCountComment() {
     }),
     [data, isLoading, isValidating, error, mutate]
   );
+}
+
+export function createExchange(content) {
+  return axiosInstance.post(endpoints.exchange.new, { content });
 }
