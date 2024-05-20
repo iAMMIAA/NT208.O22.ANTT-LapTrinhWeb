@@ -7,6 +7,7 @@ const mysql = require('mysql2');
 const jwt = require('jsonwebtoken');
 const { create, show, list, createComment, update, like, countComment, getComments } = require('./src/controllers/post.controller')
 const {APP_DB} = require("./src/config");
+const {checkAccess} = require("./src/middleware/auth.middleware");
 
 const app = express();
 const port = 3001;
@@ -255,14 +256,14 @@ app.get('/user/:idUser', (req, res) => {
     })
 })
 
-app.get('/exchanges', list)
-app.post('/exchanges', create)
-app.get('/exchanges/:id', show)
-app.patch('/exchanges/:id', update)
-app.get('/exchanges/:id/comments', getComments)
-app.post('/exchanges/:id/comments', createComment)
-app.post('/exchanges/:id/like', like)
-app.get('/comments/count', countComment)
+app.get('/exchanges', checkAccess(), list)
+app.post('/exchanges', checkAccess(), create)
+app.get('/exchanges/:id', checkAccess(), show)
+app.patch('/exchanges/:id', checkAccess(), update)
+app.get('/exchanges/:id/comments', checkAccess(), getComments)
+app.post('/exchanges/:id/comments', checkAccess(), createComment)
+app.post('/exchanges/:id/like', checkAccess(), like)
+app.get('/comments/count', checkAccess(), countComment)
 
 // Khởi động server
 app.listen(port, () => {

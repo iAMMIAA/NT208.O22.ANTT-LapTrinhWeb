@@ -6,7 +6,7 @@ const {ExchangeLike} = require("../models/like.model");
 exports.create = async (req, res) => {
     try {
         const { content } = req.body;
-        const data = await Exchange.create({content, createdBy: 1}) // FIXME: get userId from jwt token
+        const data = await Exchange.create({content, createdBy: res.locals.user.id})
         return res.status(200).send(data)
     } catch (e) {
         console.error(e);
@@ -61,7 +61,7 @@ exports.list = async (req, res) => {
                 model: ExchangeLike,
                 required: false,
                 as: 'like',
-                where: { userId: 1 }, // FIXME: get userId from jwt token
+                where: { userId: res.locals.user.id },
             }],
             order: [['createdAt', 'DESC']]
         })
@@ -78,7 +78,7 @@ exports.createComment = async (req, res) => {
         const exchangeId = req.params.id;
         const data = await ExchangeComment.create({
             exchangeId,
-            userId: 1, // TODO: get userId từ jwt token
+            userId: res.locals.user.id,
             contentComment: req.body.content,
         })
         const user = await data.getUser();
@@ -97,7 +97,7 @@ exports.like = async (req, res) => {
         const like = await ExchangeLike.findOne({
             where: {
                 exchangeId,
-                userId: 1, // TODO: get userId từ jwt token
+                userId: res.locals.user.id,
             },
             attributes: ['id'],
         })
@@ -116,7 +116,7 @@ exports.like = async (req, res) => {
 
         const data = await ExchangeLike.create({
             exchangeId,
-            userId: 1, // TODO: get userId từ jwt token
+            userId: res.locals.user.id,
         })
         await Exchange.update({
             likeNumber: Exchange.sequelize.literal('likeNumber + 1')
