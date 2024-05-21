@@ -34,6 +34,7 @@ export default function PostPopup(props) {
     if (props.open) {
       methods.reset(defaultValues);
     }
+    // eslint-disable-next-line
   }, [props.open])
 
   const methods = useForm({

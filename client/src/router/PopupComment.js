@@ -35,6 +35,7 @@ export default function CommentPopup(props) {
     if (props.open) {
       methods.reset(defaultValues);
     }
+    // eslint-disable-next-line
   }, [props.open])
 
   const methods = useForm({
@@ -83,7 +84,7 @@ export default function CommentPopup(props) {
         <Stack spacing={3}>
           {comments && comments.map((comment, key) => (
             <Stack direction="row" spacing={2} alignItems={'center'} key={key}>
-              <Avatar>H</Avatar>
+              <Avatar alt={comment?.user?.username || ''} src={comment?.user?.username || ''} />
               <Stack>
                 <div>{comment?.user?.username || ''}</div>
                 <div>{comment.contentComment}</div>

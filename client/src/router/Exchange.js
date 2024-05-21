@@ -1,10 +1,7 @@
 import {useEffect, useState} from 'react';
 import './css/Exchange.css'
-import ava1 from './pictures/ava1.jpg';
-import ava2 from './pictures/ava2.jpg';
-import ava3 from './pictures/ava3.jpg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart, faComment, faBookmark } from '@fortawesome/free-regular-svg-icons';
+import { faHeart, faComment } from '@fortawesome/free-regular-svg-icons';
 import { faHeart as faHeartSolid  } from '@fortawesome/free-solid-svg-icons';
 import PostPopup from './PopupPost.js';
 import {likeExchange, useCountComment, useGetExchangeList} from "../api/exchange.api";
@@ -12,6 +9,7 @@ import TimeAgo from "../components/TimeAgo";
 import {Avatar} from "@mui/material";
 import {createExchange} from "../api/exchange.api";
 import CommentPopup from "./PopupComment";
+import * as React from "react";
 
 function Exchange(){
     const {data, mutate} = useGetExchangeList();
@@ -69,7 +67,7 @@ function Exchange(){
                       <div className='post-content'>
                           <div className="post-user">
                               <div className='post-user-avatar'>
-                                  <Avatar />
+                                <Avatar alt={post?.user?.username || ''} src={post?.user?.username || ''} />
                               </div>
                               <div className='post-user-info'>
                                   <div className='post-user-name'>{post.user.username}</div>
