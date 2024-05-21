@@ -74,23 +74,23 @@ function App() {
     if (window.scrollY > 0) setFixPositionScroll(true);
     else setFixPositionScroll(false);
 }
-  
+
   // Sử dụng useEffect để đăng ký sự kiện thay đổi kích thước cửa sổ
   useEffect(() => {
     // Gọi hàm handleWindowSizeChange khi component được render lại
     handleWindowSizeChange();
 
-    // Đăng ký sự kiện 
+    // Đăng ký sự kiện
     window.addEventListener('resize', handleWindowSizeChange);
     window.addEventListener('scroll', handleFixPositionScroll);
 
-    // Xóa sự kiện 
+    // Xóa sự kiện
     return () => {
       window.removeEventListener('resize', handleWindowSizeChange);
       window.removeEventListener('scroll', handleFixPositionScroll);
     };
 
-  }, []); 
+  }, []);
 
   const [isOpenDropDown, setIsOpenDropDown] = useState(false);
   const toggleDropDown = () =>{
@@ -114,7 +114,7 @@ function App() {
     setShowSignUp(true);
     setShowLogIn(false);
   }
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const logIn = (formData) => {
     axios.post('http://localhost:3001/login', formData)
         .then(response => {
@@ -126,6 +126,7 @@ function App() {
               localStorage.setItem('isLoggedIn', 'true');
               localStorage.setItem('token', token);
               localStorage.setItem('idUser', idUser);
+              axios.defaults.headers.common.Authorization = `${token}`;
               // setUserName(formData.username);
               // setPassword(formData.userpassword);
               // alert(`${formData.username}`);
@@ -149,7 +150,7 @@ function App() {
     const loggedInStatus = localStorage.getItem('isLoggedIn');
     if (loggedInStatus === 'true') {
       setIsLoggedIn(true);
-      
+
       axios.get(`http://localhost:3001/user/${localStorage.getItem('idUser')}`)
       .then(response => {
         const infoUser = response.data;
@@ -159,8 +160,8 @@ function App() {
         console.error('error: ', error);
         alert('loi cmnr');
       })
-    } 
-  }, []); 
+    }
+  }, []);
 
   return (
     <Router>
@@ -245,7 +246,7 @@ function App() {
               </div>
             </div>
           )}
-          
+
             <div className={`layout_main ${isSidebarCollapsed ? 'active': ''}`}>
                 <div className="main_container">
                   <div className={fixPositionScroll ? 'fixed_main_one':'main_one'}>
@@ -368,7 +369,7 @@ function App() {
             </div>
         </div>
       </div>
-    </Router> 
+    </Router>
   );
 }
 
