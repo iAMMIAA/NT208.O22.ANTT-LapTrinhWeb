@@ -202,6 +202,7 @@ app.get('/related_post/:tag', (req, res) => {
         }
     })
 });
+
 app.get('/related_drug/:tag', (req, res) => {
     const tagPost = req.params.tag;
     console.log(tagPost);
