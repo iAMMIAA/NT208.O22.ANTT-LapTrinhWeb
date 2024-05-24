@@ -93,7 +93,7 @@ function Exchange(){
             <PostPopup open={open} onClose={() => setOpen(false)} createExchange={async (content) => {
               await createExchange(content);
               await mutate();
-            }} />
+            }}/>
             <CommentPopup open={openComment} onClose={() => setOpenComment(false)} exchangeId={exchangeId} />
         </div>
     )

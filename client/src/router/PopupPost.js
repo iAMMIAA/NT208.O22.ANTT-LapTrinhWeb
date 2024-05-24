@@ -1,19 +1,12 @@
 import './css/PopupPost.css';
 import './css/Exchange.css';
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  Button,
-  TextField,
-  Avatar
-} from '@mui/material';
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, Avatar } from '@mui/material';
 import {Controller, useForm, FormProvider} from "react-hook-form"
 import {useEffect, useMemo} from "react";
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup";
 import LoadingButton from '@mui/lab/LoadingButton';
+import axios from 'axios';
 
 
 export default function PostPopup(props) {
@@ -41,6 +34,7 @@ export default function PostPopup(props) {
     resolver: yupResolver(schema),
     defaultValues,
   });
+
   const {
     control,
     handleSubmit,
@@ -55,6 +49,9 @@ export default function PostPopup(props) {
       console.error(e)
     }
   }
+  // const post_status = () => {
+  //   axios.get(`....`)
+  // }
 
   return (
     <Dialog
@@ -98,6 +95,7 @@ export default function PostPopup(props) {
           </DialogContent>
           <DialogActions>
             <Button onClick={props.onClose}>Cancel</Button>
+            {/* <Button onClick={post_status}>Post</Button> */}
             <LoadingButton loading={isSubmitting} type="submit">Post</LoadingButton>
           </DialogActions>
         </form>

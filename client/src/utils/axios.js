@@ -15,11 +15,9 @@ axiosInstance.interceptors.response.use(
 export default axiosInstance;
 
 // ----------------------------------------------------------------------
-
 export const fetcher = async (args) => {
   const [url, config] = Array.isArray(args) ? args : [args];
   const res = await axiosInstance.get(url, { ...config });
-
   return res.data;
 };
 

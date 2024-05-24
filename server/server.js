@@ -5,9 +5,10 @@ const multer = require('multer'); // Thư viện multer để xử lý dữ li�
 const { spawn } = require('child_process');
 const mysql = require('mysql2');
 const jwt = require('jsonwebtoken');
-const { create, show, list, createComment, update, like, countComment, getComments } = require('./src/controllers/post.controller')
-const {APP_DB} = require("./src/config");
-const {checkAccess} = require("./src/middleware/auth.middleware");
+const { Exchange } = require('./src/models/exchange.model');
+const { ExchangeComment } = require('./src/models/comment.model');
+const { ValidationError, fn } = require("sequelize");
+const { ExchangeLike } = require('./src/models/like.model');
 
 const app = express();
 const port = 3001;
@@ -16,20 +17,159 @@ app.use(cors()); //su dung CORS
 app.use(bodyParser.json()); // Middleware để phân tích dữ liệu JSON từ client
 
 const connection = mysql.createConnection({
-    host: APP_DB.host || 'localhost',
+    host: 'localhost',
     port: '3306',
-    user: APP_DB.username || 'root',
-    password: APP_DB.password || '12345678',
-    database: APP_DB.database || 'db_ttruc'
+    user: 'root',
+    password: 'i.AMMIAK16',
+    database: 'DrugWeb'
 });
 
-// const connection = mysql.createConnection({
-//     host: 'medicaldb.mysql.database.azure.com',
-//     // port: '1433',
-//     user: 'nhom5',
-//     password: 'GROUP5.4321',
-//     database: 'DrugWeb'
-// });
+function checkAccess() {
+    // Dummy middleware for access checking
+    return (req, res, next) => {
+        res.locals.user = { id: 1 }; // Replace with actual user checking logic
+        next();
+    };
+}
+
+// Routes and handlers
+app.get('/exchanges', checkAccess(), async (req, res) => {
+    try {
+        const data = await Exchange.findAll({
+            include: ['user', {
+                model: ExchangeLike,
+                required: false,
+                as: 'like',
+                where: { userId: res.locals.user.id },
+            }],
+            order: [['createdAt', 'DESC']]
+        });
+        return res.status(200).send(data);
+    } catch (e) {
+        res.status(500).json({error: 'Internal server error.'});
+    }
+});
+
+app.post('/exchanges', checkAccess(), async (req, res) => {
+    try {
+        const { content } = req.body;
+        const data = await Exchange.create({ content, createdBy: res.locals.user.id });
+        return res.status(200).send(data);
+    } catch (e) {
+        console.error(e);
+        if (e instanceof ValidationError) {
+            return res.status(400).send({
+                message: e.errors[0].message || e.message
+            });
+        }
+        res.status(500).json({error: 'Internal server error.'});
+    }
+});
+
+app.get('/exchanges/:id', checkAccess(), async (req, res) => {
+    try {
+        const data = await Exchange.findByPk(req.params.id);
+        return res.status(200).send(data);
+    } catch (e) {
+        res.status(500).json({error: 'Internal server error.'});
+    }
+});
+
+app.patch('/exchanges/:id', checkAccess(), async (req, res) => {
+    try {
+        const [count, rows] = await Exchange.update(req.body, { returning: true });
+        if (!count) {
+            return res.status(404).send({
+                message: 'Not Found',
+            });
+        }
+        return res.status(200).send(rows[0]);
+    } catch (e) {
+        console.error(e);
+        if (e instanceof ValidationError) {
+            return res.status(400).send({
+                message: e.errors[0].message || e.message
+            });
+        }
+        res.status(500).json({error: 'Internal server error.'});
+    }
+});
+
+app.get('/exchanges/:id/comments', checkAccess(), async (req, res) => {
+    try {
+        const data = await ExchangeComment.findAll({
+            where: { exchangeId: req.params.id },
+            include: ['user'],
+        });
+        return res.status(200).send(data);
+    } catch (e) {
+        res.status(500).json({error: 'Internal server error.'});
+    }
+});
+
+app.post('/exchanges/:id/comments', checkAccess(), async (req, res) => {
+    try {
+        const exchangeId = req.params.id;
+        const data = await ExchangeComment.create({
+            exchangeId,
+            userId: res.locals.user.id,
+            contentComment: req.body.content,
+        });
+        const user = await data.getUser();
+        return res.status(200).send({ ...data.dataValues, user });
+    } catch (e) {
+        res.status(500).json({error: 'Internal server error.'});
+    }
+});
+
+app.post('/exchanges/:id/like', checkAccess(), async (req, res) => {
+    try {
+        const exchangeId = req.params.id;
+        const like = await ExchangeLike.findOne({
+            where: {
+                exchangeId,
+                userId: res.locals.user.id,
+            },
+            attributes: ['id'],
+        });
+
+        if (like) {
+            await like.destroy();
+            await Exchange.update({
+                likeNumber: Exchange.sequelize.literal('likeNumber - 1')
+            }, {
+                where: { id: exchangeId }
+            });
+            res.status(200).json({ message: 'unlike successfully' });
+        }
+
+        const data = await ExchangeLike.create({
+            exchangeId,
+            userId: res.locals.user.id,
+        });
+        await Exchange.update({
+            likeNumber: Exchange.sequelize.literal('likeNumber + 1')
+        }, {
+            where: { id: exchangeId }
+        });
+        return res.status(200).send(data);
+    } catch (e) {
+        res.status(500).json({error: 'Internal server error.'});
+    }
+});
+
+app.get('/comments/count', checkAccess(), async (req, res) => {
+    try {
+        const data = await ExchangeComment.findAll({
+            group: ['exchangeId'],
+            attributes: ['exchangeId', [fn('COUNT', 'exchangeId'), 'value']],
+        });
+        return res.status(200).send(data);
+    } catch (e) {
+        console.log('error', e);
+        res.status(500).json({error: 'Internal server error.'});
+    }
+});
 
 // SignUp
 app.post('/signup', (req, res) => {
@@ -170,21 +310,6 @@ app.get('/posts', (req, res) => {
         }
     })
 })
-// app.get('/related_post', (req, res) => {
-//     const query = `select POSTS.title, POSTS.id, POSTS.author, POSTS.url_img
-//                     from POSTS
-//                     join TAGS
-//                     on TAGS.tags = POSTS.tag
-//                     where TAGS.tags = "Chăm_sóc_sức_khỏe"`;
-//     connection.query(query, (error, results) => {
-//         if(error) {
-//             console.error('loi');
-//             res.status(500).json({error: 'loi cmnr'});
-//         } else {
-//             res.status(200).json(results);
-//         }
-//     })
-// });
 
 app.get('/related_post/:tag', (req, res) => {
     const tagPost = req.params.tag;
@@ -257,14 +382,6 @@ app.get('/user/:idUser', (req, res) => {
     })
 })
 
-app.get('/exchanges', checkAccess(), list)
-app.post('/exchanges', checkAccess(), create)
-app.get('/exchanges/:id', checkAccess(), show)
-app.patch('/exchanges/:id', checkAccess(), update)
-app.get('/exchanges/:id/comments', checkAccess(), getComments)
-app.post('/exchanges/:id/comments', checkAccess(), createComment)
-app.post('/exchanges/:id/like', checkAccess(), like)
-app.get('/comments/count', checkAccess(), countComment)
 
 // Khởi động server
 app.listen(port, () => {
