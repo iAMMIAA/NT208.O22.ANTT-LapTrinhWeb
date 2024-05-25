@@ -2,6 +2,7 @@
 
 ```shell
 npx sequelize-cli migration:create --name post-create-table
+npx sequelize-cli migration:create --name add-column
 ```
 
 ## Create a new seeder

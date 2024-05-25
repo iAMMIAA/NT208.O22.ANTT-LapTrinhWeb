@@ -1,6 +1,6 @@
 // Định nghĩa model Exchange
 const { DataTypes } = require('sequelize');
-const { sequelize } = require('../src/models/base.model');
+const { sequelize } = require('./base.model');
 
 const Exchange = sequelize.define('Exchange', {
   id: {

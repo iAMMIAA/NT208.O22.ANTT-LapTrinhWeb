@@ -1,0 +1,43 @@
+import React, { useEffect, useState } from 'react';
+import './css/SeeNotification.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faClose} from '@fortawesome/free-solid-svg-icons';
+import { layer } from '@fortawesome/fontawesome-svg-core';
+
+function SeeNotification(props){
+
+    return(
+        <div className='see_notification' onClick={props.closeSeeNotification}>
+            <div className='form_status'>
+                <div className='content_status'>
+                    <div className='createrContent'>{props.data.length > 0 && props.data[0].createrContent}</div>
+                    <div className='content'>{props.data.length > 0 && props.data[0].content}</div>
+                </div>
+                <div className='comment_status'>
+                {props.data
+                    .slice() // Tạo một bản sao của mảng để không làm thay đổi mảng gốc
+                    .sort((a, b) => (a.idComment === props.idCmt ? -1 : b.idComment === props.idCmt ? 1 : 0)) // Sắp xếp để idComment === props.idCmt lên đầu
+                    .map(post => (
+                    <div className={`item_comment ${post.idComment === props.idCmt ? 'gray' : ''}`} key={post.idComment}>
+                        <div className='nameUserComment'>{post.userComment}</div>
+                        <div className='contentComment'>{post.contentComment}</div>
+                    </div>
+                    ))}
+                </div>
+                {/* <div className='comment_status'>
+                    {props.data.map(post => (
+                        // <div className='item_comment' >
+                        <div className={`item_comment ${post.idComment === props.idCmt ? 'gray': ''}`} >
+                            <div className='nameUserComment'>{post.userComment}</div>
+                            <div className='contentComment'>{post.contentComment}</div>
+                        </div>
+                    ))}
+                    
+                </div> */}
+            </div>          
+        </div>
+       
+    );
+}
+
+export default SeeNotification

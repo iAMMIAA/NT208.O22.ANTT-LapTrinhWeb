@@ -24,6 +24,11 @@ module.exports = {
                 type: DataTypes.TEXT,
                 allowNull: false
             },
+            readComment: { // Thêm cột readComment
+                type: DataTypes.BOOLEAN,
+                defaultValue: false, // Giá trị mặc định là false
+                allowNull: false    
+            },
             createdAt: {
                 type: DataTypes.DATE,
                 defaultValue: DataTypes.NOW,
@@ -33,6 +38,7 @@ module.exports = {
                 type: DataTypes.DATE,
             }
         });
+
     },
 };
 

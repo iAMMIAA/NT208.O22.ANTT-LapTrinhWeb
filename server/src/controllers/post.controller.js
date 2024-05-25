@@ -76,10 +76,12 @@ exports.list = async (req, res) => {
 exports.createComment = async (req, res) => {
     try {
         const exchangeId = req.params.id;
+        const readComment = false; 
         const data = await ExchangeComment.create({
             exchangeId,
             userId: res.locals.user.id,
             contentComment: req.body.content,
+            readComment,
         })
         const user = await data.getUser();
         return res.status(200).send({...data.dataValues, user})

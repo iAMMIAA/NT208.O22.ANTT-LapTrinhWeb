@@ -10,7 +10,7 @@ function Setting_Profile() {
   useEffect(() => {
     // Apply initial mode
     document.body.classList.toggle('dark-mode', isDarkMode);
-    document.body.classList.toggle('light-mode', !isDarkMode);
+    // document.body.classList.toggle('light-mode', !isDarkMode);
   }, [isDarkMode]);
 
   const handleThemeToggle = () => {
@@ -22,8 +22,8 @@ function Setting_Profile() {
   }, []);
 
   return (
-    <div className={`setting_profile ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
-      <div className={`left_setting_profile ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
+    <div className={`setting_profile ${isDarkMode ? 'dark-mode' : ''}`}>
+      <div className={`left_setting_profile ${isDarkMode ? 'dark-mode' : ''}`}>
         <Link className='render_profile' to='/setting_profile'>
           <span>Thông tin cá nhân</span>
         </Link>
@@ -32,7 +32,7 @@ function Setting_Profile() {
         </Link>
       </div>
 
-      <div className={`right_setting_profile ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
+      <div className={`right_setting_profile ${isDarkMode ? 'dark-mode' : ''}`}>
         <Routes>
           <Route path='' element={<MyProfile isDarkMode={isDarkMode} />} />
           <Route 

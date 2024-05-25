@@ -1,5 +1,5 @@
 .setting_profile{
-    /* height: 615px; */
+    height: 100vh;
     width: 100%;
     margin: 0px;
     padding: 0px;
@@ -71,30 +71,30 @@
     }
 }
 
-.setting_profile.light-mode {
+/* .setting_profile.light-mode {
     background-color: white;
     color: black;
-}
+} */
 
 .setting_profile.dark-mode {
     background-color: black;
     color: white;
 }
 
-.left_setting_profile.light-mode {
+/* .left_setting_profile.light-mode {
     background-color: #f5f5f5;
     color: black;
-}
+} */
 
 .left_setting_profile.dark-mode {
     background-color: #333;
     color: white;
 }
 
-.right_setting_profile.light-mode {
+/* .right_setting_profile.light-mode {
     background-color: #f5f5f5;
     color: black;
-}
+} */
 
 .right_setting_profile.dark-mode {
     background-color: #333;

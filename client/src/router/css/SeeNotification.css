@@ -1,0 +1,48 @@
+.see_notification{
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(101, 101, 101, 0.43);
+    z-index: 9999; /* Đặt z-index cao để phần tử này nằm trên cùng */
+}
+
+.form_status{
+    height: 80%;
+    width: 50%;
+    background-color: white;
+    border-radius: 25px;
+    padding: 15px;
+}
+.content_status{
+    height: 40%;
+    width: 100%;
+    border-radius: 25px;
+    background-color: rgba(189, 187, 187, 0.782);
+
+}
+.comment_status{
+    height: 60%;
+    width: 100%;
+    /* background-color: rgb(171, 116, 116); */
+    overflow-y: auto;
+}
+.item_comment{
+    /* height: 30%; */
+    width: 100%;
+    /* background-color: aqua; */
+    margin: 5px;
+    padding: 10px;
+}
+.item_comment.gray{
+    /* height: 30%; */
+    width: 100%;
+    background-color: rgba(198, 196, 196, 0.249);
+    margin: 5px;
+}
+.nameUserComment{
+    font-weight: large;
+    font-size: 10sp;
+}

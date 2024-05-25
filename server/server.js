@@ -106,11 +106,14 @@ app.get('/exchanges/:id/comments', checkAccess(), async (req, res) => {
 app.post('/exchanges/:id/comments', checkAccess(), async (req, res) => {
     try {
         const exchangeId = req.params.id;
+        const readComment = false; 
         const data = await ExchangeComment.create({
             exchangeId,
             userId: res.locals.user.id,
             contentComment: req.body.content,
+            readComment,
         });
+        console.log(JSON.stringify(data, null, 2)); // In toàn bộ dữ liệu với định dạng đẹp
         const user = await data.getUser();
         return res.status(200).send({ ...data.dataValues, user });
     } catch (e) {
@@ -303,6 +306,61 @@ app.get('/notification/:idUser', (req, res) => {
             res.status(500).json({error: 'Loi khi truy van co so du lieu.'});
         } else res.status(200).json(results);
     })
+});
+// app.get('/see_notication/:idComment', (req, res) => {
+//     const idComment = req.params.idComment;
+//     const readComment = `SELECT u1.username as createrContent, ex.content, ec.contentComment, ec.userId as idUserComment, u.username as userComment, ec.createdAt, ec.id as idComment
+//                             FROM exchanges ex
+//                             JOIN exchangecomments ec ON ex.id = ec.exchangeId
+//                             JOIN SignupLogIn u ON ec.userId = u.id
+//                             JOIN SignupLogIn u1 ON ex.createdBy = u1.id
+//                             WHERE ec.exchangeId = (
+//                                 SELECT exchangeId
+//                                 FROM exchangecomments
+//                                 WHERE id = ?
+//                             )
+//                             ORDER BY ec.createdAt desc;`;
+//     connection.query(readComment, [idComment], (error, results) => {
+//         if(error) {
+//             res.status(500).json({error: 'Loi khi truy van co so du lieu.'});
+//         } else res.status(200).json(results);
+//     })
+// });
+
+app.get('/see_notication/:idComment', (req, res) => {
+    const idComment = req.params.idComment;
+
+    // Update the readComment to true
+    const updateQuery = "UPDATE exchangecomments SET readComment = true WHERE id = ?";
+
+    // Query to fetch the desired data
+    const readComment = `SELECT u1.username as createrContent, ex.content, ec.contentComment, ec.userId as idUserComment, u.username as userComment, ec.createdAt, ec.id as idComment
+                         FROM exchanges ex
+                         JOIN exchangecomments ec ON ex.id = ec.exchangeId
+                         JOIN SignupLogIn u ON ec.userId = u.id
+                         JOIN SignupLogIn u1 ON ex.createdBy = u1.id
+                         WHERE ec.exchangeId = (
+                             SELECT exchangeId
+                             FROM exchangecomments
+                             WHERE id = ?
+                         )
+                         ORDER BY ec.createdAt desc;`;
+
+    // Execute the update query
+    connection.query(updateQuery, [idComment], (updateError, updateResults) => {
+        if (updateError) {
+            res.status(500).json({ error: 'Error updating readComment.' });
+        } else {
+            // After successful update, execute the select query
+            connection.query(readComment, [idComment], (selectError, selectResults) => {
+                if (selectError) {
+                    res.status(500).json({ error: 'Error querying the database.' });
+                } else {
+                    res.status(200).json(selectResults);
+                }
+            });
+        }
+    });
 });
 
 app.get('/posts', (req, res) => {

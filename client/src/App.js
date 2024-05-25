@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import './css/App.css'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faForward, faBackward, faHome, faCommentMedical, faBell, faSearch, faGear, faRightFromBracket} from '@fortawesome/free-solid-svg-icons';
+import { faCircle, faBars, faForward, faBackward, faHome, faCommentMedical, faBell, faSearch, faGear, faRightFromBracket} from '@fortawesome/free-solid-svg-icons';
 import { BrowserRouter as Router, Link, Route, Routes } from 'react-router-dom';
 import picTFBOYS from './router/pictures/tfboys.jpg'
 import username from './router/pictures/user.png'
@@ -12,6 +12,7 @@ import LookUp from './router/LookUp';
 import Setting_Profile from './router/Setting_Profile';
 import LogIn from './LogIn-SignUp/LogIn';
 import SignUp from './LogIn-SignUp/SignUp';
+import SeeNotification from './router/SeeNotification';
 import Paper from './router/paper/paper2';
 import picRound from './router/pictures/round.png';
 import axios from 'axios';
@@ -19,18 +20,19 @@ import axios from 'axios';
 import logo from './logo/logo5.png'
 import Setting from './router/Setting';
 
-function App(DarkMode) {
+function App() {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [fixPositionScroll, setFixPositionScroll] = useState();
   const [fullName, setFullName] = useState('Username');
   const [countNotif, setCountNotif] = useState('');
   const [listNotif, setListNotif] = useState([]);
-
-
-
+  const [isOpenNotification, setIsOpenNotification] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isOpenDropDown, setIsOpenDropDown] = useState(false);
   const [darkmode, setdarkMode] = useState(false);
   const [currentLanguage, setCurrentLanguage] = useState('vi'); // Default language is Vietnamese ('vi')
+  
+  
   useEffect(() => {
     // Apply initial mode
     document.body.classList.toggle('dark-mode', isDarkMode);
@@ -108,19 +110,8 @@ function App(DarkMode) {
 
   }, []);
 
-  const [isOpenDropDown, setIsOpenDropDown] = useState(false);
-  const toggleDropDown = () =>{
-    setIsOpenDropDown(!isOpenDropDown);
-  }
-
-  const [isOpenNotification, setIsOpenNotification] = useState(false);
-  const toggleNotification = () => {
-    setIsOpenNotification(!isOpenNotification);
-  }
-
   const [noShowLogIn, setShowLogIn] = useState(false);
   const [noShowSignUp, setShowSignUp] = useState(false);
-
   const setShowLogInForm = () => {
     setShowLogIn(true);
     setShowSignUp(false);
@@ -148,9 +139,7 @@ function App(DarkMode) {
               // alert(`${formData.username}`);
             }
         })
-        .catch(error => {
-            console.error("Error while fetching result: ", error);
-        });
+        .catch(error => {console.error("Error while fetching result: ", error);});
     }
 
   const logOut = () => {
@@ -160,6 +149,23 @@ function App(DarkMode) {
 
     // Tải lại trang
     window.location.href = 'http://localhost:3000/';
+  }
+
+  const [openSeeNotification, setOpenSeeNotification] = useState(false);
+  const [dataSeeNotification, setDataSeeNotification] = useState([]);
+  const [idCmt, setIdCmt] = useState('');
+  const see_notication = (id) => {
+    axios.get(`http://localhost:3001/see_notication/${id}`)
+        .then(response => {
+          const data = response.data;
+          setDataSeeNotification(data)
+        })
+        .catch(error => {
+          console.error("There was an error fetching the notification data!", error);
+        });
+    setIsOpenNotification(false)
+    setOpenSeeNotification(true);
+    setIdCmt(id);
   }
 
   useEffect(() => {
@@ -176,8 +182,8 @@ function App(DarkMode) {
         console.error('error: ', error);
       })
 
-      // axios.get(`http://localhost:3001/notification/${localStorage.getItem('idUser')}`)
-      axios.get(`http://localhost:3001/notification/6`)
+      axios.get(`http://localhost:3001/notification/${localStorage.getItem('idUser')}`)
+      // axios.get(`http ://localhost:3001/notification/6`)
       .then(response => {
         const notif = response.data;
         if(notif.length > 0) {
@@ -204,6 +210,9 @@ function App(DarkMode) {
         {noShowSignUp && (
             <SignUp closeSignUp={()=>setShowSignUp(false)} openLogIn={setShowLogInForm}/>
         )}
+        {openSeeNotification && (
+          <SeeNotification idCmt={idCmt} data={dataSeeNotification} closeSeeNotification={() => setOpenSeeNotification(false)}/>
+        )}
         <div className="container_web">
           {isOpenMenu && (
             <div className={`layout_left ${isSidebarCollapsed ? 'active' : ''}`}>
@@ -217,7 +226,7 @@ function App(DarkMode) {
                 <div className="list_menu">
                     <ul>
                       <li><Link to='/'>
-                        <FontAwesomeIcon icon={faHome} className='icon_left'onClick={openItemMenu}/>
+                        <FontAwesomeIcon icon={faHome} className='icon_left' onClick={openItemMenu}/>
                         </Link>
                       </li>
                       <li><Link to='/exchange'>
@@ -287,13 +296,15 @@ function App(DarkMode) {
                             <FontAwesomeIcon className='icon_bars' icon={faBars} onClick={openMenu}/>
                         </div>
                         <div className="one_find">
-                          <form className="search_form" action="/search" method="GET">
+                          {/* <div className="header_menu"><span>MedicalWeb.</span></div> */}
+
+                          {/* <form className="search_form" action="/search" method="GET">
                               <FontAwesomeIcon className='icon_search' icon={faSearch}/>
                               <input className="search_input" type="text" id="searchInput" name="q" placeholder="Tìm kiếm" />
-                          </form>
+                          </form> */}
                         </div>
                         <div className="one_notification">
-                          <FontAwesomeIcon className='round_icon_notification' icon={faBell} onClick={toggleNotification}/>
+                          <FontAwesomeIcon className='round_icon_notification' icon={faBell} onClick={() => setIsOpenNotification(true)}/>
                           {isLoggedIn && isOpenNotification && (
                             <div className='form_notification'>
                               {listNotif.length == 0 ? (
@@ -306,7 +317,7 @@ function App(DarkMode) {
                                 </div>
                               ):(
                                 listNotif.map(post => (
-                                  <div className='notif_one_user' key={post.id}>
+                                  <div className='notif_one_user' key={post.id} onClick={() => see_notication(post.id)}>
                                     <img src={picRound}></img>
                                     <div className='notifi_infomation'>
                                       <h5 className='notif_userName_1'>{post.username}</h5>
@@ -321,7 +332,7 @@ function App(DarkMode) {
                         {isLoggedIn ? (
                         <div className="one_username">
                           <div className="one_username_container">
-                            <div className='one_noname' onClick={toggleDropDown}>
+                            <div className='one_noname' onClick={() => setIsOpenDropDown(true)}>
                               <span className='name'>{fullName}</span>
                               <div className='one_avatar'>
                                 <img className='one_avatar_1' src={picTFBOYS} alt="" />
@@ -339,7 +350,7 @@ function App(DarkMode) {
                         ) : (
                           <div className="one_username">
                             <div className="one_username_container">
-                              <div className='one_noname' onClick={toggleDropDown}>
+                              <div className='one_noname' onClick={() => setIsOpenDropDown(true)}>
                                 <span>{fullName}</span>
                                 <div className='one_avatar'>
                                   <img className='one_avatar_1' src={username} alt="" />
