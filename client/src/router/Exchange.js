@@ -10,10 +10,27 @@ import {Avatar} from "@mui/material";
 import {createExchange} from "../api/exchange.api";
 import CommentPopup from "./PopupComment";
 import * as React from "react";
+import axios from 'axios';
 
 function Exchange(){
     const {data, mutate} = useGetExchangeList();
     const {data: commentCount} = useCountComment();
+    const [inforUser, setInforUser] = useState({
+      username: '',
+      fullName: ''
+    });
+    
+    useEffect(() => {
+      axios.get(`http://localhost:3001/user/${localStorage.getItem('idUser')}`)
+          .then(response => {
+            const infoUser = response.data;
+            setInforUser({
+              username: infoUser.username,
+              fullName: infoUser.fullName
+            })
+          })
+          .catch(error => {console.error('error: ', error);})
+    }, []);
 
     const getCommentCount = (exchangeId) => {
       return commentCount?.find((item) => item.exchangeId === exchangeId)?.value || 0;
@@ -52,7 +69,7 @@ function Exchange(){
     return(
         <div className="Exchange">
             <div className = "hello_theme">
-                <span>Xin chào Lê Phương Thảo!</span>
+                <span>Xin chào {inforUser.fullName || inforUser.username}</span>
                 <div className='upload-question'>
                     <button className='btn-question' onClick={()=> setOpen(true)}>Câu hỏi của bạn....</button>
                 </div>
@@ -67,7 +84,7 @@ function Exchange(){
                                 <Avatar alt={post?.user?.username || ''} src={post?.user?.username || ''} />
                               </div>
                               <div className='post-user-info'>
-                                  <div className='post-user-name'>{post.user.username}</div>
+                              <div className='post-user-name'>{post.user ? post.user.username : 'Unknown User'}</div>
                                   <div className='post-user-time'>
                                       <TimeAgo date={post.createdAt} />
                                   </div>
@@ -82,16 +99,21 @@ function Exchange(){
                       <div className='post-action'>
                           <FontAwesomeIcon icon={post.like.length > 0 ? faHeartSolid : faHeart} color={post.like.length > 0 ? 'red' : ''} className='icon' onClick={() => like(post.id)}/>
                           <FontAwesomeIcon icon={faComment} className='icon' onClick={() => handleClickComment(post.id)}/>
-                          {/*<FontAwesomeIcon icon={faBookmark} className='icon'/>*/}
                       </div>
                   </div>
                 ))}
             </div>
-            <PostPopup open={open} onClose={() => setOpen(false)} createExchange={async (content) => {
-              await createExchange(content);
-              await mutate();
-            }} />
-            <CommentPopup open={openComment} onClose={() => setOpenComment(false)} exchangeId={exchangeId} />
+            <PostPopup  inforUser={inforUser}
+                        open={open} 
+                        onClose={() => setOpen(false)} 
+                        createExchange={async (content) => {
+                                        await createExchange(content);
+                                        await mutate();
+                                      }}/>
+            <CommentPopup inforUser={inforUser}
+                          open={openComment} 
+                          onClose={() => setOpenComment(false)} 
+                          exchangeId={exchangeId} />
         </div>
     )
 }

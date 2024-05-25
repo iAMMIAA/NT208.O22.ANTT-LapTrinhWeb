@@ -9,6 +9,9 @@ const { Exchange } = require('./src/models/exchange.model');
 const { ExchangeComment } = require('./src/models/comment.model');
 const { ValidationError, fn } = require("sequelize");
 const { ExchangeLike } = require('./src/models/like.model');
+const { checkAccess } = require("./src/middleware/auth.middleware");
+const { error } = require('console');
+const { User } = require('./src/models/user.model');
 
 const app = express();
 const port = 3001;
@@ -24,49 +27,32 @@ const connection = mysql.createConnection({
     database: 'DrugWeb'
 });
 
-// function checkAccess() {
-//     // Dummy middleware for access checking
-//     return (req, res, next) => {
-//         res.locals.user = { id: 6 }; // Replace with actual user checking logic
-//         next();
-//     };
-// }
-
-// Routes and handlers
 app.get('/exchanges', checkAccess(), async (req, res) => {
     try {
         const data = await Exchange.findAll({
-            include: ['user', {
-                model: ExchangeLike,
-                required: false,
-                as: 'like',
-                where: { userId: res.locals.user.id },
-            }],
+            include: [
+                {
+                    model: User, 
+                    as: 'user'
+                },
+                {
+                    model: ExchangeLike,
+                    required: false,
+                    as: 'like',
+                    where: { userId: res.locals.user.id }
+                }
+            ],
             order: [['createdAt', 'DESC']]
         });
+        console.log(JSON.stringify(data, null, 2)); // In toàn bộ dữ liệu với định dạng đẹp
         return res.status(200).send(data);
     } catch (e) {
-        res.status(500).json({error: 'Internal server error.'});
+        res.status(500).json({ error: 'Internal server error.' });
     }
 });
-// app.get('/exchanges', (req, res) => {
-//     const allStatus = `select exchanges.*, SignupLogIn.*
-//                         from exchanges
-//                         left join SignupLogIn on exchanges.createdBy = SignupLogIn.id;`;
-//     connection.query(allStatus, (error, results) => {
-//         if(error) {
-//             res.status(500).json({error: 'loi'});
-//         } else {
-//             res.status(200).json(results);
-//         }
-//     })
-// });
 app.post('/exchanges', checkAccess(), async (req, res) => {
     try {
         const { content } = req.body;
-        console.log(req.headers['authorization']);
-
-        // const data = await Exchange.create({ content, createdBy: res.locals.user.id });
         const data = await Exchange.create({ content, createdBy: res.locals.user.id });
         return res.status(200).send(data);
     } catch (e) {
@@ -131,6 +117,7 @@ app.post('/exchanges/:id/comments', checkAccess(), async (req, res) => {
         res.status(500).json({error: 'Internal server error.'});
     }
 });
+
 
 app.post('/exchanges/:id/like', checkAccess(), async (req, res) => {
     try {
@@ -303,6 +290,19 @@ app.get('/posts/:id', (req, res) => {
             }
         }
     );
+});
+app.get('/notification/:idUser', (req, res) => {
+    const idUser = req.params.idUser;
+    const readComment = `SELECT ec.*, u.username
+                            FROM exchangecomments ec
+                            JOIN exchanges e ON ec.exchangeId = e.id
+                            JOIN SignupLogIn u ON ec.userId = u.id
+                            WHERE ec.readComment = FALSE AND e.createdBy = ?;`;
+    connection.query(readComment, [idUser], (error, results) => {
+        if(error) {
+            res.status(500).json({error: 'Loi khi truy van co so du lieu.'});
+        } else res.status(200).json(results);
+    })
 });
 
 app.get('/posts', (req, res) => {

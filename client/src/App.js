@@ -22,6 +22,10 @@ function App() {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [fixPositionScroll, setFixPositionScroll] = useState();
   const [fullName, setFullName] = useState('Username');
+  const [countNotif, setCountNotif] = useState('');
+  const [listNotif, setListNotif] = useState([]);
+
+
 
 
   const toggleSidebar = () => {
@@ -159,6 +163,21 @@ function App() {
       .catch(error => {
         console.error('error: ', error);
       })
+
+      // axios.get(`http://localhost:3001/notification/${localStorage.getItem('idUser')}`)
+      axios.get(`http://localhost:3001/notification/6`)
+      .then(response => {
+        const notif = response.data;
+        if(notif.length > 0) {
+          setCountNotif(notif.length);
+          setListNotif(notif);
+        }
+        
+      })
+      .catch(error => {
+        console.error('error: ', error);
+      })
+
     }
   }, []);
 
@@ -263,41 +282,25 @@ function App() {
                           <FontAwesomeIcon className='round_icon_notification' icon={faBell} onClick={toggleNotification}/>
                           {isLoggedIn && isOpenNotification && (
                             <div className='form_notification'>
-                              <div className='notif_one_user'>
-                                <img src={picRound}></img>
-                                <div className='notifi_infomation'>
-                                  <h5 className='notif_userName_1'>iAMMIA</h5>
-                                  <p className='notif_userName_2'>framddddlpoukuhgruummmmme_get_notiffuck</p>
+                              {listNotif.length == 0 ? (
+                                <div className='notif_one_user'>
+                                  <img src={picRound}></img>
+                                  <div className='notifi_infomation'>
+                                    <h5 className='notif_userName_1'>No User</h5>
+                                    <p className='notif_userName_2'>Không có thông báo!</p>
+                                  </div>
                                 </div>
-                              </div>
-                              <div className='notif_one_user'>
-                                <img src={picRound}></img>
-                                <div className='notifi_infomation'>
-                                  <h5 className='notif_userName_1'>iAMMIA</h5>
-                                  <p className='notif_userName_2'>framddddlpoukuhgruummmmme_get_notiffuck</p>
-                                </div>
-                              </div>
-                              <div className='notif_one_user'>
-                                <img src={picRound}></img>
-                                <div className='notifi_infomation'>
-                                  <h5 className='notif_userName_1'>iAMMIA</h5>
-                                  <p className='notif_userName_2'>framddddlpoukuhgruummmmme_get_notiffuck</p>
-                                </div>
-                              </div>
-                              <div className='notif_one_user'>
-                                <img src={picRound}></img>
-                                <div className='notifi_infomation'>
-                                  <h5 className='notif_userName_1'>iAMMIA</h5>
-                                  <p className='notif_userName_2'>framddddlpoukuhgruummmmme_get_notiffuck</p>
-                                </div>
-                              </div>
-                              <div className='notif_one_user'>
-                                <img src={picRound}></img>
-                                <div className='notifi_infomation'>
-                                  <h5 className='notif_userName_1'>iAMMIA</h5>
-                                  <p className='notif_userName_2'>framddddlpoukuhgruummmmme_get_notiffuck</p>
-                                </div>
-                              </div>
+                              ):(
+                                listNotif.map(post => (
+                                  <div className='notif_one_user' key={post.id}>
+                                    <img src={picRound}></img>
+                                    <div className='notifi_infomation'>
+                                      <h5 className='notif_userName_1'>{post.username}</h5>
+                                      <p className='notif_userName_2'>{post.contentComment}</p>
+                                    </div>
+                                  </div>
+                                ))
+                              )}
                             </div>
                           )}
                         </div>

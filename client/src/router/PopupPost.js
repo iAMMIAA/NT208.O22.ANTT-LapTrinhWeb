@@ -6,8 +6,6 @@ import {useEffect, useMemo} from "react";
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup";
 import LoadingButton from '@mui/lab/LoadingButton';
-import axios from 'axios';
-
 
 export default function PostPopup(props) {
   const schema = yup
@@ -63,7 +61,7 @@ export default function PostPopup(props) {
             <div className='post-user'>
               <Avatar />
               <div className='post-user-info'>
-                <div className='post-user-name'>{props.username}</div>
+                <div className='post-user-name'>{props.inforUser.username}</div>
               </div>
             </div>
 

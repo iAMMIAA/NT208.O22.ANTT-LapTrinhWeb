@@ -68,7 +68,6 @@ export default function CommentPopup(props) {
       console.error(e)
     }
   }
-
   return (
     <Dialog
       open={props.open}

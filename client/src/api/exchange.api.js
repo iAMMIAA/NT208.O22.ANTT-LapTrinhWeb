@@ -65,3 +65,9 @@ export function useGetCommentList(exchangeId) {
 export const createComment = (exchangeId, content) => {
   return axiosInstance.post(endpoints.exchange.comment(exchangeId), { content });
 }
+
+// Trong file exchange.api.js
+
+// export function sendCommentNotification(exchangeId) {
+//   return axiosInstance.post(endpoints.exchange.commentNotification(exchangeId), {content});
+// }
