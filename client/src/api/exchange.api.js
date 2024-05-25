@@ -39,7 +39,7 @@ export function useCountComment() {
 }
 
 export function createExchange(content) {
-  console.log(endpoints.exchange.new);
+  // console.log(endpoints.exchange.new);
   return axiosInstance.post(endpoints.exchange.new, { content });
 }
 

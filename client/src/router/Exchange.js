@@ -14,9 +14,6 @@ import * as React from "react";
 function Exchange(){
     const {data, mutate} = useGetExchangeList();
     const {data: commentCount} = useCountComment();
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    })
 
     const getCommentCount = (exchangeId) => {
       return commentCount?.find((item) => item.exchangeId === exchangeId)?.value || 0;
@@ -93,7 +90,7 @@ function Exchange(){
             <PostPopup open={open} onClose={() => setOpen(false)} createExchange={async (content) => {
               await createExchange(content);
               await mutate();
-            }}/>
+            }} />
             <CommentPopup open={openComment} onClose={() => setOpenComment(false)} exchangeId={exchangeId} />
         </div>
     )

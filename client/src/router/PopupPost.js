@@ -45,13 +45,8 @@ export default function PostPopup(props) {
     try {
       await props.createExchange(data.content);
       props.onClose();
-    } catch (e) {
-      console.error(e)
-    }
+    } catch (e) {console.error(e)}
   }
-  // const post_status = () => {
-  //   axios.get(`....`)
-  // }
 
   return (
     <Dialog
@@ -68,7 +63,7 @@ export default function PostPopup(props) {
             <div className='post-user'>
               <Avatar />
               <div className='post-user-info'>
-                <div className='post-user-name'>Thanh Trúc</div>
+                <div className='post-user-name'>{props.username}</div>
               </div>
             </div>
 

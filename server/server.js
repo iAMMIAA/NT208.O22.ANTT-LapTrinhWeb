@@ -24,13 +24,13 @@ const connection = mysql.createConnection({
     database: 'DrugWeb'
 });
 
-function checkAccess() {
-    // Dummy middleware for access checking
-    return (req, res, next) => {
-        res.locals.user = { id: 1 }; // Replace with actual user checking logic
-        next();
-    };
-}
+// function checkAccess() {
+//     // Dummy middleware for access checking
+//     return (req, res, next) => {
+//         res.locals.user = { id: 6 }; // Replace with actual user checking logic
+//         next();
+//     };
+// }
 
 // Routes and handlers
 app.get('/exchanges', checkAccess(), async (req, res) => {
@@ -49,23 +49,33 @@ app.get('/exchanges', checkAccess(), async (req, res) => {
         res.status(500).json({error: 'Internal server error.'});
     }
 });
-
+// app.get('/exchanges', (req, res) => {
+//     const allStatus = `select exchanges.*, SignupLogIn.*
+//                         from exchanges
+//                         left join SignupLogIn on exchanges.createdBy = SignupLogIn.id;`;
+//     connection.query(allStatus, (error, results) => {
+//         if(error) {
+//             res.status(500).json({error: 'loi'});
+//         } else {
+//             res.status(200).json(results);
+//         }
+//     })
+// });
 app.post('/exchanges', checkAccess(), async (req, res) => {
     try {
         const { content } = req.body;
+        console.log(req.headers['authorization']);
+
+        // const data = await Exchange.create({ content, createdBy: res.locals.user.id });
         const data = await Exchange.create({ content, createdBy: res.locals.user.id });
         return res.status(200).send(data);
     } catch (e) {
         console.error(e);
-        if (e instanceof ValidationError) {
-            return res.status(400).send({
-                message: e.errors[0].message || e.message
-            });
-        }
+        if (e instanceof ValidationError) 
+            return res.status(400).send({message: e.errors[0].message || e.message});
         res.status(500).json({error: 'Internal server error.'});
     }
 });
-
 app.get('/exchanges/:id', checkAccess(), async (req, res) => {
     try {
         const data = await Exchange.findByPk(req.params.id);
@@ -371,14 +381,11 @@ app.get('/arrange_dateupdate', (req, res) => {
 });
 app.get('/user/:idUser', (req, res) => {
     const idUser = req.params.idUser;
-    console.log('myprofile: ', idUser);
     const query = `select * from SignupLogIn where id=?`
+    
     connection.query(query, [idUser], (error, results) => {
-        if(error) res.status(500).json({error: 'loi cmnr'});
-        else {
-            console.log(results);
-            res.status(200).json(results[0]);
-        }
+        if(error) res.status(500).json({error: 'Error to get infor'});
+        else res.status(200).json(results[0]);
     })
 })
 

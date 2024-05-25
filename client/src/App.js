@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faForward, faBackward, faHome, faCommentMedical, faBell, faSearch, faGear, faRightFromBracket} from '@fortawesome/free-solid-svg-icons';
 import { BrowserRouter as Router, Link, Route, Routes } from 'react-router-dom';
 import picTFBOYS from './router/pictures/tfboys.jpg'
-import user from './router/pictures/user.png'
+import username from './router/pictures/user.png'
 import Home from './router/Home';
 import Exchange from './router/Exchange';
 import LookUp from './router/LookUp';
@@ -114,7 +114,7 @@ function App() {
     setShowSignUp(true);
     setShowLogIn(false);
   }
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const logIn = (formData) => {
     axios.post('http://localhost:3001/login', formData)
         .then(response => {
@@ -158,7 +158,6 @@ function App() {
       })
       .catch(error => {
         console.error('error: ', error);
-        alert('loi cmnr');
       })
     }
   }, []);
@@ -317,7 +316,7 @@ function App() {
                               <Link className='one_link_dropdown' to="/setting_profile/setting" >Setting</Link>
                               <Link onClick={logOut} className='one_link_dropdown'>Log Out</Link>
                             </div>
-                          )}
+                            )}
                           </div>
                         </div>
                         ) : (
@@ -326,7 +325,7 @@ function App() {
                               <div className='one_noname' onClick={toggleDropDown}>
                                 <span>{fullName}</span>
                                 <div className='one_avatar'>
-                                  <img className='one_avatar_1' src={user} alt="" />
+                                  <img className='one_avatar_1' src={username} alt="" />
                                 </div>
                               </div>
                               {isOpenDropDown && (
