@@ -17,8 +17,9 @@ import picRound from './router/pictures/round.png';
 import axios from 'axios';
 // import logo from './logo/theme3.png'
 import logo from './logo/logo5.png'
+import Setting from './router/Setting';
 
-function App() {
+function App(DarkMode) {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [fixPositionScroll, setFixPositionScroll] = useState();
   const [fullName, setFullName] = useState('Username');
@@ -27,6 +28,17 @@ function App() {
 
 
 
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [darkmode, setdarkMode] = useState(false);
+  const [currentLanguage, setCurrentLanguage] = useState('vi'); // Default language is Vietnamese ('vi')
+  useEffect(() => {
+    // Apply initial mode
+    document.body.classList.toggle('dark-mode', isDarkMode);
+    document.body.classList.toggle('light-mode', !isDarkMode);
+  }, [isDarkMode]);
+  const handleThemeToggle = () => {
+    setIsDarkMode(!isDarkMode);
+  };
 
   const toggleSidebar = () => {
     setIsSidebarCollapsed (!isSidebarCollapsed);
@@ -180,10 +192,12 @@ function App() {
 
     }
   }, []);
-
+  const changeLanguage = (language) => {
+    setCurrentLanguage(language);
+  };
   return (
     <Router>
-      <div className='drug_web'>
+      <div className={`drug_web ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
         {noShowLogIn && (
             <LogIn onSubmit={logIn} closeLogIn={()=>setShowLogIn(false)} openSignUp={setShowSignUpForm}/>
         )}
@@ -241,7 +255,7 @@ function App() {
                           <span>LOOK UP</span>
                         </Link>
                       </li>
-                      <li className={`itemMenu ${isOpenSetting ? 'active' : ''}`}>
+                      <li className={`itemMenu ${isOpenSetting ? 'active' : ''} changeLanguage={changeLanguage}` }>
                         <Link className='text_left' to='/setting_profile' onClick={openSetting}>
                           <span>SETTING</span>
                         </Link>
@@ -351,6 +365,7 @@ function App() {
                         <Route path='/lookup' element={<LookUp/>}></Route>
                         <Route path='/paper2/:id' element={<Paper/>}></Route>
                         <Route path='/setting_profile/*' element={<Setting_Profile/>}></Route>
+                        <Route path="/setting" element={<Setting isDarkMode={isDarkMode} handleThemeToggle={handleThemeToggle} darkmode ={darkmode}/>} />
                       </Routes>
                     ) : (
                       <Routes>
