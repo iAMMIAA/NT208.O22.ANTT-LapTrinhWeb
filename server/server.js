@@ -20,7 +20,7 @@ const connection = mysql.createConnection({
     host: 'localhost',
     port: '3306',
     user: 'root',
-    password: 'i.AMMIAK16',
+    password: '1234567',
     database: 'DrugWeb'
 });
 
@@ -211,7 +211,7 @@ app.post('/login', (req, res) => {
 app.post('/update_profile/:idUser', (req, res) => {
     const data = req.body;
     const idUser = req.params.idUser;
-    const query = `update SignupLogIn set fullName = ?, school = ?, phoneNumber = ?, career = ?, gender = ?, country = ?, city = ?, areaCode = ? where id = ?;`
+    const query = `update SignupLogIn set fullName = ?, school = ?, phonenumber = ?, career = ?, gender = ?, country = ?, city = ?, areaCode = ? where id = ?;`
     connection.query(query, [data.fullName, data.school, data.phoneNumber, data.career, data.gender, data.country, data.city, data.areaCode, idUser], (error, results) => {
         if(error) {
             console.error('Error inserting data: ', error);
@@ -381,7 +381,20 @@ app.get('/user/:idUser', (req, res) => {
         }
     })
 })
-
+app.delete('/deleteAccount', (req, res) => {
+    const userEmail = req.body.useremail;
+    const sql = 'DELETE FROM SignupLogIn WHERE useremail = ?';
+  
+    connection.query(sql, [userEmail], (err, result) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send('Error deleting account');
+      } else {
+        res.send('Account deleted successfully');
+      }
+    });
+  });
+  
 
 // Khởi động server
 app.listen(port, () => {

@@ -1,4 +1,5 @@
-.drug_web{
+/* App.css */
+.drug_web {
     margin: 0px;
     padding: 0px;
     height: auto;
@@ -7,9 +8,20 @@
     justify-content: center;
     background-color: #E8EAED;
     font-family: system-ui, sans-serif;
-        /* position: fixed; */
-
-}
+  }
+  
+  .drug_web.light-mode {
+    background-color: #E8EAED;
+    color: black;
+  }
+  
+  .drug_web.dark-mode {
+    background-color: black;
+    color: #E8EAED;
+  }
+  
+  
+  
 /* Font chữ cho các màn hình nhỏ (ví dụ: điện thoại) */
 @media (max-width: 450px) {
     .drug_web {
@@ -23,6 +35,7 @@
         font-family: 'Times New Roman', serif;
     }
 }
+
 .container_web{
     font-family: system-ui, sans-serif;
     height: 100%;

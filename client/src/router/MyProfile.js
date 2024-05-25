@@ -6,26 +6,26 @@ import axios from 'axios';
 function MyProfile() {
   const [openStateEdit, setOpenStateEdit] = useState(false);
   const [updateFormProfile, setUpdateFormProfile] = useState({
-    fullName: '',
-    school: '',
-    email: '',
-    phoneNumber: '',
-    career: '',
-    gender: '',
-    country: '',
-    city: '',
-    areaCode: ''
+    fullName: 'Le Phuong Thao',
+    email: '21522608@gm.uit.edu.vn',
+    school: 'UIT university',
+    phonenumber: '0335739591',
+    career: 'Student',
+    gender: 'Female',
+    country: 'Vietnam',
+    city: 'Binh Dinh Province',
+    areaCode: '0256'
   });
   
   useEffect(() => {
-    axios.get(`http://localhost:3001/user/${localStorage.getItem('idUser')}`)
+    axios.get(`http://localhost:3001/user/2`)
         .then(response => {
           const infoUser = response.data;
           setUpdateFormProfile({
             fullName: infoUser.fullName,
             school: infoUser.school,
             email: infoUser.useremail,
-            phoneNumber: infoUser.phoneNumber,
+            phoneNumber: infoUser.phonenumber,
             career: infoUser.career,
             gender: infoUser.gender,
             country: infoUser.country,
@@ -54,7 +54,7 @@ function MyProfile() {
   }
   const sendFormUpdatedProfile = (event) => {
     event.preventDefault();
-    axios.post(`http://localhost:3001/update_profile/${localStorage.getItem('idUser')}`, updateFormProfile)
+    axios.post(`http://localhost:3001/update_profile/2`, updateFormProfile)
         .then(Response => {
           console.log('Response: ', Response.data);
           setOpenStateEdit(false);
@@ -179,7 +179,7 @@ function MyProfile() {
             </div>
           </div>
           <div className='my_profile_infomation'>
-            <div className='personal_information'><span>Address</span></div>
+            <div className='personal_information'><span>Địa Chỉ</span></div>
             <div className='table_infor'>
               <table className='table_personal_infor'>
                 <tbody>
