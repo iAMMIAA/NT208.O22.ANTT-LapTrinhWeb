@@ -6,25 +6,34 @@ import { faClose} from '@fortawesome/free-solid-svg-icons';
 import axios from "axios";
 
 
-function SignUp({openLogIn, closeSignUp}) {
+function SignUp({openLogIn, closeSignUp, onSubmit}) {
     const [formSignUp, setFormSignUp] = useState({
         username: '',
         useremail: '',
         userpassword: '',
-        confirm_password:'',
+        confirm_password:''
     });
     const handleInput = (event) => {
         const{name, value} = event.target;
         setFormSignUp({ ...formSignUp, [name]: value });
     }
 
-    const requestSignUp = () => {
-        axios.post('http://localhost:3001/signup', formSignUp)
-            .then(response => {
-                const message = response.data;
-                if(message === 'Data inserted successfully') closeSignUp();
-            })
+    const handleSignUp = () => {
+        onSubmit(formSignUp);
     }
+
+    // const requestSignUp = () => {
+    //     axios.post('http://localhost:3001/signup', formSignUp)
+    //         .then(response => {
+    //             const message = response.data;
+    //             if(message === 'Data inserted successfully') {
+    //                 alert("Đăng ký thành công! Vui lòng đăng nhập.");
+    //                 closeSignUp();
+    //                 window.location.href = 'http://localhost:3000';
+    //             }
+    //         })
+    // }
+
     
     return (
         <div className="signup">
@@ -49,7 +58,7 @@ function SignUp({openLogIn, closeSignUp}) {
                         <label htmlFor='confirm_password'> Confirm Password</label>
                         <input onChange={handleInput} placeholder='Confirm password' name="confirm_password" className='form-control rounded-0' />
                     </div>
-                    <button onClick={requestSignUp} className='btn btn-success w-100'><strong>Sign up</strong></button>
+                    <button onClick={handleSignUp} className='btn btn-success w-100'><strong>Sign up</strong></button>
                     <p></p>
                     <Link onClick={openLogIn} className='btn btn-default border w-100 text-decoration-none'>Sign in</Link>
                 </form>

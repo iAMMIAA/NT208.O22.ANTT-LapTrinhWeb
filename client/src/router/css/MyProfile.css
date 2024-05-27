@@ -1,14 +1,15 @@
 .my_profile{
-    /* height: 100%; */
     width: 100%;
     display: flex;
     flex-direction: column;
     padding: 50px 40px;
 }
+.my_profile.dark_mode{
+    color: #ffffff;
+}
 .test{
     height: 100%;
     width: 100%;
-    /* background-color: #11254f; */
 }
 .column_1{
     height: 25px;
@@ -30,13 +31,10 @@
 .my_profile_theme{
     height: 50px;
     display: flex;
-    /* align-items: center; */
     font-size: 25px;
-    /* background-color:#64728f; */
 }
 .my_profile_name{
     height: 120px;
-    /* height: 30%; */
     border-top: 1px solid #acacac;
     margin: 0px 20px;
     display: flex;
@@ -79,15 +77,10 @@
     width: 100%;
     margin: 1px;
     font-size: 17px;
-    /* background-color: #82b5dc; */
     display: flex;
     padding-left: 10px;
     align-items: center;
 }
-/* tr, td {
-    border: 1px solid black; 
-  } */
-
 .my_profile_infomation{
     height: 200px;
     border-top: 1px solid #acacac;
@@ -121,13 +114,9 @@
 .table_personal_infor tbody{
     height: 100%;
     width: 100%;
-    
-    /* display: flex; */
-    /* flex-direction: column; */
 }
 tr{
     display: flex;
-    /* height: 25%; */
 }
 td{
     width: 50%;
@@ -151,7 +140,7 @@ td{
     margin: 20px 0px 0px 20px;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 500px) {
     .my_profile{
         height: 100%;
         width: 100%;
@@ -160,6 +149,8 @@ td{
         padding: 0px 20px 10px 20px;
     }
     .my_profile_theme{
+        display: flex;
+        align-items: center;
         height: 10%;
         font-size: 20px;
     }
@@ -168,7 +159,9 @@ td{
     }
     .main_information{
         font-size: 13px;
-        width: 75%;
+    }
+    .main_information span{
+        font-size: 15px;
     }
     .my_profile_avatar{
         width: 25%;
@@ -180,18 +173,30 @@ td{
     }
     .my_profile_infomation{
         height: 28%;
+        /* font-size: 14px; */
     }
     .my_profile_btn_edit{
         height: 20%;
     }
-    /* .personal_information{
-        height: 30%;
-    }
-    .table_infor{
-        height: 80%;
-    } */
     .table_personal_infor{
         font-size: 13px;
         width: 95%;
+    }
+}
+@media (min-width: 500px) and (max-width: 768px){
+    .my_profile{
+        padding: 40px 40px;
+    }
+    .my_profile_theme{
+        height: 8%;
+    }
+    .my_profile_name{
+        height: 20%;
+    }
+    .my_profile_infomation{
+        height: 30%;
+    }
+    .my_profile_btn_edit{
+        height: 10%;
     }
 }

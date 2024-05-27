@@ -96,6 +96,7 @@ app.get('/exchanges/:id/comments', checkAccess(), async (req, res) => {
         const data = await ExchangeComment.findAll({
             where: { exchangeId: req.params.id },
             include: ['user'],
+            order: [['createdAt', 'DESC']],
         });
         return res.status(200).send(data);
     } catch (e) {
@@ -106,12 +107,10 @@ app.get('/exchanges/:id/comments', checkAccess(), async (req, res) => {
 app.post('/exchanges/:id/comments', checkAccess(), async (req, res) => {
     try {
         const exchangeId = req.params.id;
-        const readComment = false; 
         const data = await ExchangeComment.create({
             exchangeId,
             userId: res.locals.user.id,
             contentComment: req.body.content,
-            readComment,
         });
         console.log(JSON.stringify(data, null, 2)); // In toàn bộ dữ liệu với định dạng đẹp
         const user = await data.getUser();
@@ -120,8 +119,6 @@ app.post('/exchanges/:id/comments', checkAccess(), async (req, res) => {
         res.status(500).json({error: 'Internal server error.'});
     }
 });
-
-
 app.post('/exchanges/:id/like', checkAccess(), async (req, res) => {
     try {
         const exchangeId = req.params.id;
@@ -183,7 +180,7 @@ app.post('/signup', (req, res) => {
             return res.status(500).json({ error: 'Error inserting data into database' });
         }
         console.log('Data inserted into database');
-        res.status(200).json({ message: 'Data inserted successfully' });
+        res.status(200).json({ message: 'Success' });
     })
 });
 //LogIn
@@ -307,33 +304,9 @@ app.get('/notification/:idUser', (req, res) => {
         } else res.status(200).json(results);
     })
 });
-// app.get('/see_notication/:idComment', (req, res) => {
-//     const idComment = req.params.idComment;
-//     const readComment = `SELECT u1.username as createrContent, ex.content, ec.contentComment, ec.userId as idUserComment, u.username as userComment, ec.createdAt, ec.id as idComment
-//                             FROM exchanges ex
-//                             JOIN exchangecomments ec ON ex.id = ec.exchangeId
-//                             JOIN SignupLogIn u ON ec.userId = u.id
-//                             JOIN SignupLogIn u1 ON ex.createdBy = u1.id
-//                             WHERE ec.exchangeId = (
-//                                 SELECT exchangeId
-//                                 FROM exchangecomments
-//                                 WHERE id = ?
-//                             )
-//                             ORDER BY ec.createdAt desc;`;
-//     connection.query(readComment, [idComment], (error, results) => {
-//         if(error) {
-//             res.status(500).json({error: 'Loi khi truy van co so du lieu.'});
-//         } else res.status(200).json(results);
-//     })
-// });
-
 app.get('/see_notication/:idComment', (req, res) => {
     const idComment = req.params.idComment;
-
-    // Update the readComment to true
-    const updateQuery = "UPDATE exchangecomments SET readComment = true WHERE id = ?";
-
-    // Query to fetch the desired data
+    const updateQuery = "UPDATE exchangecomments SET readComment = false WHERE id = ?";
     const readComment = `SELECT u1.username as createrContent, ex.content, ec.contentComment, ec.userId as idUserComment, u.username as userComment, ec.createdAt, ec.id as idComment
                          FROM exchanges ex
                          JOIN exchangecomments ec ON ex.id = ec.exchangeId
@@ -346,12 +319,10 @@ app.get('/see_notication/:idComment', (req, res) => {
                          )
                          ORDER BY ec.createdAt desc;`;
 
-    // Execute the update query
     connection.query(updateQuery, [idComment], (updateError, updateResults) => {
         if (updateError) {
             res.status(500).json({ error: 'Error updating readComment.' });
         } else {
-            // After successful update, execute the select query
             connection.query(readComment, [idComment], (selectError, selectResults) => {
                 if (selectError) {
                     res.status(500).json({ error: 'Error querying the database.' });
@@ -424,6 +395,19 @@ app.get('/arrange_view', (req, res) => {
         }
     })
 });
+app.get('/top_posts', (req, res) => {
+    const query = `SELECT * FROM POSTS
+                    ORDER BY number_of_viewer DESC
+                    LIMIT 4;`;
+    connection.query(query, (error, results) => {
+        if(error) {
+            console.error('loi');
+            res.status(500).json({error: 'loi cmnr'});
+        } else {
+            res.status(200).json(results);
+        }
+    })
+});
 app.get('/arrange_dateupdate', (req, res) => {
     const query = `select *
                     from POSTS 
@@ -460,8 +444,6 @@ app.delete('/deleteAccount', (req, res) => {
     });
   });
   
-
-// Khởi động server
 app.listen(port, () => {
     console.log(`Server is listening at http://localhost:${port}`);
 });

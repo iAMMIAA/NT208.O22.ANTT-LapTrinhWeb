@@ -52,12 +52,12 @@ export default function PostPopup(props) {
       onClose={props.onClose}
       fullWidth
     >
-      <DialogTitle>
+      <DialogTitle className='popupPost'>
         <div className='title-post'>Tạo bài viết </div>
       </DialogTitle>
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <DialogContent>
+          <DialogContent className='popupPost'>
             <div className='post-user'>
               <Avatar />
               <div className='post-user-info'>
@@ -86,9 +86,8 @@ export default function PostPopup(props) {
             </div>
 
           </DialogContent>
-          <DialogActions>
+          <DialogActions className='popupPost'>
             <Button onClick={props.onClose}>Cancel</Button>
-            {/* <Button onClick={post_status}>Post</Button> */}
             <LoadingButton loading={isSubmitting} type="submit">Post</LoadingButton>
           </DialogActions>
         </form>

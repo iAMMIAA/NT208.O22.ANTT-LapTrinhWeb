@@ -5,7 +5,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import './css/PopupPost.css';
+import './css/PopupComment.css';
 import './css/Exchange.css';
 import TextField from "@mui/material/TextField";
 import {Avatar, Stack} from "@mui/material";
@@ -75,16 +75,16 @@ export default function CommentPopup(props) {
       fullWidth
       maxWidth={'md'}
     >
-      <DialogTitle>
+      <DialogTitle  className='popupComment'>
         <div className='title-post-comment'>Bình luận</div>
       </DialogTitle>
-      <DialogContent>
+      <DialogContent className='popupComment'>
         <Stack spacing={3}>
           {comments && comments.map((comment, key) => (
             <Stack direction="row" spacing={2} alignItems={'center'} key={key}>
               <Avatar alt={comment?.user?.username || ''} src={comment?.user?.username || ''} />
               <Stack>
-                <div>{comment?.user?.username || ''}</div>
+                <div style={{fontWeight: 'bold'}}>{comment?.user?.username || ''}</div>
                 <div>{comment.contentComment}</div>
               </Stack>
             </Stack>
@@ -95,7 +95,7 @@ export default function CommentPopup(props) {
                 name='content'
                 control={control}
                 render={({field, fieldState: {error}}) => (
-                  <TextField
+                  <TextField 
                     {...field}
                     multiline
                     rows={1}

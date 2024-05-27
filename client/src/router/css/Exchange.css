@@ -1,5 +1,3 @@
-
-
 .hello_theme{
     height: 15%;
     display: flex;
@@ -26,17 +24,25 @@
         color: rgb(105, 105, 105);
     }
 }
+.hello_theme.dark_mode{
+    color: #ccc;
+    background-color: #333333;
+}
 
 .exchange_title{
     height: 5%;
     margin-top: 25px;
-    margin-bottom: -13px;
+}
+.exchange_title.dark_mode{
+    color: #ffffff;
 }
 .newfeed{
     overflow-y: auto;
     max-height: 80%;
     height: 80%;
-
+}
+.newfeed.dark_mode{
+    color: #ccc;
 }
 .post{
     background-color: white;
@@ -44,6 +50,9 @@
     border-top-right-radius: 20px;
     margin-top: 15px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.post.dark_mode{
+    background-color: #333333;
 }
 .post-content{
     padding: 10px;

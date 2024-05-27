@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './css/SeeNotification.css';
+import {Avatar} from "@mui/material";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClose} from '@fortawesome/free-solid-svg-icons';
 import { layer } from '@fortawesome/fontawesome-svg-core';
@@ -10,8 +11,10 @@ function SeeNotification(props){
         <div className='see_notification' onClick={props.closeSeeNotification}>
             <div className='form_status'>
                 <div className='content_status'>
-                    <div className='createrContent'>{props.data.length > 0 && props.data[0].createrContent}</div>
-                    <div className='content'>{props.data.length > 0 && props.data[0].content}</div>
+                <Avatar alt={props.data?.[0]?.createrContent || ''} src={props.data?.[0]?.createrContent || ''}/>                    <div className='container_status'>
+                        <div className='createrContent' style={{fontWeight: 'bold'}}>{props.data.length > 0 && props.data[0].createrContent}</div>
+                        <div className='content'>{props.data.length > 0 && props.data[0].content}</div>
+                    </div>
                 </div>
                 <div className='comment_status'>
                 {props.data
@@ -19,8 +22,11 @@ function SeeNotification(props){
                     .sort((a, b) => (a.idComment === props.idCmt ? -1 : b.idComment === props.idCmt ? 1 : 0)) // Sắp xếp để idComment === props.idCmt lên đầu
                     .map(post => (
                     <div className={`item_comment ${post.idComment === props.idCmt ? 'gray' : ''}`} key={post.idComment}>
-                        <div className='nameUserComment'>{post.userComment}</div>
-                        <div className='contentComment'>{post.contentComment}</div>
+                        <Avatar alt={post.userComment || ''} src={post.userComment || ''}></Avatar>
+                        <div className='container_comment'>
+                            <div className='nameUserComment' style={{fontWeight: 'bold'}}>{post.userComment}</div>
+                            <div className='contentComment'>{post.contentComment}</div>
+                        </div>
                     </div>
                     ))}
                 </div>

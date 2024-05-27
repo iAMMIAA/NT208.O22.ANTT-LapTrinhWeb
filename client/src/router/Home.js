@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './css/Home.css'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import picRound from './pictures/round.png'
 import { Link } from 'react-router-dom';
-import { useState, useEffect } from 'react';
 import drug7 from './pictures/drug7.jpg'
 import drug8 from './pictures/drug8.png'
 import drug10 from './pictures/drug10.png'
@@ -15,13 +14,16 @@ import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLayerGroup} from '@fortawesome/free-solid-svg-icons';
 import ReactPaginate from 'react-paginate';
+// import { DarkModeContext } from './DarkModeContext';
 
 function Home() {
+    const [top4Post, setTop4Post] = useState([]);
     const [dailyPost, setDailyPost] = useState([]);
     const [isOpenDropDown, setIsOpenDropDown] = useState(false);
     const [pageNumber, setPageNumber] = useState(0); // Trang hiện tại
     const itemsPerPage = 8; // Số lượng three_item trên mỗi trang
     const [fixPositionScroll, setFixPositionScroll] = useState();
+    // const { darkMode } = useContext(DarkModeContext);
 
     const open_related_post_Benh = () =>{
         axios.get(`http://localhost:3001/related_post/Bệnh`)
@@ -73,6 +75,14 @@ function Home() {
     
     useEffect(() => {
         window.scrollTo(0, 0);
+        axios.get(`http://localhost:3001/top_posts`)
+            .then(Response => {
+                const data = Response.data;
+                if(data.length > 0) setTop4Post(data);
+            })
+            .catch(error => {
+                console.error("Error fetching posts: ", error);
+            });
 
         axios.get(`http://localhost:3001/posts`)
             .then(Response => {
@@ -88,7 +98,6 @@ function Home() {
             else setFixPositionScroll(false);
         }
 
-        //Đăng ký sự kiện handle fix position scroll
         window.addEventListener('scroll', handleFixPositionScroll);
 
         return () => {
@@ -127,62 +136,33 @@ function Home() {
 
         <div className="main_four">
             <div className="four_theme">
-                <span>Top Papers</span>
+                <span>Top bài viết được xem nhiều nhất</span>
             </div>
             <div className="four_container">
-                <div className="today_pp">
-                    <div className='today_pp_imgage'>
-                        <img src={drug11}></img>
-                    </div>
-                    <div className="today_pp_text">
-                        <Link to='/paper2/6' className="today_pp_test_1" id="demo">7 mẹo chăm sóc sức khỏe tuyệt vời ...</Link>
-                        <div className="today_pp_time">
-                            <span id="today_pp_time_two">Bác sĩ: Dương Thùy Chi</span>
+                <div className="four_container_inner">
+                    {top4Post.map(post => (
+                        <div className="today_pp" key={post.id}>
+                            <div className="today_pp_imgage">
+                                <img src={post.url_img} alt={post.title} />
+                            </div>
+                            <div className="today_pp_text">
+                                <Link to={`/paper2/${post.id}`} className="today_pp_test_1" id="demo">{post.title}</Link>
+                                <div className="today_pp_time">
+                                    <span id="today_pp_time_two">Tác giả: <strong>{post.author}</strong></span>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    
-                </div>                
-                <div className="today_pp">
-                    <div className='today_pp_imgage'>
-                        <img src={drug7}></img>
-                    </div>
-                    <div className="today_pp_text">
-                        <Link className="today_pp_test_1" to='/paper2/8' >Bí kíp giúp tinh thần để luôn lạc quan, ...</Link>
-                        <div className="today_pp_time">
-                            <span id="today_pp_time_two">Bác sĩ: Dương Thùy Chi</span>
-                        </div>
-                    </div>
-                </div>
-                <div className="today_pp">
-                    <div className='today_pp_imgage'>
-                        <img src={drug10}></img>
-                    </div>
-                    <div className="today_pp_text">
-                        <Link to='/paper2/11' className="today_pp_test_1">Lựa chọn nào tốt nhất cho sức khỏe...</Link>
-                        <div className="today_pp_time">
-                            <span id="today_pp_time_two">Bác sĩ: Dương Thùy Chi</span>
-                        </div>
-                    </div>
-                </div>                
-                <div className="today_pp">
-                    <div className='today_pp_imgage'>
-                        <img src={drug8}></img>
-                    </div>
-                    <div className="today_pp_text">
-                        <Link to='/paper2/12' className="today_pp_test_1">Chia sẻ cách cân bằng thể chất ...</Link>
-                        <div className="today_pp_time">
-                            <span id="today_pp_time_two">Bác sĩ: Dương Thùy Chi</span>
-                        </div>
-                    </div>
+                    ))}
                 </div>
             </div>
+
         </div>
 
         <div className="main_three">
             <div className="three_one">
                 <div className="three_theme">
                     <div className="theme_first">
-                        <span>New Papers</span>
+                        <span>Bài viết hằng ngày</span>
                     </div>
                     <div className="three_arrange">
                         <div className="three_arrange_container">

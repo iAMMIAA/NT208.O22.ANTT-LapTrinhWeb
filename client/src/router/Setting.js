@@ -3,7 +3,10 @@ import './css/Setting.css';
 import { faCircleHalfStroke, faLanguage } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
-function Setting({ isDarkMode, handleThemeToggle, darkmode }) {
+// import { DarkModeContext } from './DarkModeContext';
+
+function Setting() {
+  const { darkMode, setDarkMode } = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [openStateEdit, setOpenStateEdit] = useState(false);
   const [updateFormProfile, setUpdateFormProfile] = useState({
@@ -20,7 +23,6 @@ function Setting({ isDarkMode, handleThemeToggle, darkmode }) {
   
   const handleLanguageClick = () => {
     console.log('Clicked Chuyển đổi ngôn ngữ');
-    // Add logic for language change
   };
 
   const handleDeleteAccountClick = () => {
@@ -32,14 +34,13 @@ function Setting({ isDarkMode, handleThemeToggle, darkmode }) {
     console.log('Confirmed account deletion');
     event.preventDefault();
     axios.delete(`http://localhost:3001/deleteAccount`, { data: { useremail: updateFormProfile.email } })
-  .then(response => {
-    console.log('Response: ', response.data);
-    setOpenStateEdit(false);
-  })
-  .catch(error => {
-    console.error('Loi cmnr: ', error);
-  });
-
+          .then(response => {
+            console.log('Response: ', response.data);
+            setOpenStateEdit(false);
+          })
+          .catch(error => {
+            console.error('Loi cmnr: ', error);
+          });
   };
 
   const handleCancelDelete = () => {
@@ -47,14 +48,14 @@ function Setting({ isDarkMode, handleThemeToggle, darkmode }) {
     setShowConfirmation(false);
   };
   return (
-    <div className={`setting ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
-      <div className={`setting_theme ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
+    <div className={`setting ${darkMode ? 'dark_mode' : ''}`}>
+      <div className={`setting_theme`}>
         <span>Cài đặt trang web</span>
       </div>
-      <div className={`setting_container ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
+      <div className={`setting_container`}>
         <div className="setting-switch">
           <label className="switch">
-            <input type="checkbox" checked={isDarkMode} onChange={handleThemeToggle} />
+            <input type="checkbox" checked={darkMode} onChange={() => setDarkMode(!darkMode)} />
             <span className="slider"></span>
           </label>
           <span><FontAwesomeIcon icon={faCircleHalfStroke}/> Giao diện</span>

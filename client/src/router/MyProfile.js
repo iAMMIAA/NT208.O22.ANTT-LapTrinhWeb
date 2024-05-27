@@ -77,7 +77,6 @@ function MyProfile() {
                 <img src={ava}></img>
               </div>
               <div className='main_information'>
-                <input style={{color: 'black'}} placeholder='Nickname' type='text'></input>
                 <input style={{color: 'black'}} placeholder='Họ và tên' type='text' name='fullName' value={updateFormProfile.fullName} onChange={changeFormProfile}></input>
                 <input style={{color: 'black'}} placeholder='Trường học' type='text' name='school' value={updateFormProfile.school} onChange={changeFormProfile}></input>
               </div>
@@ -148,7 +147,6 @@ function MyProfile() {
               <img src={ava}></img>
             </div>
             <div className='main_information'>
-              <span>iAMMIA</span>
               <span style={{color: 'gray'}}>{updateFormProfile.fullName}</span>
               <span style={{color: 'gray'}}>{updateFormProfile.school}</span>
             </div>

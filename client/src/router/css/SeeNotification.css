@@ -1,4 +1,4 @@
-.see_notification{
+.see_notification.dark_mode{
     position: fixed;
     display: flex;
     align-items: center;
@@ -21,26 +21,29 @@
     width: 100%;
     border-radius: 25px;
     background-color: rgba(189, 187, 187, 0.782);
-
+    display: flex;
+    flex-direction: row;
+}
+.container_status{
+    margin-left: 10px;
 }
 .comment_status{
     height: 60%;
     width: 100%;
-    /* background-color: rgb(171, 116, 116); */
     overflow-y: auto;
 }
 .item_comment{
-    /* height: 30%; */
     width: 100%;
-    /* background-color: aqua; */
     margin: 5px;
     padding: 10px;
+    display: flex;
+    flex-direction: row;
 }
 .item_comment.gray{
-    /* height: 30%; */
-    width: 100%;
     background-color: rgba(198, 196, 196, 0.249);
-    margin: 5px;
+}
+.container_comment{
+    margin-left: 10px;
 }
 .nameUserComment{
     font-weight: large;

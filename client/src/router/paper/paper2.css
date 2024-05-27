@@ -24,7 +24,6 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    /* background-color: #a1c5de; */
 }
 .container_paper{
     height: auto;
@@ -35,14 +34,19 @@
     margin-bottom: 30px;
     box-shadow: 0 0 20px #d1d1d18d;
 }
+.container_paper.dark_mode{
+    background-color: #333333;
+    color: #e7e5e5;
+    box-shadow: 0 0 20px #3231318d;
+
+}
 .table_of_paper{
     width: 20%;
-    /* background-color: #23791b; */
 }
 .table_of_paper h4{
     text-align: center;
 }
-.fixed_table_of_paper{
+.table_of_paper.fixed_table_of_paper{
     position: fixed;
     height: 100%;
     top: 100px;
@@ -50,7 +54,7 @@
     width: 199px;
     /* background-color: #1b5279; */
 }
-.fixed_table_of_paper h4{
+.table_of_paper.fixed_table_of_paper h4{
     text-align: center;
 }
 
@@ -66,19 +70,29 @@
     /* background-color: #1b5279; */
 }
 .content_container{
+    /* font-size: 100%; */
     margin: 0px 20px 0px 20px;
     text-align: justify;
 }
 .end_article{
-    padding-top: 10px;
+    color: gray;
+    padding-top: 20px;
     border-top: #1b5279;
     border-top: 1px solid rgb(32, 45, 78); 
-    /* background-color: #1b5279; */
+}
+.end_article strong{
+    color: #000000;
+}
+.end_article strong{
+    color: #ffffff;
 }
 
 .related_posts_theme{
     font-size: 18px;
     font-weight: bold;
+}
+.related_posts_theme{
+    color: #ffffff;
 }
 .related_posts{
     display: flex;
@@ -97,6 +111,10 @@
     background-color: white;
     margin: 0px 20px 0px 0px;
     box-shadow: 0 0 20px rgba(206, 205, 205, 0.463);
+}
+.related_post{
+    background-color: #333333;
+    box-shadow: 0 0 20px rgba(59, 58, 58, 0.463);
 }
 .related_post_img{
     width: 100%;
@@ -129,6 +147,10 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+.related_post_link{
+    color: #ffffff;
+}
+
 .related_post_author{
     display: flex;
     justify-content: flex-end;
@@ -138,10 +160,33 @@
     color: rgb(90, 88, 88);
     overflow: hidden;
 }
-
+.related_post_author{
+    color: #ccc;
+}
 .tag_article{
     border-radius: 20px;
     padding: 10px;
     color: #ffffff;
     background-color: rgb(244, 174, 174);
+}
+
+@media (max-width: 450px) {
+    .table_of_paper, .table_of_paper.fixed_table_of_paper{
+        display: none;
+    }
+    .container_paper{
+        width: 100%;
+        padding: 20px 20px 30px 20px;
+    }
+
+    .author_article{
+        font-size: 12px;
+    }
+    .theme_paper span h2{
+        font-size: 20px;
+    }
+    .content_container{
+        font-size: 14px; 
+    }
+
 }

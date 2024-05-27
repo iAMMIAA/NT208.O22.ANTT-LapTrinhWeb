@@ -4,14 +4,9 @@ import { useState, useEffect } from 'react';
 import React from 'react';
 import '../css/Home.css'; 
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import drug7 from '../pictures/drug7.jpg'
-import drug8 from '../pictures/drug8.png'
-import drug10 from '../pictures/drug10.png'
-import drug11 from '../pictures/drug11.png'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { faUser, faClock, faHome} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
 
 function Paper() {
     const { id } = useParams();
@@ -104,11 +99,10 @@ function Paper() {
                         <p>Tags: <span className='tag_article'>{tagPost}</span></p>
                     </div>
                     <div className='end_article'>
-                        
-                        <p style={{color: 'gray'}}>Đang xem: <strong style={{color: 'black'}}>{titlePost}</strong></p>
+                        <p>Đang xem: <strong>{titlePost}</strong></p>
                     </div>
                 </div>
-                <div className={fixedTableOfPaper ? 'fixed_table_of_paper':'table_of_paper'}>
+                <div className={`table_of_paper ${fixedTableOfPaper ? 'fixed_table_of_paper':''}`}>
                     <h4>Mục lục</h4>
                     <ul>{tocItems}</ul>
                 </div>
@@ -125,7 +119,7 @@ function Paper() {
                                 <img src={post.url_img}></img>
                             </div>
                             <div className="related_post_title">
-                                <Link to={`/paper2/${post.id}`} className="related_post_link" id="demo">{post.title}</Link>
+                                <Link className="related_post_link" to={`/paper2/${post.id}`} id="demo">{post.title}</Link>
                                 <div className="related_post_author">
                                     <p>Tác giả: <strong>{post.author}</strong></p>
                                 </div>

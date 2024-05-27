@@ -5,40 +5,51 @@ import MyProfile from './MyProfile';
 import Setting from './Setting';
 
 function Setting_Profile() {
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [openSetting, setOpenSetting] = useState(false);
+  const [openProfile, setOpenProfile] = useState(false);
+
+  const openTabSetting = () =>{
+    setOpenSetting(true);
+    setOpenProfile(false);
+  }
+  const openTabProfile = () =>{
+    setOpenSetting(false);
+    setOpenProfile(true);
+  }
 
   useEffect(() => {
-    // Apply initial mode
-    document.body.classList.toggle('dark-mode', isDarkMode);
-    // document.body.classList.toggle('light-mode', !isDarkMode);
-  }, [isDarkMode]);
-
-  const handleThemeToggle = () => {
-    setIsDarkMode(!isDarkMode);
-  };
+    const pathname = window.location.pathname;
+    switch (pathname) {
+      case '/setting_profile':
+        setOpenProfile(true);
+        setOpenSetting(false);
+        break;
+      case '/setting_profile/setting':
+        setOpenSetting(true);
+        setOpenProfile(false);
+      default:
+        break;
+    }})
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   return (
-    <div className={`setting_profile ${isDarkMode ? 'dark-mode' : ''}`}>
-      <div className={`left_setting_profile ${isDarkMode ? 'dark-mode' : ''}`}>
-        <Link className='render_profile' to='/setting_profile'>
+    <div className={`setting_profile`}>
+      <div className={`left_setting_profile`}>
+        <Link className={`render_profile ${openProfile ? 'open':''}`} to='/setting_profile' onClick={openTabProfile}>
           <span>Thông tin cá nhân</span>
         </Link>
-        <Link className='render_setting' to='/setting_profile/setting'>
+        <Link className={`render_setting ${openSetting ? 'open':''}`} to='/setting_profile/setting' onClick={openTabSetting}>
           <span>Cài đặt</span>
         </Link>
       </div>
 
-      <div className={`right_setting_profile ${isDarkMode ? 'dark-mode' : ''}`}>
+      <div className={`right_setting_profile`}>
         <Routes>
-          <Route path='' element={<MyProfile isDarkMode={isDarkMode} />} />
-          <Route 
-            path='/setting' 
-            element={<Setting isDarkMode={isDarkMode} handleThemeToggle={handleThemeToggle} />} 
-          />
+          <Route path='/' element={<MyProfile/>} />
+          <Route path='/setting' element={<Setting/>}/>
         </Routes>
       </div>
     </div>

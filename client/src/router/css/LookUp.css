@@ -18,13 +18,6 @@
     padding: 50px 0px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
-.drugForm,
-.btn_check,
-.decor_uploadImage {
-  /* position: relative; */
-  /* z-index: 2; */
-  /* Các phần tử con của uploadImage có position khác static */
-}
 .uploadImage p{
     /* position: absolute; */
     height: 100%;
@@ -35,20 +28,33 @@
     font-size: 50px;
     font-weight: bold;
     color: rgba(140, 138, 138, 0.386);
-    /* clear: both; */
 }
-
-/* .decor_uploadImage{
-    position: absolute;
-    top: 23%;
-    right: 6%;
-    font-size: 100px;
-} */
 .result{
+    width: 100%;
+}
+.intro_result{
+    width: 100%;
+}
+.intro_result1{
+    height: 280px;
+    font-style: italic;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    box-shadow: 0 0 20px rgba(42, 42, 42, 0.1);
+}
+.intro_result1.dark_mode{
+    background-color: #333333;
+    color: #ccc;
+    box-shadow: 0 0 20px rgba(42, 42, 42, 0.1);
+}
+.main_result{
+    /* height: 100%; */
     width: 100%;
     display: flex;
     flex-direction: row;
-    /* height: 64%; */
 }
 .square1{
     /* width: 300px; */
@@ -272,14 +278,11 @@ p{
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    /* justify-content: space-between; */
     padding: 0px 35px;
-    /* text-align: justify; */
 }
 
 .list_proposed_drug li {
     flex: 0 0 auto; 
-    /* background-color: #f0f0f0;  */
     text-align: center; /* Căn giữa nội dung của mỗi mục */
     display: flex;
     align-items: center;
@@ -287,7 +290,15 @@ p{
     padding: 20px;
     margin: 10px;
     font-weight: bold;
-    /* border-radius: 20px; */
-    /* box-shadow: 0 0 2px #3a577a; */
-    /* background-color: #ffffff; */
   }
+
+@media (max-width: 480px) {
+.uploadImage p{
+    font-size: 22px;
+}
+}
+@media (min-width: 480px) and (max-width: 768px) {
+    .uploadImage p{
+        font-size: 40px;
+    }
+    }
