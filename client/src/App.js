@@ -1,7 +1,7 @@
 import { faCircle, faBars, faForward, faBackward, faHome, faCommentMedical, faBell, faSearch, faGear, faRightFromBracket} from '@fortawesome/free-solid-svg-icons';
-import { BrowserRouter as Router, Link, Route, Routes } from 'react-router-dom';import React, {useState, useEffect} from 'react';
+import { Route, Routes, Link, useNavigate } from 'react-router-dom';
+import React, {useState, useEffect} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import picTFBOYS from './router/pictures/tfboys.jpg';
 import picRound from './router/pictures/round.png';
 import username from './router/pictures/user.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -20,7 +20,7 @@ import axios from 'axios';
 import './css/App.css'; 
 import {Avatar} from "@mui/material";
 // import { useContext } from 'react';
-// import { DarkModeProvider, DarkModeContext } from './router/DarkModeContext';
+import { useDarkMode } from './router/DarkModeContext';
 
 function App() {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
@@ -36,7 +36,7 @@ function App() {
   const [isOpenExchange, setIsOpenExchange] = useState(false);
   const [isOpenLookUp, setIsOpenLookUp] = useState(false);
   const [isOpenMenu, setIsOpenMenu] = useState(false);
-  // const { darkMode } = useContext(DarkModeContext);
+  const { darkMode, setDarkMode } = useDarkMode(false);
 
   const openHome = () =>{
     setIsOpenHome(true);
@@ -44,7 +44,6 @@ function App() {
     setIsOpenLookUp(false);
     setIsOpenSetting(false);
   }
-
   const openSetting= () =>{
     setIsOpenSetting(true);
     setIsOpenHome(false);
@@ -63,16 +62,10 @@ function App() {
     setIsOpenExchange(false);
     setIsOpenSetting(false);
   }
-
-  // const handleWindowSizeChange = () => {
-  //   if (window.innerWidth <= 930) setIsOpenMenu(true);
-  //   else setIsOpenMenu(false);
-  // };
   const handleFixPositionScroll = () => {
     if (window.scrollY > 0) setFixPositionScroll(true);
     else setFixPositionScroll(false);
   }
-
   const openNotification = () => {
     if (isOpenNotification == true) setIsOpenNotification(false);
     else setIsOpenNotification(true);
@@ -89,7 +82,6 @@ function App() {
     if (isOpenMenu == false) setIsOpenMenu(true);
     else setIsOpenMenu(false);
   }
-
   useEffect(() => {
     // alert('mia');
     const pathname = window.location.pathname;
@@ -110,56 +102,49 @@ function App() {
         break;
     }
 
-    // Gọi hàm handleWindowSizeChange khi component được render lại
-    // handleWindowSizeChange();
-
-    // Đăng ký sự kiện
-    // window.addEventListener('resize', handleWindowSizeChange);
     window.addEventListener('scroll', handleFixPositionScroll);
 
     // Xóa sự kiện
     return () => {
-      // window.removeEventListener('resize', handleWindowSizeChange);
       window.removeEventListener('scroll', handleFixPositionScroll);
     };
 
   }, []);
-
   const [noShowLogIn, setShowLogIn] = useState(false);
   const [noShowSignUp, setShowSignUp] = useState(false);
   const setShowLogInForm = () => {
     setShowLogIn(true);
     setShowSignUp(false);
   }
-
   const setShowSignUpForm = () => {
     setShowSignUp(true);
     setShowLogIn(false);
   }
+
+  const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const logIn = (formData) => {
-    axios.post('http://localhost:3001/login', formData)
-        .then(response => {
-          const {message, token, idUser} = response.data;
-          if(message === 'Success' && token)
-            {
-              localStorage.setItem('isLoggedIn', 'true');
-              localStorage.setItem('token', token);
-              localStorage.setItem('idUser', idUser);
-              axios.defaults.headers.common.Authorization = `${token}`;
-              window.location.href = 'http://localhost:3000';
-            }
-          else{
+  const logIn = async (formData) => {
+    try {
+        const response = await axios.post('http://localhost:3001/login', formData);
+        const { message, token, idUser } = response.data;
+
+        if (message === 'Success' && token) {
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('token', token);
+            localStorage.setItem('idUser', idUser);
+            alert('Đăng nhập thành công');
+            window.location.href = 'http://localhost:3000';
+            axios.defaults.headers.common.Authorization = `${token}`;
+        } else {
             alert('Đăng nhập thất bại!');
             window.location.href = 'http://localhost:3000';
-          }
-        })
-        .catch(error => {
-          alert('Đăng nhập thất bại!');
-          window.location.href = 'http://localhost:3000';
-          console.error("Error while fetching result: ", error);
-        });
-  }
+        }
+    } catch (error) {
+        alert('Đăng nhập thất bại!');
+        window.location.href = 'http://localhost:3000';
+        console.error("Error while fetching result: ", error);
+    }
+  };
 
   const requestSignUp = (formSignUp) => {
     axios.post('http://localhost:3001/signup', formSignUp)
@@ -177,12 +162,10 @@ function App() {
           console.error("Error while fetching result: ", error);
         });
   }
-
   const logOut = () => {
     localStorage.removeItem('isLoggedIn');
     localStorage.removeItem('token');
     localStorage.removeItem('idUser');
-
     // Tải lại trang
     window.location.href = 'http://localhost:3000/';
   }
@@ -201,7 +184,6 @@ function App() {
     setOpenSeeNotification(true);
     setIdCmt(id);
   }
-
   useEffect(() => {
     const loggedInStatus = localStorage.getItem('isLoggedIn');
     if (loggedInStatus === 'true') {
@@ -231,9 +213,9 @@ function App() {
 
   return (
     // <DarkModeProvider>
-      <Router>
-          {/* <div className={`drug_web ${darkMode ? 'dark_mode':''}`}> */}
-          <div className={`drug_web`}>
+      // <Router>
+          <div className={`drug_web ${darkMode ? 'dark_mode':''}`}>
+          {/* <div className={`drug_web `}> */}
             {noShowLogIn && (<LogIn onSubmit={logIn} closeLogIn={()=>setShowLogIn(false)} openSignUp={setShowSignUpForm}/>)}
             {noShowSignUp && (<SignUp onSubmit={requestSignUp} closeSignUp={()=>setShowSignUp(false)} openLogIn={setShowLogInForm}/>)}
             {openSeeNotification && (<SeeNotification idCmt={idCmt} data={dataSeeNotification} closeSeeNotification={() => setOpenSeeNotification(false)}/>)}
@@ -272,16 +254,16 @@ function App() {
                     </div>
                     <div className="list_menu">
                         <ul>
-                          <li className={`itemMenu ${isOpenHome ? 'active' : ''}`}>
+                          <li className={`itemMenu ${isOpenHome ? 'active' : ''} ${darkMode ? 'dark_mode':''}`}>
                             <Link className='text_left' to='/' onClick={openHome}><span>TRANG CHỦ</span></Link>
                           </li>
-                          <li className={`itemMenu ${isOpenExchange ? 'active' : ''}`}>
+                          <li className={`itemMenu ${isOpenExchange ? 'active' : ''} ${darkMode ? 'dark_mode':''}`}>
                             <Link className='text_left' to='/exchange' onClick={openExchange}><span>DIỄN ĐÀN</span></Link>
                           </li>
-                          <li className={`itemMenu ${isOpenLookUp ? 'active' : ''}`}>
+                          <li className={`itemMenu ${isOpenLookUp ? 'active' : ''} ${darkMode ? 'dark_mode':''}`}>
                             <Link className='text_left' to='/lookup' onClick={openLookUp}><span>TRA CỨU</span></Link>
                           </li>
-                          <li className={`itemMenu ${isOpenSetting ? 'active' : ''} changeLanguage={changeLanguage}` }>
+                          <li className={`itemMenu ${isOpenSetting ? 'active' : ''} ${darkMode ? 'dark_mode':''}` }>
                             <Link className='text_left' to='/setting_profile' onClick={openSetting}><span>CÀI ĐẶT</span></Link>
                           </li>
                         </ul>
@@ -304,8 +286,7 @@ function App() {
 
                 <div className={`layout_main ${isSidebarCollapsed ? 'active': ''}`}>
                     <div className="main_container">
-                      {/* <div className={fixPositionScroll ? 'fixed_main_one':'main_one'}> */}
-                      <div className={`main_one ${fixPositionScroll ? 'fixed_main_one':''} ${isSidebarCollapsed ? 'active': ''}`}>
+                      <div className={`main_one ${fixPositionScroll ? 'fixed_main_one':''} ${isSidebarCollapsed ? 'active': ''} ${darkMode ? 'dark_mode':''}`}>
                         <div className='main_one_container'>
                             <div className={`one_menu ${isOpenMenu ? 'open_by_bar':''}`}>
                                 <FontAwesomeIcon className={`icon_bars ${isOpenMenu ? 'open_by_bar':''}`} icon={faBars} onClick={openMenuByBar}/>
@@ -314,15 +295,15 @@ function App() {
                               {/* <h2>MedicalWeb.</h2> */}
                             </div>
                             <div className="one_notification">
-                              <FontAwesomeIcon className='round_icon_notification' icon={faBell} onClick={openNotification}/>
+                              <FontAwesomeIcon className={`round_icon_notification ${darkMode ? 'dark_mode':''}`} icon={faBell} onClick={openNotification}/>
                               {isLoggedIn && isOpenNotification && (
-                                <div className={`form_notification ${(fixPositionScroll) ? 'fix_menu':''}`}>
+                                <div className={`form_notification ${(fixPositionScroll) ? 'fix_menu':''} ${darkMode ? 'dark_mode':''}`}>
                                   {listNotif.length == 0 ? (
                                     <div className='notif_one_user'>
                                       <img src={picRound}></img>
                                       <div className='notifi_infomation'>
-                                        <h5 className='notif_userName_1'>No User</h5>
-                                        <p className='notif_userName_2'>Không có thông báo!</p>
+                                        <h5 className={`notif_userName_1 ${darkMode ? 'dark_mode':''}`}>No User</h5>
+                                        <p className={`notif_userName_2 ${darkMode ? 'dark_mode':''}`}>Không có thông báo!</p>
                                       </div>
                                     </div>
                                   ):(
@@ -342,7 +323,7 @@ function App() {
                             {isLoggedIn ? (
                             <div className="one_username">
                               <div className="one_username_container">
-                                <div className='one_noname' onClick={openDropDown}>
+                                <div className={`one_noname ${darkMode ? 'dark_mode':''}`} onClick={openDropDown}>
                                   <span className='name'><span>{fullName || 'Họ và tên'}</span></span>
                                   <div className='one_avatar'>
                                     <Avatar className='one_avatar_1' alt={userName || ''} src={userName || ''}></Avatar>
@@ -362,7 +343,7 @@ function App() {
                               <div className="one_username">
                                 <div className="one_username_container">
                                   <div className='one_noname' onClick={openDropDown}>
-                                    <span style={{textAlign: 'center'}}>User</span>
+                                    <span className='name'><span>UserName</span></span>
                                     <div className='one_avatar'>
                                       <img className='one_avatar_1' src={username} alt="" />
                                     </div>
@@ -382,7 +363,7 @@ function App() {
                       <div className={fixPositionScroll ? 'fixed_main_router':'main_router'}>
                         {isLoggedIn ? (
                           <Routes>
-                            <Route path="/" exact element={<Home/>}></Route>
+                            <Route path="/" exact element={<Home isSidebarCollapsed={isSidebarCollapsed}/>}></Route>
                             <Route path='/exchange' element={<Exchange/>}></Route>
                             <Route path='/lookup' element={<LookUp/>}></Route>
                             <Route path='/paper2/:id' element={<Paper/>}></Route>
@@ -413,7 +394,7 @@ function App() {
                 </div>
             </div>
           </div>
-      </Router>
+      // </Router>
     // </DarkModeProvider>
   );
 }

@@ -1,11 +1,13 @@
-// DarkModeContext.js
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useContext } from 'react';
 
-// Tạo context
-export const DarkModeContext = createContext();
+const DarkModeContext = createContext();
+
+export const useDarkMode = () => {
+  return useContext(DarkModeContext);
+};
 
 export const DarkModeProvider = ({ children }) => {
-  const [darkMode, setDarkMode] = useState(false);
+  const [ darkMode, setDarkMode ] = useState(false);
 
   return (
     <DarkModeContext.Provider value={{ darkMode, setDarkMode }}>

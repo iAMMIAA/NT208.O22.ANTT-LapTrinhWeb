@@ -306,7 +306,7 @@ app.get('/notification/:idUser', (req, res) => {
 });
 app.get('/see_notication/:idComment', (req, res) => {
     const idComment = req.params.idComment;
-    const updateQuery = "UPDATE exchangecomments SET readComment = false WHERE id = ?";
+    const updateQuery = "UPDATE exchangecomments SET readComment = true WHERE id = ?";
     const readComment = `SELECT u1.username as createrContent, ex.content, ec.contentComment, ec.userId as idUserComment, u.username as userComment, ec.createdAt, ec.id as idComment
                          FROM exchanges ex
                          JOIN exchangecomments ec ON ex.id = ec.exchangeId

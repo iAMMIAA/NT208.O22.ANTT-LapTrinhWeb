@@ -14,16 +14,16 @@ import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLayerGroup} from '@fortawesome/free-solid-svg-icons';
 import ReactPaginate from 'react-paginate';
-// import { DarkModeContext } from './DarkModeContext';
+import { useDarkMode } from './DarkModeContext';
 
-function Home() {
+function Home(props) {
     const [top4Post, setTop4Post] = useState([]);
     const [dailyPost, setDailyPost] = useState([]);
     const [isOpenDropDown, setIsOpenDropDown] = useState(false);
     const [pageNumber, setPageNumber] = useState(0); // Trang hiện tại
     const itemsPerPage = 8; // Số lượng three_item trên mỗi trang
     const [fixPositionScroll, setFixPositionScroll] = useState();
-    // const { darkMode } = useContext(DarkModeContext);
+    const { darkMode, setDarkMode } = useDarkMode();
 
     const open_related_post_Benh = () =>{
         axios.get(`http://localhost:3001/related_post/Bệnh`)
@@ -94,7 +94,7 @@ function Home() {
             });
 
         const handleFixPositionScroll = () => {
-            if (window.scrollY > 647) setFixPositionScroll(true);
+            if (window.scrollY > 719) setFixPositionScroll(true);
             else setFixPositionScroll(false);
         }
 
@@ -114,15 +114,15 @@ function Home() {
     const displayDailyPosts = dailyPost
         .slice(pageNumber * itemsPerPage, (pageNumber + 1) * itemsPerPage)
         .map(post => (
-            <div className="three_item" key={post.id}>
+            <div className={`three_item ${darkMode ? 'dark_mode':''}`} key={post.id}>
                 <div className='three_img'>
                     <img src={post.url_img} alt="" />
                 </div>
                 <div className="three_text">
-                    <Link to={`/paper2/${post.id}`} className="test_1">{post.title}</Link>
-                    <div className="three_time">
-                        <span id="time_one">{post.date_update}</span>
-                        <span id="time_two">Tác giả: <strong>{post.author}</strong></span>
+                    <Link to={`/paper2/${post.id}`} className={`test_1 ${darkMode ? 'dark_mode':''}`}>{post.title}</Link>
+                    <div className={`three_time ${darkMode ? 'dark_mode':''}`}>
+                        <span className="time_one">{post.date_update}</span>
+                        <span className={`time_two ${darkMode ? 'dark_mode':''}`}>Tác giả: <strong>{post.author}</strong></span>
                     </div>
                 </div>
             </div>
@@ -135,19 +135,20 @@ function Home() {
         </div>
 
         <div className="main_four">
-            <div className="four_theme">
+            <div className={`four_theme ${darkMode ? 'dark_mode':''}`}>
+            {/* <div className={`four_theme`}> */}
                 <span>Top bài viết được xem nhiều nhất</span>
             </div>
             <div className="four_container">
                 <div className="four_container_inner">
                     {top4Post.map(post => (
-                        <div className="today_pp" key={post.id}>
+                        <div className={`today_pp ${darkMode ? 'dark_mode':''}`} key={post.id}>
                             <div className="today_pp_imgage">
                                 <img src={post.url_img} alt={post.title} />
                             </div>
-                            <div className="today_pp_text">
-                                <Link to={`/paper2/${post.id}`} className="today_pp_test_1" id="demo">{post.title}</Link>
-                                <div className="today_pp_time">
+                            <div className={`today_pp_text ${darkMode ? 'dark_mode':''}`}>
+                                <Link to={`/paper2/${post.id}`} className={`today_pp_test_1 ${darkMode ? 'dark_mode':''}`} id="demo">{post.title}</Link>
+                                <div className={`today_pp_time ${darkMode ? 'dark_mode':''}`}>
                                     <span id="today_pp_time_two">Tác giả: <strong>{post.author}</strong></span>
                                 </div>
                             </div>
@@ -161,12 +162,12 @@ function Home() {
         <div className="main_three">
             <div className="three_one">
                 <div className="three_theme">
-                    <div className="theme_first">
+                    <div className={`theme_first ${darkMode ? 'dark_mode':''}`}>
                         <span>Bài viết hằng ngày</span>
                     </div>
                     <div className="three_arrange">
                         <div className="three_arrange_container">
-                            <div className='three_arrange_first' onClick={toggleDropDown}>
+                            <div className={`three_arrange_first ${darkMode ? 'dark_mode':''}`} onClick={toggleDropDown}>
                                 <FontAwesomeIcon icon={faLayerGroup}/>
                                 <span>Sắp xếp</span>
                             </div>
@@ -197,7 +198,7 @@ function Home() {
                 </div>
             </div>
             <div className="three_flag"></div>
-            <div className={fixPositionScroll ? 'fix_menu':'default_menu'}>
+            <div className={`default_menu ${fixPositionScroll ? 'fix_menu':''} ${props.isSidebarCollapsed ? 'active':''} ${darkMode ? 'dark_mode':''}`}>
                 <h3>Danh sách các mục</h3>
                 <div className='list_item'>
                     <ul>

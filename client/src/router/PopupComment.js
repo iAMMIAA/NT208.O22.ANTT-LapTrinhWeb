@@ -13,8 +13,10 @@ import {Controller, FormProvider, useForm} from "react-hook-form";
 import * as yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {createComment, useCountComment, useGetCommentList} from "../api/exchange.api";
+import { useDarkMode } from './DarkModeContext';
 
 export default function CommentPopup(props) {
+  const {darkMode} = useDarkMode();
   const {data: comments, mutate} = useGetCommentList(props.exchangeId)
   const {mutate: mutateCountComment} = useCountComment();
 
@@ -75,7 +77,7 @@ export default function CommentPopup(props) {
       fullWidth
       maxWidth={'md'}
     >
-      <DialogTitle  className='popupComment'>
+      <DialogTitle  className={`popupComment ${darkMode ? 'dark_mode':''}`}>
         <div className='title-post-comment'>Bình luận</div>
       </DialogTitle>
       <DialogContent className='popupComment'>

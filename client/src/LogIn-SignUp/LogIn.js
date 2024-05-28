@@ -27,7 +27,7 @@ function LogIn({closeLogIn, openSignUp, onSubmit}){
                 </div>
                 <form>
                     <div className='mb-3'>
-                        <label htmlFor='email'>Email</label>
+                        <label htmlFor='email'>Username</label>
                         <input onChange={setInput} placeholder='Enter Email' name='username' className='form-control rounded-0'/>
                     </div>
                     <div className='mb-3'>

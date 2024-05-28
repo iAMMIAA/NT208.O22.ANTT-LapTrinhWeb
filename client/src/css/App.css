@@ -1,4 +1,5 @@
 .drug_web {
+    /* position: relative; */
     margin: 0px;
     padding: 0px;
     height: auto;
@@ -12,6 +13,7 @@
     background-color: #454545;;
 }
 .container_web{
+    /* position: absolute; */
     font-family: system-ui, sans-serif;
     height: 100%;
     width: 99%;
@@ -28,6 +30,7 @@
     margin-left: 16px;
     transition: width 0.3s ease;
     position: fixed;
+    /* position: absolute; */
 }
 
 .left_first{
@@ -226,16 +229,14 @@
 }
 .main_one.fixed_main_one{
     position: fixed;
-    display: flex; 
     justify-content: center;
-    height: 100px;
     width: 76.3%;
     background-color: #E8EAED;
 }
 .main_one.dark_mode{
     background-color: #454545;
 }
-.main_one.active.fixed_main_one{
+.main_one.fixed_main_one.active{
     display: flex; 
     justify-content: center;
     height: 100px;
@@ -307,7 +308,7 @@
     box-shadow: 0 0 20px #d1d1d18d;
 }
 .round_icon_notification.dark_mode{
-    background-color: #a7a7a7;
+    background-color: #e2e2e2;
     box-shadow: 0 0 20px #4646468d;
 }
 .form_notification{
@@ -397,8 +398,14 @@
     border-radius: 20px;   
     margin: 0px 0px 7px; 
 }
+.one_noname .name span{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 .one_noname.dark_mode{
-    background-color: #a7a7a7;
+    background-color: #ececec;
 }
 .one_username_container span{
     width: 70%;
@@ -414,6 +421,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    /* background-color: #9f9f9f; */
 }
 .one_avatar_1{
     height: 40px;
@@ -483,6 +491,10 @@
 }
 
 @media (max-width: 480px) {
+    .layout_left{
+        position: absolute;
+        left: -190px;
+    }
     .header_menu{
         font-size: 25px;
     }
@@ -598,6 +610,10 @@
     }
 }
 @media (min-width: 480px) and (max-width: 768px) {
+    .layout_left{
+        position: absolute;
+        left: -190px;
+    }
     .header_menu{
         font-size: 25px;
     }
@@ -657,6 +673,7 @@
         background-color: #37537B;
     }
     .layout_left{
+        /* top: 0px; */
         position: absolute;
     }
     .left_first{
@@ -666,9 +683,12 @@
         display: none;
     }
     .left_container.open_by_bar{
+        /* position: absolute; */
         position: fixed;
         display: block;
         width: 210px;
+        /* left: -20px; */
+        top: 0px;
         left: 0px;
         height: 100%;
         z-index: 3;
@@ -706,7 +726,7 @@
         font-size: 13px;
     }
 }
-@media (min-width: 768px) and (max-width: 930px) {
+@media (min-width: 768px) and (max-width: 940px) {
     .header_menu{
         font-size: 25px;
     }
@@ -766,13 +786,8 @@
         background-color: #37537B;
     }
     .layout_left{
-        /* opacity: 0; */
-        /* display: none; */
         position: absolute;
         left: -190px;
-        /* background-color: #153862; */
-        /* z-index: 0; */
-        /* height: 100%; */
     }
     .left_first{
         display: none;
@@ -821,6 +836,25 @@
         font-size: 13px;
     }
 }
+@media (min-width: 940px) and (max-width: 1010px){
+    .main_router, .fixed_main_router{
+        width: 700px;
+        /* background-color: #153862; */
+    }
+}
+@media (min-width: 1010px) and (max-width: 1263.2px){
+    .main_router, .fixed_main_router{
+        /* position: relative; */
+        width: 760px;
+    }
+    /* .fixed_main_one{
+        position: absolute;
+        background-color: #153862;
+        width: 80%;
+    } */
+        
+}
+
 /* @media (min-width: 600px) and (max-width: 930px){
     .layout_left{
         position: absolute;

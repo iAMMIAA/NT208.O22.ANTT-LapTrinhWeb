@@ -11,8 +11,11 @@ import {createExchange} from "../api/exchange.api";
 import CommentPopup from "./PopupComment";
 import * as React from "react";
 import axios from 'axios';
+import { useDarkMode } from './DarkModeContext';
+
 
 function Exchange(){
+    const {darkMode} = useDarkMode();
     const {data, mutate} = useGetExchangeList();
     const {data: commentCount} = useCountComment();
     const [inforUser, setInforUser] = useState({
@@ -68,16 +71,16 @@ function Exchange(){
     }
     return(
         <div className="Exchange">
-            <div className = "hello_theme">
+            <div className = {`hello_theme ${darkMode ? 'dark_mode':''}`}>
                 <span>Xin chào {inforUser.fullName || inforUser.username}</span>
                 <div className='upload-question'>
                     <button className='btn-question' onClick={()=> setOpen(true)}>Câu hỏi của bạn....</button>
                 </div>
             </div>
-            <h6 className='exchange_title'>Những bài đăng gần đây:</h6>
-            <div className='newfeed'>
+            <h6 className={`exchange_title ${darkMode ? 'dark_mode':''}`}>Những bài đăng gần đây:</h6>
+            <div className={`newfeed ${darkMode ? 'dark_mode':''}`}>
                 {data?.map((post, key) => (
-                  <div className="post" key={key}>
+                  <div className={`post ${darkMode ? 'dark_mode':''}`}                  key={key}>
                       <div className='post-content'>
                           <div className="post-user">
                               <div className='post-user-avatar'>

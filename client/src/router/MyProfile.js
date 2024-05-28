@@ -2,8 +2,11 @@ import React, { useEffect, useState } from 'react';
 import './css/MyProfile.css' 
 import ava from './pictures/tfboys.jpg';
 import axios from 'axios';
+import { useDarkMode } from './DarkModeContext';
+
 
 function MyProfile() {
+  const {darkMode} = useDarkMode();
   const [openStateEdit, setOpenStateEdit] = useState(false);
   const [updateFormProfile, setUpdateFormProfile] = useState({
     fullName: '',
@@ -65,7 +68,7 @@ function MyProfile() {
   }
 
   return (    
-    <div className='my_profile'>
+    <div className={`my_profile ${darkMode ? 'dark_mode':''}`}>
       {openStateEdit ? (
         <div className='test'>
           <div className='my_profile_theme'>

@@ -3,8 +3,10 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUpload, faPrescription } from '@fortawesome/free-solid-svg-icons';
+import { useDarkMode } from './DarkModeContext';
 
 function LookUp() {
+  const {darkMode} = useDarkMode();
   const[selectedImage, setSelectedImage] = useState(null);
   const[resultDrug, setResultDrug] = useState(null);
   const[detailDrug, setDetailDrug] = useState(null);
@@ -136,7 +138,7 @@ function LookUp() {
               </div>
             ):(
               <div className='intro_result'>
-                <div className='intro_result1'>
+                <div className={`intro_result1 ${darkMode ? 'dark_mode':''}`}>
                   <p>Bạn có thể tra cứu hình ảnh thuốc ở đây.</p>
                 </div>
               </div>

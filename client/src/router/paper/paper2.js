@@ -3,12 +3,14 @@ import './paper2.css';
 import { useState, useEffect } from 'react';
 import React from 'react';
 import '../css/Home.css'; 
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { faUser, faClock, faHome} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useDarkMode } from '../DarkModeContext';
 
 function Paper() {
+    const {darkMode} = useDarkMode();
     const { id } = useParams();
     const [idRelatedPost, setIdRelatedPost] = useState([]);
     const [titlePost, setTitlePost] = useState(null);
@@ -82,7 +84,7 @@ function Paper() {
                 <p style={{color: '#37537B', margin: '0px', paddingLeft: '10px'}}> Home / Danh mục sản phẩm / Tên sản phẩm</p>
             </div>
             <div className='main_paper'>
-                <div className='container_paper'>
+                <div className={`container_paper ${darkMode ? 'dark_mode':''}`}>
                     <div className="theme_paper">
                         <span><h2>{titlePost}</h2></span>
                     </div>
@@ -98,29 +100,29 @@ function Paper() {
                     <div style={{display: 'flex', justifyContent: 'flex-end', fontSize: '12sp'}}>
                         <p>Tags: <span className='tag_article'>{tagPost}</span></p>
                     </div>
-                    <div className='end_article'>
+                    <div className={`end_article ${darkMode ? 'dark_mode':''}`}>
                         <p>Đang xem: <strong>{titlePost}</strong></p>
                     </div>
                 </div>
-                <div className={`table_of_paper ${fixedTableOfPaper ? 'fixed_table_of_paper':''}`}>
+                {/* <div className={`table_of_paper ${fixedTableOfPaper ? 'fixed_table_of_paper':''}`}>
                     <h4>Mục lục</h4>
                     <ul>{tocItems}</ul>
-                </div>
+                </div> */}
             </div>
            
             <div className='related_article'>
-                <div className="related_posts_theme">
+                <div className={`related_posts_theme ${darkMode ? 'dark_mode':''}`}>
                     <p>Bài viết liên quan</p>
                 </div>
                 <div className="related_posts">
                     {idRelatedPost.map(post => (
-                        <div className="related_post" key={post.id}>
+                        <div className={`related_post ${darkMode ? 'dark_mode':''}`} key={post.id}>
                             <div className='related_post_img'>
                                 <img src={post.url_img}></img>
                             </div>
                             <div className="related_post_title">
-                                <Link className="related_post_link" to={`/paper2/${post.id}`} id="demo">{post.title}</Link>
-                                <div className="related_post_author">
+                                <Link className={`related_post_link ${darkMode ? 'dark_mode':''}`} to={`/paper2/${post.id}`} id="demo">{post.title}</Link>
+                                <div className={`related_post_author ${darkMode ? 'dark_mode':''}`}>
                                     <p>Tác giả: <strong>{post.author}</strong></p>
                                 </div>
                             </div> 

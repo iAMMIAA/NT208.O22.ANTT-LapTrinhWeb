@@ -6,8 +6,10 @@ import {useEffect, useMemo} from "react";
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup";
 import LoadingButton from '@mui/lab/LoadingButton';
+import { useDarkMode } from './DarkModeContext';
 
 export default function PostPopup(props) {
+  const {darkMode} = useDarkMode();
   const schema = yup
     .object({
       content: yup.string().required('Nội dung không được để trống'),
@@ -52,7 +54,7 @@ export default function PostPopup(props) {
       onClose={props.onClose}
       fullWidth
     >
-      <DialogTitle className='popupPost'>
+      <DialogTitle className={`popupPost ${darkMode ? 'dark_mode':''}`}>
         <div className='title-post'>Tạo bài viết </div>
       </DialogTitle>
       <FormProvider {...methods}>

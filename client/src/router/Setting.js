@@ -3,10 +3,10 @@ import './css/Setting.css';
 import { faCircleHalfStroke, faLanguage } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
-// import { DarkModeContext } from './DarkModeContext';
+import { useDarkMode } from './DarkModeContext';
 
 function Setting() {
-  const { darkMode, setDarkMode } = useState(false);
+  const { darkMode, setDarkMode } = useDarkMode();
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [openStateEdit, setOpenStateEdit] = useState(false);
   const [updateFormProfile, setUpdateFormProfile] = useState({
@@ -21,6 +21,10 @@ function Setting() {
     areaCode: '0256'
   });
   
+  const openDarkMode = () => {
+    if(darkMode==false) setDarkMode(true);
+    else setDarkMode(false);
+  }
   const handleLanguageClick = () => {
     console.log('Clicked Chuyển đổi ngôn ngữ');
   };
@@ -55,7 +59,7 @@ function Setting() {
       <div className={`setting_container`}>
         <div className="setting-switch">
           <label className="switch">
-            <input type="checkbox" checked={darkMode} onChange={() => setDarkMode(!darkMode)} />
+            <input type="checkbox" checked={darkMode} onChange={openDarkMode} />
             <span className="slider"></span>
           </label>
           <span><FontAwesomeIcon icon={faCircleHalfStroke}/> Giao diện</span>

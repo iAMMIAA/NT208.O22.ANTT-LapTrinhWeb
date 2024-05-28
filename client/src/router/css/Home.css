@@ -1,6 +1,8 @@
 .home {
     margin: 0px;
     padding: 0px;
+    width: 100%;
+    /* background-color: #2a2a2a; */
 }
 
 .main_two {
@@ -38,30 +40,24 @@
     width: 100%;
     height: 89%;
     justify-content: space-between;
-    /* overflow-x: auto;  */
     overflow: hidden;
-    position: relative;
-    /* background-color: #1b5279; */
 }
 .four_container_inner {
     display: flex;
     flex-flow: row nowrap;
-    overflow-x: auto; /* Cho phép cuộn ngang */
+    overflow-x: auto; 
     -webkit-overflow-scrolling: touch; /* Cho hiệu ứng cuộn mượt trên iOS */
 }
-
 .four_container_inner::-webkit-scrollbar {
     display: none; /* Ẩn thanh cuộn ngang trên các trình duyệt Webkit */
 }
-
 .today_pp {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     height: 100%;
-    /* min-width: 21%; */
-    margin-right: 10px; /* Add some margin between items */
+    margin-right: 40px; /* Add some margin between items */
     min-width: 200px;
     background-color: rgba(255, 255, 255, 0.877);
     border-radius: 20px;
@@ -300,11 +296,11 @@
     color: #bbb;
 }
 
-#time_one {
+.time_one {
     width: 70%;
 }
 
-#time_two.dark_mode {
+.time_two.dark_mode {
     width: 30%;
 }
 
@@ -314,7 +310,7 @@
 }
 
 .default_menu {
-    height: 100%;
+    height: 350px;
     width: 35%;
     border-radius: 10px;
     padding: 10px;
@@ -343,34 +339,38 @@
     list-style: none;
 }
 
-.fix_menu {
+.default_menu.fix_menu {
     position: fixed;
     z-index: 1;
     top: 100px;
     right: 4.7%;
     width: 23.7%;
+    height: 350px;
     border-radius: 10px;
     padding: 10px;
     background-color: #ffffff;
 }
-.fix_menu.dark_mode {
+.default_menu.fix_menu.active {
+    right: 5.6%;
+    width: 28.7%;
+}
+.default_menu.fix_menu.dark_mode {
     background-color: #333333;
     color: #ddd;
 }
-
-.fix_menu h3 {
+.default_menu.fix_menu h3 {
     text-align: center;
     padding-bottom: 10px;
     border-bottom: 1px solid #2a2a2a;
 }
 
-.fix_menu ul {
+.default_menu.fix_menu ul {
     margin: 0px;
     padding: 0px;
     list-style: none;
 }
 
-.fix_menu li {
+.default_menu.fix_menu li {
     margin: 10px;
     padding: 10px;
     list-style: none;
@@ -381,6 +381,12 @@
     font-size: border;
 }
 @media (max-width: 480px) {
+    .main_two {
+        height: 50%;
+    }
+    .main_four {
+        height: 50%;
+    }
     .two_hi_user {
         font-size: 20px;
     }
@@ -424,21 +430,11 @@
         width: 50px;
         border-radius: 50%;
     }
-    .four_container {
+    /* .four_container {
         overflow-x: auto;
-    }
-    .today_pp {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: 100%;
-        width: 21%;
-        background-color: rgba(255, 255, 255, 0.877);
-        border-radius: 20px;
-        box-shadow: 0 0 20px rgba(206, 205, 205, 0.463);
-    }
-    .fix_menu, .default_menu{
+    } */
+    
+    .default_menu.fix_menu, .default_menu{
         display: none;
     }
     .three_one{
@@ -449,6 +445,14 @@
     }
 }
 @media (min-width: 480px) and (max-width: 768px) {
+    .main_two {
+        height: 50%;
+        background-color: #1b5279;
+    }
+    .main_four {
+        height: 70%;
+    }
+
     .four_theme, .theme_first {
         font-size: 14px;
     }
@@ -500,7 +504,7 @@
     .three_one{
         width: 100%;
     }
-    .default_menu, .fix_menu{
+    .default_menu, .default_menu.fix_menu{
         display: none;
     }
 }
@@ -511,12 +515,12 @@
     .default_menu h3{
         font-size: 15px;
     }
-    .fix_menu{
+    .default_menu.fix_menu{
         right: 6%;
         width: 31%;
         font-size: 15px;
     }
-    .fix_menu h3{
+    .default_menu.fix_menu h3{
         font-size: 15px;
     }
 }
@@ -570,18 +574,42 @@
     .default_menu h3{
         font-size: 15px;
     }
-    .fix_menu{
+    .default_menu.fix_menu{
         right: 6%;
         width: 31%;
         font-size: 15px;
     }
-    .fix_menu h3{
+    .default_menu.fix_menu h3{
         font-size: 15px;
     }
     .three_arrange_first span{
         font-size: 10px;
     }
 } 
+
+@media (min-width: 930px) and (max-width: 1235px){
+    .home{
+        width: 100%;
+        /* background-color: #1b5279; */
+    }
+    .four_container {
+        display: flex;
+        flex-flow: row nowrap;
+        width: 100%;
+        height: 89%;
+        justify-content: space-between;
+        overflow: hidden;
+        /* background-color: #1b5279; */
+    }
+    .four_container_inner {
+        display: flex;
+        flex-flow: row nowrap;
+        overflow-x: auto; 
+        -webkit-overflow-scrolling: touch; /* Cho hiệu ứng cuộn mượt trên iOS */
+    }
+    
+
+}
 
 
 
