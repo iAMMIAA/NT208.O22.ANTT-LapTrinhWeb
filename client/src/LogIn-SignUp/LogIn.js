@@ -15,7 +15,8 @@ function LogIn({closeLogIn, openSignUp, onSubmit}){
         setFormData({...formData, [name]: value});
     }
 
-    const handleLogIn = () => {
+    const handleLogIn = (e) => {
+        e.preventDefault();
         onSubmit(formData);
     }
 
@@ -25,19 +26,18 @@ function LogIn({closeLogIn, openSignUp, onSubmit}){
                 <div className="close_login_form" style={{alignItems: "flex-end"}}>
                     <FontAwesomeIcon onClick={closeLogIn} icon={faClose} style={{ color: 'rgb(70, 90, 110)', fontSize: '20px' }} />
                 </div>
-                <form>
+                <form onSubmit={handleLogIn}>
                     <div className='mb-3'>
                         <label htmlFor='email'>Username</label>
                         <input onChange={setInput} placeholder='Enter Email' name='username' className='form-control rounded-0'/>
                     </div>
                     <div className='mb-3'>
                         <label htmlFor='password'>Password</label>
-                        <input onChange={setInput} placeholder='Enter Password' name='userpassword' className='form-control rounded-0'/> 
+                        <input type="password" onChange={setInput} placeholder='Enter Password' name='userpassword' className='form-control rounded-0'/> 
                     </div>
-                    <button onClick={handleLogIn} className='btn btn-success w-100'>
+                    <button type="submit" className='btn btn-success w-100'>
                         <strong>Log in</strong>
                     </button>
-                    <Link to="/user">Go to App2</Link>
                     <p></p>
                     <Link onClick={openSignUp} className='btn btn-default border w-100 text-decoration-none'>Create Account</Link>
                 </form>

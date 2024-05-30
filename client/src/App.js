@@ -19,7 +19,6 @@ import Setting from './router/Setting';
 import axios from 'axios';
 import './css/App.css'; 
 import {Avatar} from "@mui/material";
-// import { useContext } from 'react';
 import { useDarkMode } from './router/DarkModeContext';
 
 function App() {
@@ -28,6 +27,7 @@ function App() {
   const [fullName, setFullName] = useState('Username');
   const [userName, setUserName] = useState('');
   const [countNotif, setCountNotif] = useState('');
+  const [haveNotif, setHaveNotif] = useState(false);
   const [listNotif, setListNotif] = useState([]);
   const [isOpenNotification, setIsOpenNotification] = useState(false);
   const [isOpenDropDown, setIsOpenDropDown] = useState(false);
@@ -37,6 +37,7 @@ function App() {
   const [isOpenLookUp, setIsOpenLookUp] = useState(false);
   const [isOpenMenu, setIsOpenMenu] = useState(false);
   const { darkMode, setDarkMode } = useDarkMode(false);
+  
 
   const openHome = () =>{
     setIsOpenHome(true);
@@ -146,22 +147,25 @@ function App() {
     }
   };
 
-  const requestSignUp = (formSignUp) => {
-    axios.post('http://localhost:3001/signup', formSignUp)
-        .then(response => {
-            const message = response.data;
-            if(message === 'Success') {
-                alert("Đăng ký thành công! Vui lòng đăng nhập.");
-                setShowSignUp(false);
-                window.location.href = 'http://localhost:3000';
-            }
-        })
-        .catch(error => {
-          alert('Đăng ký thất bại!');
-          window.location.href = 'http://localhost:3000';
-          console.error("Error while fetching result: ", error);
-        });
+  const requestSignUp = async (formSignUp) => {
+    try{
+        const response = await axios.post('http://localhost:3001/signup', formSignUp)
+        const { message } = response.data;
+        
+        if(message === 'Success') {
+            alert("Đăng ký thành công! Vui lòng đăng nhập lại.");
+            setShowSignUp(false);
+            window.location.href = 'http://localhost:3000';
+        } else if(message === 'Existed') {
+            alert('Tên người dùng hoặc email đã tồn tại!');
+            window.location.href = 'http://localhost:3000';
+        }
+    } catch (error) {
+      alert('Tên người dùng hoặc email đã tồn tại!');
+      window.location.href = 'http://localhost:3000';
+    }
   }
+
   const logOut = () => {
     localStorage.removeItem('isLoggedIn');
     localStorage.removeItem('token');
@@ -177,7 +181,7 @@ function App() {
     axios.get(`http://localhost:3001/see_notication/${id}`)
         .then(response => {
           const data = response.data;
-          setDataSeeNotification(data)
+          setDataSeeNotification(data);
         })
         .catch(error => {console.error("There was an error fetching the notification data!", error);});
     setIsOpenNotification(false)
@@ -203,8 +207,11 @@ function App() {
       .then(response => {
         const notif = response.data;
         if(notif.length > 0) {
-          setCountNotif(notif.length);
           setListNotif(notif);
+          setHaveNotif(true);
+        } else {
+          setListNotif('');
+          setHaveNotif(false);
         }
       })
       .catch(error => {console.error('error: ', error);})
@@ -295,7 +302,10 @@ function App() {
                               {/* <h2>MedicalWeb.</h2> */}
                             </div>
                             <div className="one_notification">
-                              <FontAwesomeIcon className={`round_icon_notification ${darkMode ? 'dark_mode':''}`} icon={faBell} onClick={openNotification}/>
+                              <div className={`round_icon_notification ${darkMode ? 'dark_mode':''}`} icon={faBell} onClick={openNotification}>
+                                <FontAwesomeIcon className={`icon_notification`} icon={faBell} />
+                                <FontAwesomeIcon className={`icon_circle ${haveNotif ? 'show':''}`} icon={faCircle} />
+                              </div>
                               {isLoggedIn && isOpenNotification && (
                                 <div className={`form_notification ${(fixPositionScroll) ? 'fix_menu':''} ${darkMode ? 'dark_mode':''}`}>
                                   {listNotif.length == 0 ? (

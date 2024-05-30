@@ -81,7 +81,7 @@ function Paper() {
         <div className='paper'>
             <div className='breadCrum_backWard'>
                 <FontAwesomeIcon icon={faHome} style={{color: 'rgb(68, 68, 109)'}}/>
-                <p style={{color: '#37537B', margin: '0px', paddingLeft: '10px'}}> Home / Danh mục sản phẩm / Tên sản phẩm</p>
+                <p style={{color: '#37537B', margin: '0px', paddingLeft: '10px'}}> Trang chủ / Bài viết</p>
             </div>
             <div className='main_paper'>
                 <div className={`container_paper ${darkMode ? 'dark_mode':''}`}>

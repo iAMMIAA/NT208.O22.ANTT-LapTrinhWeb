@@ -18,32 +18,33 @@ function SignUp({openLogIn, closeSignUp, onSubmit}) {
         setFormSignUp({ ...formSignUp, [name]: value });
     }
 
-    const handleSignUp = () => {
+    const handleSignUp = (e) => {
+        e.preventDefault(); 
+
+        // Kiểm tra xem tất cả các trường có được điền đầy đủ không
+        const { username, useremail, userpassword, confirm_password } = formSignUp;
+        if (!username || !useremail || !userpassword || !confirm_password) {
+            alert("Vui lòng điền đầy đủ thông tin.");
+            return;
+        }
+
+        // Kiểm tra xem mật khẩu và xác nhận mật khẩu có khớp nhau không
+        if (userpassword !== confirm_password) {
+            alert("Mật khẩu và xác nhận mật khẩu không khớp.");
+            return;
+        }
         onSubmit(formSignUp);
     }
 
-    // const requestSignUp = () => {
-    //     axios.post('http://localhost:3001/signup', formSignUp)
-    //         .then(response => {
-    //             const message = response.data;
-    //             if(message === 'Data inserted successfully') {
-    //                 alert("Đăng ký thành công! Vui lòng đăng nhập.");
-    //                 closeSignUp();
-    //                 window.location.href = 'http://localhost:3000';
-    //             }
-    //         })
-    // }
-
-    
     return (
         <div className="signup">
             <div className='form_signup'>
                 <div className="close_sign_form" style={{alignItems: "flex-end"}}>
                     <FontAwesomeIcon onClick = {closeSignUp} icon={faClose} style={{ color: 'rgb(70, 90, 110)', fontSize: '20px' }} />
                 </div>
-                <form>
+                <form onSubmit={handleSignUp}>
                     <div className='mb-3'>
-                        <label htmlFor='username'>Full name</label>
+                        <label htmlFor='username'>Username</label>
                         <input onChange={handleInput} placeholder='Username' name="username" className='form-control rounded-0' />
                     </div>
                     <div className='mb-3'>
@@ -56,9 +57,9 @@ function SignUp({openLogIn, closeSignUp, onSubmit}) {
                     </div>
                     <div className='mb-3'>
                         <label htmlFor='confirm_password'> Confirm Password</label>
-                        <input onChange={handleInput} placeholder='Confirm password' name="confirm_password" className='form-control rounded-0' />
+                        <input type="password" onChange={handleInput} placeholder='Confirm password' name="confirm_password" className='form-control rounded-0' />
                     </div>
-                    <button onClick={handleSignUp} className='btn btn-success w-100'><strong>Sign up</strong></button>
+                    <button type="submit" className='btn btn-success w-100'><strong>Sign up</strong></button>
                     <p></p>
                     <Link onClick={openLogIn} className='btn btn-default border w-100 text-decoration-none'>Sign in</Link>
                 </form>

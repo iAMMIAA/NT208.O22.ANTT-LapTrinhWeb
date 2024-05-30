@@ -19,12 +19,18 @@ const port = 3001;
 app.use(cors()); //su dung CORS
 app.use(bodyParser.json()); // Middleware để phân tích dữ liệu JSON từ client
 
+// const connection = mysql.createConnection({
+//     host: 'localhost',
+//     port: '3306',
+//     user: 'root',
+//     password: 'i.AMMIAK16',
+//     database: 'DrugWeb'
+// });
 const connection = mysql.createConnection({
-    host: 'localhost',
-    port: '3306',
-    user: 'root',
-    password: 'i.AMMIAK16',
-    database: 'DrugWeb'
+    host: 'medicaldb.mysql.database.azure.com',
+    user: 'nhom5',
+    password: 'GROUP5.4321',
+    database: 'medical_blog'
 });
 
 app.get('/exchanges', checkAccess(), async (req, res) => {
@@ -170,19 +176,32 @@ app.get('/comments/count', checkAccess(), async (req, res) => {
 
 // SignUp
 app.post('/signup', (req, res) => {
-    console.log('iammia', req.body);
     const { username, useremail, userpassword, confirm_password } = req.body;
-    const query = 'insert into SignupLogIn(username, useremail, userpassword, confirm_password) values (?,?,?,?)';
 
-    connection.query(query, [username, useremail, userpassword, confirm_password], (err, data) => {
-        if (err) {
-            console.error('Error inserting data into database: ' + err.stack);
-            return res.status(500).json({ error: 'Error inserting data into database' });
+    // Kiểm tra xem username hoặc useremail có tồn tại hay không
+    const checkQuery = 'SELECT * FROM SignupLogIn WHERE username = ? OR useremail = ?';
+    connection.query(checkQuery, [username, useremail], (checkErr, checkData) => {
+        if (checkErr) {
+            console.error('Error checking data in database: ' + checkErr.stack);
+            return res.status(500).json({ error: 'Error checking data in database' });
         }
-        console.log('Data inserted into database');
-        res.status(200).json({ message: 'Success' });
-    })
+
+        if (checkData.length > 0) { // Nếu username hoặc useremail đã tồn tại
+            return res.status(400).json({ message: 'Existed' });
+        } else { // Nếu không tồn tại, tiếp tục chèn dữ liệu mới
+            const insertQuery = 'INSERT INTO SignupLogIn (username, useremail, userpassword, confirm_password) VALUES (?,?,?,?)';
+            connection.query(insertQuery, [username, useremail, userpassword, confirm_password], (insertErr, insertData) => {
+                if (insertErr) {
+                    console.error('Error inserting data into database: ' + insertErr.stack);
+                    return res.status(500).json({ error: 'Error inserting data into database' });
+                }
+                console.log('Data inserted into database');
+                res.status(200).json({ message: 'Success' });
+            });
+        }
+    });
 });
+
 //LogIn
 const jwtSecretKey = 'medicalweb';
 app.post('/login', (req, res) => {

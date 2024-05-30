@@ -302,15 +302,41 @@
     color: rgb(68, 68, 109);
 }
 .round_icon_notification{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    /* background-color: #153862; */
+}
+/* .round_icon_notification.dark_mode{
+    background-color: #333333;
+} */
+.icon_circle{
+    display: none;
+}
+.icon_circle.show{
+    position: absolute;
+    display: block;
+    font-size: 15px;
+    color: red;
+    top: 17%;
+    right: 33%;
+}
+.icon_notification{
     padding: 10px;
     border-radius: 50%;
     background-color: #ffffff;
     box-shadow: 0 0 20px #d1d1d18d;
 }
 .round_icon_notification.dark_mode{
-    background-color: #e2e2e2;
+    background-color: #454545;
     box-shadow: 0 0 20px #4646468d;
 }
+/* .round_icon_notification.dark_mode{
+    background-color: #454545;
+} */
 .form_notification{
     position: absolute;
     width: 300px;
@@ -321,7 +347,8 @@
     flex-direction: column;
     border-radius: 20px;
     padding: 10px;
-    overflow-y: auto;
+    overflow: auto;
+    /* overflow-y: auto; */
     background-color: #ffffff;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
@@ -595,6 +622,7 @@
         right: 37%;
         transition: width 0.6s ease;
     }
+    
     .form_notification.fix_menu{
         right: 37%;
     }
@@ -607,6 +635,21 @@
     }
     .one_noname span{
         text-align: center;
+    }
+    .round_icon_notification{
+        height: 100%;
+    }
+    .round_icon_notification.dark_mode{
+        background-color: #454545;
+    }
+    .icon_notification{
+        font-size: 25px;
+    }
+    .icon_circle.show{
+        font-size: 12.2px;
+        color: red;
+        top: 27%;
+        right: 30%;
     }
 }
 @media (min-width: 480px) and (max-width: 768px) {
@@ -636,8 +679,21 @@
         align-items: center;
         justify-content: center;
     }
+    
     .round_icon_notification{
-        height: 50%;
+        height: 100%;
+    }
+    .round_icon_notification.dark_mode{
+        background-color: #454545;
+    }
+    .icon_notification{
+        font-size: 28px;
+    }
+    .icon_circle.show{
+        font-size: 12.5px;
+        color: red;
+        top: 27%;
+        right: 35%;
     }
     .one_username{
         height: 100%;
@@ -750,8 +806,21 @@
         justify-content: center;
     }
     .round_icon_notification{
-        height: 50%;
+        height: 100%;
     }
+    .round_icon_notification.dark_mode{
+        background-color: #454545;
+    }
+    .icon_notification{
+        font-size: 30px;
+    }
+    .icon_circle.show{
+        font-size: 13px;
+        color: red;
+        top: 27%;
+        right: 40%;
+    }
+
     .one_username{
         height: 100%;
         width: 30%;
@@ -841,11 +910,17 @@
         width: 700px;
         /* background-color: #153862; */
     }
+    .round_icon_notification.dark_mode{
+        background-color: #454545;
+    }
 }
 @media (min-width: 1010px) and (max-width: 1263.2px){
     .main_router, .fixed_main_router{
         /* position: relative; */
         width: 760px;
+    }
+    .round_icon_notification.dark_mode{
+        background-color: #454545;
     }
     /* .fixed_main_one{
         position: absolute;
