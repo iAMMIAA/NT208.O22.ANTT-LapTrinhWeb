@@ -164,7 +164,7 @@ function App() {
       alert('Tên người dùng hoặc email đã tồn tại!');
       window.location.href = 'http://localhost:3000';
     }
-  }
+  };
 
   const logOut = () => {
     localStorage.removeItem('isLoggedIn');

@@ -1,9 +1,9 @@
 {
     "development": {
-      "username": "root",
-      "password": "i.AMMIAK16",
-      "database": "test",
-      "host": "127.0.0.1",
+      "username": "nhom5",
+      "password": "GROUP5.4321",
+      "database": "medical_blog",
+      "host": "medicaldb.mysql.database.azure.com",
       "dialect": "mysql"
     }
-  }
+}

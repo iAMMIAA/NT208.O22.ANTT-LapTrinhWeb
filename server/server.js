@@ -76,7 +76,6 @@ app.get('/exchanges/:id', checkAccess(), async (req, res) => {
         res.status(500).json({error: 'Internal server error.'});
     }
 });
-
 app.patch('/exchanges/:id', checkAccess(), async (req, res) => {
     try {
         const [count, rows] = await Exchange.update(req.body, { returning: true });
@@ -96,7 +95,6 @@ app.patch('/exchanges/:id', checkAccess(), async (req, res) => {
         res.status(500).json({error: 'Internal server error.'});
     }
 });
-
 app.get('/exchanges/:id/comments', checkAccess(), async (req, res) => {
     try {
         const data = await ExchangeComment.findAll({
@@ -109,7 +107,6 @@ app.get('/exchanges/:id/comments', checkAccess(), async (req, res) => {
         res.status(500).json({error: 'Internal server error.'});
     }
 });
-
 app.post('/exchanges/:id/comments', checkAccess(), async (req, res) => {
     try {
         const exchangeId = req.params.id;
@@ -160,7 +157,6 @@ app.post('/exchanges/:id/like', checkAccess(), async (req, res) => {
         res.status(500).json({error: 'Internal server error.'});
     }
 });
-
 app.get('/comments/count', checkAccess(), async (req, res) => {
     try {
         const data = await ExchangeComment.findAll({
@@ -201,7 +197,6 @@ app.post('/signup', (req, res) => {
         }
     });
 });
-
 //LogIn
 const jwtSecretKey = 'medicalweb';
 app.post('/login', (req, res) => {
@@ -286,7 +281,6 @@ app.post('/predict', upload.single('image'), (req, res) => {
         console.log(`Child process exited with code ${code}`);
     });
 });
-
 //Home
 app.get('/posts/:id', (req, res) => {
     const postID = req.params.id;
@@ -352,7 +346,6 @@ app.get('/see_notication/:idComment', (req, res) => {
         }
     });
 });
-
 app.get('/posts', (req, res) => {
     const query = `select * from POSTS`;
 
@@ -368,7 +361,6 @@ app.get('/posts', (req, res) => {
         }
     })
 })
-
 app.get('/related_post/:tag', (req, res) => {
     const tagPost = req.params.tag;
     console.log(tagPost);
@@ -386,7 +378,6 @@ app.get('/related_post/:tag', (req, res) => {
         }
     })
 });
-
 app.get('/related_drug/:tag', (req, res) => {
     const tagPost = req.params.tag;
     console.log(tagPost);
