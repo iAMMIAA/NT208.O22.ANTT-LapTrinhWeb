@@ -38,7 +38,6 @@ function MyProfile() {
         })
         .catch(error => {
           console.error('error: ', error);
-          alert('loi cmnr');
         })
   }, []);
 
@@ -47,10 +46,7 @@ function MyProfile() {
   }
   const changeFormProfile = (event) => {
     const { name, value } = event.target;
-    setUpdateFormProfile({
-      ...updateFormProfile,
-      [name]: value,
-    });
+    setUpdateFormProfile({ ...updateFormProfile,[name]: value});
   };
   const cancelEditProfile = () => {
     setOpenStateEdit(false);

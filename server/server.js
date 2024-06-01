@@ -16,23 +16,42 @@ const { User } = require('./src/models/user.model');
 const app = express();
 const port = 3001;
 
+// Increase payload size limit to 10MB (adjust as needed)
+app.use(bodyParser.json({ limit: '10mb' }));
+app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
 app.use(cors()); //su dung CORS
-app.use(bodyParser.json()); // Middleware để phân tích dữ liệu JSON từ client
+// app.use(bodyParser.json()); // Middleware để phân tích dữ liệu JSON từ client
 
-// const connection = mysql.createConnection({
-//     host: 'localhost',
-//     port: '3306',
-//     user: 'root',
-//     password: 'i.AMMIAK16',
-//     database: 'DrugWeb'
-// });
 const connection = mysql.createConnection({
-    host: 'medicaldb.mysql.database.azure.com',
-    user: 'nhom5',
-    password: 'GROUP5.4321',
-    database: 'medical_blog'
+    host: 'localhost',
+    port: '3306',
+    user: 'root',
+    password: 'i.AMMIAK16',
+    database: 'DrugWeb'
 });
+// const connection = mysql.createConnection({
+//     host: 'medicaldb.mysql.database.azure.com',
+//     user: 'nhom5',
+//     password: 'GROUP5.4321',
+//     database: 'medical_blog'
+// });
 
+//Admin send data
+app.post('/write-paper', (req, res) =>{
+    console.log('iammia', req.body);
+    const { title, author, content, tag, cite_source } = req.body;
+    const query = 'insert into POSTS(title, author, cite_source, content, tag) values(?,?,?,?,?)';
+
+    connection.query(query, [title, author, cite_source, content, tag], (error, results) =>{
+        if(error) {
+            console.error('Error inserting data: ', error);
+            res.status(500).json({error: 'Internal server error.'});
+        } else {
+            console.log('Data inserted successfully');
+            res.status(200).json({ message: 'Data inserted successfully' });
+        }
+    })
+})
 app.get('/exchanges', checkAccess(), async (req, res) => {
     try {
         const data = await Exchange.findAll({
@@ -229,22 +248,6 @@ app.post('/update_profile/:idUser', (req, res) => {
             res.status(500).json({error: 'Internal server error.'});
         } else {
             console.log('id user: ', idUser);
-            res.status(200).json({ message: 'Data inserted successfully' });
-        }
-    })
-})
-//Admin send data
-app.post('/posts', (req, res) =>{
-    console.log('iammia', req.body);
-    const { title, author, cite_source, content } = req.body;
-    const query = 'insert into POSTS(title, author, cite_source, content) values(?,?,?,?)';
-
-    connection.query(query, [title, author, cite_source, content], (error, results) =>{
-        if(error) {
-            console.error('Error inserting data: ', error);
-            res.status(500).json({error: 'Internal server error.'});
-        } else {
-            console.log('Data inserted successfully');
             res.status(200).json({ message: 'Data inserted successfully' });
         }
     })

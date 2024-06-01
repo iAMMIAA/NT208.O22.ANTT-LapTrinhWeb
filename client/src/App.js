@@ -1,4 +1,4 @@
-import { faCircle, faBars, faForward, faBackward, faHome, faCommentMedical, faBell, faSearch, faGear, faRightFromBracket} from '@fortawesome/free-solid-svg-icons';
+import { faPenNib, faCircle, faBars, faForward, faBackward, faHome, faCommentMedical, faBell, faSearch, faGear, faRightFromBracket} from '@fortawesome/free-solid-svg-icons';
 import { Route, Routes, Link, useNavigate } from 'react-router-dom';
 import React, {useState, useEffect} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -12,6 +12,7 @@ import Home from './router/Home';
 import LogIn from './LogIn-SignUp/LogIn';
 import SignUp from './LogIn-SignUp/SignUp';
 import SeeNotification from './router/SeeNotification';
+import WritePaper from './router/WritePaper';
 import NoUser from './router/NoUser';
 import Paper from './router/paper/paper2';
 import logo from './logo/logo5.png'
@@ -22,11 +23,11 @@ import {Avatar} from "@mui/material";
 import { useDarkMode } from './router/DarkModeContext';
 
 function App() {
+  const { darkMode } = useDarkMode(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [fixPositionScroll, setFixPositionScroll] = useState();
   const [fullName, setFullName] = useState('Username');
   const [userName, setUserName] = useState('');
-  const [countNotif, setCountNotif] = useState('');
   const [haveNotif, setHaveNotif] = useState(false);
   const [listNotif, setListNotif] = useState([]);
   const [isOpenNotification, setIsOpenNotification] = useState(false);
@@ -35,30 +36,46 @@ function App() {
   const [isOpenSetting, setIsOpenSetting] = useState(false);
   const [isOpenExchange, setIsOpenExchange] = useState(false);
   const [isOpenLookUp, setIsOpenLookUp] = useState(false);
+  const [isOpenWritePaper, setIsOpenWritePaper] = useState(false);
   const [isOpenMenu, setIsOpenMenu] = useState(false);
-  const { darkMode, setDarkMode } = useDarkMode(false);
-  
+  const [isLoggedIn, setIsLoggedIn] = useState(true);  
+  const [noShowLogIn, setShowLogIn] = useState(false);
+  const [noShowSignUp, setShowSignUp] = useState(false);
+  const [openSeeNotification, setOpenSeeNotification] = useState(false);
+  const [dataSeeNotification, setDataSeeNotification] = useState([]);
+  const [idCmt, setIdCmt] = useState('');
 
   const openHome = () =>{
     setIsOpenHome(true);
     setIsOpenExchange(false);
     setIsOpenLookUp(false);
     setIsOpenSetting(false);
+    setIsOpenWritePaper(false);
   }
   const openSetting= () =>{
     setIsOpenSetting(true);
     setIsOpenHome(false);
     setIsOpenExchange(false);
     setIsOpenLookUp(false);
+    setIsOpenWritePaper(false);
   }
   const openExchange = () =>{
     setIsOpenExchange(true);
     setIsOpenHome(false);
     setIsOpenLookUp(false);
     setIsOpenSetting(false);
+    setIsOpenWritePaper(false);
   }
   const openLookUp = () =>{
     setIsOpenLookUp(true);
+    setIsOpenHome(false);
+    setIsOpenExchange(false);
+    setIsOpenSetting(false);
+    setIsOpenWritePaper(false);
+  }
+  const openWritePaper = () =>{
+    setIsOpenWritePaper(true);
+    setIsOpenLookUp(false);
     setIsOpenHome(false);
     setIsOpenExchange(false);
     setIsOpenSetting(false);
@@ -84,7 +101,6 @@ function App() {
     else setIsOpenMenu(false);
   }
   useEffect(() => {
-    // alert('mia');
     const pathname = window.location.pathname;
     switch (pathname) {
       case '/':
@@ -98,7 +114,10 @@ function App() {
         break;
       case '/setting_profile':
         openSetting();
-      // Các case khác tương ứng với các route khác
+        break;
+      case '/write_paper':
+        openWritePaper();
+        break;
       default:
         break;
     }
@@ -111,8 +130,6 @@ function App() {
     };
 
   }, []);
-  const [noShowLogIn, setShowLogIn] = useState(false);
-  const [noShowSignUp, setShowSignUp] = useState(false);
   const setShowLogInForm = () => {
     setShowLogIn(true);
     setShowSignUp(false);
@@ -121,9 +138,6 @@ function App() {
     setShowSignUp(true);
     setShowLogIn(false);
   }
-
-  const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const logIn = async (formData) => {
     try {
         const response = await axios.post('http://localhost:3001/login', formData);
@@ -165,7 +179,6 @@ function App() {
       window.location.href = 'http://localhost:3000';
     }
   };
-
   const logOut = () => {
     localStorage.removeItem('isLoggedIn');
     localStorage.removeItem('token');
@@ -173,10 +186,6 @@ function App() {
     // Tải lại trang
     window.location.href = 'http://localhost:3000/';
   }
-
-  const [openSeeNotification, setOpenSeeNotification] = useState(false);
-  const [dataSeeNotification, setDataSeeNotification] = useState([]);
-  const [idCmt, setIdCmt] = useState('');
   const see_notication = (id) => {
     axios.get(`http://localhost:3001/see_notication/${id}`)
         .then(response => {
@@ -219,193 +228,190 @@ function App() {
   }, []);
 
   return (
-    // <DarkModeProvider>
-      // <Router>
-          <div className={`drug_web ${darkMode ? 'dark_mode':''}`}>
-          {/* <div className={`drug_web `}> */}
-            {noShowLogIn && (<LogIn onSubmit={logIn} closeLogIn={()=>setShowLogIn(false)} openSignUp={setShowSignUpForm}/>)}
-            {noShowSignUp && (<SignUp onSubmit={requestSignUp} closeSignUp={()=>setShowSignUp(false)} openLogIn={setShowLogInForm}/>)}
-            {openSeeNotification && (<SeeNotification idCmt={idCmt} data={dataSeeNotification} closeSeeNotification={() => setOpenSeeNotification(false)}/>)}
-            <div className="container_web">
-              {/* {isOpenMenu && ( */}
-                <div className={`layout_left ${isSidebarCollapsed ? 'active' : ''}`}>
-                  <div className={`left_first ${isSidebarCollapsed ? 'active' : ''} ${isOpenMenu ? 'open_by_bar':''}`}>
-                    <div className="header_menu">
-                      <div className='logo_web'>
-                        <img src={logo}></img>
-                      </div>
-                    </div>
-                      
-                    <div className="list_menu">
-                        <ul>
-                          <li><Link to='/' onClick={openHome}>
-                            <FontAwesomeIcon icon={faHome} className='icon_left'/></Link></li>
-                          <li><Link to='/exchange'  onClick={openExchange}>
-                            <FontAwesomeIcon icon={faCommentMedical} className='icon_left'/></Link></li>
-                          <li><Link to='/lookup'  onClick={openLookUp}>
-                            <FontAwesomeIcon icon={faSearch} className='icon_left'/></Link></li>
-                          <li><Link to='/setting_profile' onClick={openSetting}>
-                            <FontAwesomeIcon icon={faGear} className='icon_left'/></Link></li>
-                        </ul>
-                    </div>
-                    <div className='logout'>
-                      <Link onClick={logOut} className='link_logout'>
-                        <FontAwesomeIcon icon={faRightFromBracket} className='icon_logout'/>
-                      </Link>
-                    </div>
-                  </div>
-                  <div className={`left_container ${isSidebarCollapsed ? 'active': ''} ${isOpenMenu ? 'open_by_bar':''}`}>
-                    <div className="header_menu">
-                      <FontAwesomeIcon className={`icon_bars2 ${isOpenMenu ? 'open_by_bar':''}`} icon={faBars} onClick={openMenuByBar}/>
-                      <span>MedicalWeb.</span>
-                    </div>
-                    <div className="list_menu">
-                        <ul>
-                          <li className={`itemMenu ${isOpenHome ? 'active' : ''} ${darkMode ? 'dark_mode':''}`}>
-                            <Link className='text_left' to='/' onClick={openHome}><span>TRANG CHỦ</span></Link>
-                          </li>
-                          <li className={`itemMenu ${isOpenExchange ? 'active' : ''} ${darkMode ? 'dark_mode':''}`}>
-                            <Link className='text_left' to='/exchange' onClick={openExchange}><span>DIỄN ĐÀN</span></Link>
-                          </li>
-                          <li className={`itemMenu ${isOpenLookUp ? 'active' : ''} ${darkMode ? 'dark_mode':''}`}>
-                            <Link className='text_left' to='/lookup' onClick={openLookUp}><span>TRA CỨU</span></Link>
-                          </li>
-                          <li className={`itemMenu ${isOpenSetting ? 'active' : ''} ${darkMode ? 'dark_mode':''}` }>
-                            <Link className='text_left' to='/setting_profile' onClick={openSetting}><span>CÀI ĐẶT</span></Link>
-                          </li>
-                        </ul>
-                    </div>
-                    <div className='logout'>
-                      <Link onClick={logOut} className='link_logout'>
-                        <span className='text_logout'>THOÁT</span>
-                      </Link>
-                    </div>
-                  </div>
-                  <div className={`left_icon_move ${isOpenMenu ? 'open_by_bar':''}`}>
-                    {isSidebarCollapsed ? (
-                      <FontAwesomeIcon className='left_icon' onClick={openLeftIconMove} icon={faForward}/>
-                    ) : (
-                      <FontAwesomeIcon className='left_icon' onClick={openLeftIconMove} icon={faBackward}/>
-                    )}
-                  </div>
+    <div className={`drug_web ${darkMode ? 'dark_mode':''}`}>
+      {noShowLogIn && (<LogIn onSubmit={logIn} closeLogIn={()=>setShowLogIn(false)} openSignUp={setShowSignUpForm}/>)}
+      {noShowSignUp && (<SignUp onSubmit={requestSignUp} closeSignUp={()=>setShowSignUp(false)} openLogIn={setShowLogInForm}/>)}
+      {openSeeNotification && (<SeeNotification idCmt={idCmt} data={dataSeeNotification} closeSeeNotification={() => setOpenSeeNotification(false)}/>)}
+      <div className="container_web">
+          <div className={`layout_left ${isSidebarCollapsed ? 'active' : ''}`}>
+            <div className={`left_first ${isSidebarCollapsed ? 'active' : ''} ${isOpenMenu ? 'open_by_bar':''}`}>
+              <div className="header_menu">
+                <div className='logo_web'>
+                  <img src={logo}></img>
                 </div>
-              {/* )} */}
-
-                <div className={`layout_main ${isSidebarCollapsed ? 'active': ''}`}>
-                    <div className="main_container">
-                      <div className={`main_one ${fixPositionScroll ? 'fixed_main_one':''} ${isSidebarCollapsed ? 'active': ''} ${darkMode ? 'dark_mode':''}`}>
-                        <div className='main_one_container'>
-                            <div className={`one_menu ${isOpenMenu ? 'open_by_bar':''}`}>
-                                <FontAwesomeIcon className={`icon_bars ${isOpenMenu ? 'open_by_bar':''}`} icon={faBars} onClick={openMenuByBar}/>
-                            </div>
-                            <div className="one_find">
-                              {/* <h2>MedicalWeb.</h2> */}
-                            </div>
-                            <div className="one_notification">
-                              <div className={`round_icon_notification ${darkMode ? 'dark_mode':''}`} icon={faBell} onClick={openNotification}>
-                                <FontAwesomeIcon className={`icon_notification`} icon={faBell} />
-                                <FontAwesomeIcon className={`icon_circle ${haveNotif ? 'show':''}`} icon={faCircle} />
-                              </div>
-                              {isLoggedIn && isOpenNotification && (
-                                <div className={`form_notification ${(fixPositionScroll) ? 'fix_menu':''} ${darkMode ? 'dark_mode':''}`}>
-                                  {listNotif.length == 0 ? (
-                                    <div className='notif_one_user'>
-                                      <img src={picRound}></img>
-                                      <div className='notifi_infomation'>
-                                        <h5 className={`notif_userName_1 ${darkMode ? 'dark_mode':''}`}>No User</h5>
-                                        <p className={`notif_userName_2 ${darkMode ? 'dark_mode':''}`}>Không có thông báo!</p>
-                                      </div>
-                                    </div>
-                                  ):(
-                                    listNotif.map(post => (
-                                      <div className='notif_one_user' key={post.id} onClick={() => see_notication(post.id)}>
-                                        <img src={picRound}></img>
-                                        <div className='notifi_infomation'>
-                                          <h5 className='notif_userName_1'>{post.username}</h5>
-                                          <p className='notif_userName_2'>{post.contentComment}</p>
-                                        </div>
-                                      </div>
-                                    ))
-                                  )}
-                                </div>
-                              )}
-                            </div>
-                            {isLoggedIn ? (
-                            <div className="one_username">
-                              <div className="one_username_container">
-                                <div className={`one_noname ${darkMode ? 'dark_mode':''}`} onClick={openDropDown}>
-                                  <span className='name'><span>{fullName || 'Họ và tên'}</span></span>
-                                  <div className='one_avatar'>
-                                    <Avatar className='one_avatar_1' alt={userName || ''} src={userName || ''}></Avatar>
-                                    {/* <img className='one_avatar_1' src={picTFBOYS} alt="" /> */}
-                                  </div>
-                                </div>
-                                {isOpenDropDown && (
-                                <div className='one_dropDown'>
-                                  <Link className='one_link_dropdown' to="/setting_profile" style={{textAlign: 'center'}}>Thông tin cá nhân</Link>
-                                  <Link className='one_link_dropdown' to="/setting_profile/setting" >Cài đặt</Link>
-                                  <Link onClick={logOut} className='one_link_dropdown'>Thoát</Link>
-                                </div>
-                                )}
-                              </div>
-                            </div>
-                            ) : (
-                              <div className="one_username">
-                                <div className="one_username_container">
-                                  <div className='one_noname' onClick={openDropDown}>
-                                    <span className='name'><span>UserName</span></span>
-                                    <div className='one_avatar'>
-                                      <img className='one_avatar_1' src={username} alt="" />
-                                    </div>
-                                  </div>
-                                  {isOpenDropDown && (
-                                  <div className='one_dropDown'>
-                                    <Link className='one_link_dropdown' onClick={setShowLogInForm} >Log In</Link>
-                                    <Link className='one_link_dropdown' onClick={setShowSignUpForm}>Sign Up</Link>
-                                  </div>
-                                )}
-                                </div>
-                              </div>
-                            )}
-                        </div>
-                      </div>
-
-                      <div className={fixPositionScroll ? 'fixed_main_router':'main_router'}>
-                        {isLoggedIn ? (
-                          <Routes>
-                            <Route path="/" exact element={<Home isSidebarCollapsed={isSidebarCollapsed}/>}></Route>
-                            <Route path='/exchange' element={<Exchange/>}></Route>
-                            <Route path='/lookup' element={<LookUp/>}></Route>
-                            <Route path='/paper2/:id' element={<Paper/>}></Route>
-                            <Route path='/setting_profile/*' element={<Setting_Profile/>}></Route>
-                            <Route path="/setting" element={<Setting/>} />
-                          </Routes>
-                        ) : (
-                          <Routes>
-                            <Route path="/" exact element={<Home/>}></Route>
-                            <Route path='/paper2/:id' element={<Paper/>}></Route>
-                            <Route path='/exchange' element={<NoUser/>}></Route>
-                            <Route path='/lookup' element={<NoUser/>}></Route>
-                            <Route path='/paper2/:id' element={<NoUser/>}></Route>
-                            <Route path='/setting_profile/*' element={<NoUser/>}></Route>
-                            <Route path="/setting" element={<NoUser/>} />
-                          </Routes>
-                        )}
-                      </div>
-
-                      <div className='footer_web_site'>
-                        <div className='footer_header'>
-                          <img src={logo}></img>
-                          <h2 style={{marginLeft: '10px'}}>MedicalWeb.</h2>
-                        </div>
-                        <p><strong>Made by GroupFive</strong></p>
-                      </div>
-                    </div>
-                </div>
+              </div>
+              <div className="list_menu">
+                  <ul>
+                    <li><Link to='/' onClick={openHome}>
+                      <FontAwesomeIcon icon={faHome} className='icon_left'/></Link></li>
+                    <li><Link to='/exchange'  onClick={openExchange}>
+                      <FontAwesomeIcon icon={faCommentMedical} className='icon_left'/></Link></li>
+                    <li><Link to='/lookup'  onClick={openLookUp}>
+                      <FontAwesomeIcon icon={faSearch} className='icon_left'/></Link></li>
+                    <li><Link to='/setting_profile' onClick={openSetting}>
+                      <FontAwesomeIcon icon={faGear} className='icon_left'/></Link></li>
+                    <li><Link to='/write_paper' onClick={openWritePaper}>
+                      <FontAwesomeIcon icon={faPenNib} className='icon_left'/></Link></li>
+                  </ul>
+              </div>
+              <div className='logout'>
+                <Link onClick={logOut} className='link_logout'>
+                  <FontAwesomeIcon icon={faRightFromBracket} className='icon_logout'/>
+                </Link>
+              </div>
+            </div>
+            <div className={`left_container ${isSidebarCollapsed ? 'active': ''} ${isOpenMenu ? 'open_by_bar':''}`}>
+              <div className="header_menu">
+                <FontAwesomeIcon className={`icon_bars2 ${isOpenMenu ? 'open_by_bar':''}`} icon={faBars} onClick={openMenuByBar}/>
+                <span>MedicalWeb.</span>
+              </div>
+              <div className="list_menu">
+                  <ul>
+                    <li className={`itemMenu ${isOpenHome ? 'active' : ''} ${darkMode ? 'dark_mode':''}`}>
+                      <Link className='text_left' to='/' onClick={openHome}><span>TRANG CHỦ</span></Link>
+                    </li>
+                    <li className={`itemMenu ${isOpenExchange ? 'active' : ''} ${darkMode ? 'dark_mode':''}`}>
+                      <Link className='text_left' to='/exchange' onClick={openExchange}><span>DIỄN ĐÀN</span></Link>
+                    </li>
+                    <li className={`itemMenu ${isOpenLookUp ? 'active' : ''} ${darkMode ? 'dark_mode':''}`}>
+                      <Link className='text_left' to='/lookup' onClick={openLookUp}><span>TRA CỨU</span></Link>
+                    </li>
+                    <li className={`itemMenu ${isOpenSetting ? 'active' : ''} ${darkMode ? 'dark_mode':''}` }>
+                      <Link className='text_left' to='/setting_profile' onClick={openSetting}><span>CÀI ĐẶT</span></Link>
+                    </li>
+                    <li className={`itemMenu ${isOpenWritePaper ? 'active' : ''} ${darkMode ? 'dark_mode':''}` }>
+                      <Link className='text_left' to='/write_paper' onClick={openWritePaper}><span>VIẾT BÀI</span></Link>
+                    </li>
+                  </ul>
+              </div>
+              <div className='logout'>
+                <Link onClick={logOut} className='link_logout'>
+                  <span className='text_logout'>THOÁT</span>
+                </Link>
+              </div>
+            </div>
+            <div className={`left_icon_move ${isOpenMenu ? 'open_by_bar':''}`}>
+              {isSidebarCollapsed ? (
+                <FontAwesomeIcon className='left_icon' onClick={openLeftIconMove} icon={faForward}/>
+              ) : (
+                <FontAwesomeIcon className='left_icon' onClick={openLeftIconMove} icon={faBackward}/>
+              )}
             </div>
           </div>
-      // </Router>
-    // </DarkModeProvider>
+
+          <div className={`layout_main ${isSidebarCollapsed ? 'active': ''}`}>
+              <div className="main_container">
+                <div className={`main_one ${fixPositionScroll ? 'fixed_main_one':''} ${isSidebarCollapsed ? 'active': ''} ${darkMode ? 'dark_mode':''}`}>
+                  <div className='main_one_container'>
+                      <div className={`one_menu ${isOpenMenu ? 'open_by_bar':''}`}>
+                          <FontAwesomeIcon className={`icon_bars ${isOpenMenu ? 'open_by_bar':''}`} icon={faBars} onClick={openMenuByBar}/>
+                      </div>
+                      <div className="one_find">
+                      </div>
+                      <div className="one_notification">
+                        <div className={`round_icon_notification ${darkMode ? 'dark_mode':''}`} icon={faBell} onClick={openNotification}>
+                          <FontAwesomeIcon className={`icon_notification`} icon={faBell} />
+                          <FontAwesomeIcon className={`icon_circle ${haveNotif ? 'show':''}`} icon={faCircle} />
+                        </div>
+                        {isLoggedIn && isOpenNotification && (
+                          <div className={`form_notification ${(fixPositionScroll) ? 'fix_menu':''} ${darkMode ? 'dark_mode':''}`}>
+                            {listNotif.length == 0 ? (
+                              <div className='notif_one_user'>
+                                <img src={picRound}></img>
+                                <div className='notifi_infomation'>
+                                  <h5 className={`notif_userName_1 ${darkMode ? 'dark_mode':''}`}>No User</h5>
+                                  <p className={`notif_userName_2 ${darkMode ? 'dark_mode':''}`}>Không có thông báo!</p>
+                                </div>
+                              </div>
+                            ):(
+                              listNotif.map(post => (
+                                <div className='notif_one_user' key={post.id} onClick={() => see_notication(post.id)}>
+                                  <img src={picRound}></img>
+                                  <div className='notifi_infomation'>
+                                    <h5 className='notif_userName_1'>{post.username}</h5>
+                                    <p className='notif_userName_2'>{post.contentComment}</p>
+                                  </div>
+                                </div>
+                              ))
+                            )}
+                          </div>
+                        )}
+                      </div>
+                      {isLoggedIn ? (
+                      <div className="one_username">
+                        <div className="one_username_container">
+                          <div className={`one_noname ${darkMode ? 'dark_mode':''}`} onClick={openDropDown}>
+                            <span className='name'><span>{fullName || 'Họ và tên'}</span></span>
+                            <div className='one_avatar'>
+                              <Avatar className='one_avatar_1' alt={userName || ''} src={userName || ''}></Avatar>
+                              {/* <img className='one_avatar_1' src={picTFBOYS} alt="" /> */}
+                            </div>
+                          </div>
+                          {isOpenDropDown && (
+                          <div className='one_dropDown'>
+                            <Link className='one_link_dropdown' to="/setting_profile" style={{textAlign: 'center'}}>Thông tin cá nhân</Link>
+                            <Link className='one_link_dropdown' to="/setting_profile/setting" >Cài đặt</Link>
+                            <Link onClick={logOut} className='one_link_dropdown'>Thoát</Link>
+                          </div>
+                          )}
+                        </div>
+                      </div>
+                      ) : (
+                        <div className="one_username">
+                          <div className="one_username_container">
+                            <div className='one_noname' onClick={openDropDown}>
+                              <span className='name'><span>UserName</span></span>
+                              <div className='one_avatar'>
+                                <img className='one_avatar_1' src={username} alt="" />
+                              </div>
+                            </div>
+                            {isOpenDropDown && (
+                            <div className='one_dropDown'>
+                              <Link className='one_link_dropdown' onClick={setShowLogInForm} >Log In</Link>
+                              <Link className='one_link_dropdown' onClick={setShowSignUpForm}>Sign Up</Link>
+                            </div>
+                          )}
+                          </div>
+                        </div>
+                      )}
+                  </div>
+                </div>
+
+                <div className={fixPositionScroll ? 'fixed_main_router':'main_router'}>
+                  {isLoggedIn ? (
+                    <Routes>
+                      <Route path="/" exact element={<Home isSidebarCollapsed={isSidebarCollapsed}/>}></Route>
+                      <Route path='/exchange' element={<Exchange/>}></Route>
+                      <Route path='/lookup' element={<LookUp/>}></Route>
+                      <Route path='/paper2/:id' element={<Paper/>}></Route>
+                      <Route path='/setting_profile/*' element={<Setting_Profile/>}></Route>
+                      <Route path="/setting" element={<Setting/>} />
+                      <Route path="/write_paper" element={<WritePaper/>} />
+                    </Routes>
+                  ) : (
+                    <Routes>
+                      <Route path="/" exact element={<Home/>}></Route>
+                      <Route path='/paper2/:id' element={<Paper/>}></Route>
+                      <Route path='/exchange' element={<NoUser/>}></Route>
+                      <Route path='/lookup' element={<NoUser/>}></Route>
+                      <Route path='/paper2/:id' element={<NoUser/>}></Route>
+                      <Route path='/setting_profile/*' element={<NoUser/>}></Route>
+                      <Route path="/setting" element={<NoUser/>} />
+                    </Routes>
+                  )}
+                </div>
+
+                <div className='footer_web_site'>
+                  <div className='footer_header'>
+                    <img src={logo}></img>
+                    <h2 style={{marginLeft: '10px'}}>MedicalWeb.</h2>
+                  </div>
+                  <p><strong>Made by GroupFive</strong></p>
+                </div>
+              </div>
+          </div>
+      </div>
+    </div>
   );
 }
 
