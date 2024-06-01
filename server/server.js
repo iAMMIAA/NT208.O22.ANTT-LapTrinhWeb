@@ -10,17 +10,15 @@ const { ExchangeComment } = require('./src/models/comment.model');
 const { ValidationError, fn } = require("sequelize");
 const { ExchangeLike } = require('./src/models/like.model');
 const { checkAccess } = require("./src/middleware/auth.middleware");
-const { error } = require('console');
 const { User } = require('./src/models/user.model');
 
 const app = express();
 const port = 3001;
+const jwtSecretKey = 'medicalweb';
 
-// Increase payload size limit to 10MB (adjust as needed)
 app.use(bodyParser.json({ limit: '10mb' }));
 app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
-app.use(cors()); //su dung CORS
-// app.use(bodyParser.json()); // Middleware để phân tích dữ liệu JSON từ client
+app.use(cors()); 
 
 const connection = mysql.createConnection({
     host: 'localhost',
@@ -36,7 +34,59 @@ const connection = mysql.createConnection({
 //     database: 'medical_blog'
 // });
 
-//Admin send data
+// const connection = mysql.createConnection({
+//     host: process.env.BD_HOST,
+//     user: process.env.DB_USERNAME,
+//     password: process.env.DB_PASSWORD,
+//     database: process.env.BD_DATABASE
+// });
+
+app.post('/signup', (req, res) => {
+    const { username, useremail, userpassword, confirm_password } = req.body;
+
+    // Kiểm tra xem username hoặc useremail có tồn tại hay không
+    const checkQuery = 'SELECT * FROM SignupLogIn WHERE username = ? OR useremail = ?';
+    connection.query(checkQuery, [username, useremail], (checkErr, checkData) => {
+        if (checkErr) {
+            console.error('Error checking data in database: ' + checkErr.stack);
+            return res.status(500).json({ error: 'Error checking data in database' });
+        }
+
+        if (checkData.length > 0) { // Nếu username hoặc useremail đã tồn tại
+            return res.status(400).json({ message: 'Existed' });
+        } else { // Nếu không tồn tại, tiếp tục chèn dữ liệu mới
+            const insertQuery = 'INSERT INTO SignupLogIn (username, useremail, userpassword, confirm_password) VALUES (?,?,?,?)';
+            connection.query(insertQuery, [username, useremail, userpassword, confirm_password], (insertErr, insertData) => {
+                if (insertErr) {
+                    console.error('Error inserting data into database: ' + insertErr.stack);
+                    return res.status(500).json({ error: 'Error inserting data into database' });
+                }
+                console.log('Data inserted into database');
+                res.status(200).json({ message: 'Success' });
+            });
+        }
+    });
+});
+app.post('/login', (req, res) => {
+    const { username, userpassword } = req.body;
+    const query = 'select * from SignupLogIn WHERE username=? AND userpassword=?';
+    
+    connection.query(query,[username,userpassword],(error,data) => {
+        if (error) {
+            console.error('Error querying database: ' + err.stack);
+            return res.status(500).json({ error: 'Error querying database' });
+        }
+        if (data.length > 0) {
+            console.log('User found in database: ', data);
+            const user = data[0];
+            const token = jwt.sign({ userId: user.id, username: user.username, userpassword:user.userpassword }, jwtSecretKey);
+            res.status(200).json({ message: 'Success', token: token, idUser: user.id, adminUser: user.adminUser});
+        } else {
+            console.log('User not found in database');
+            return res.status(401).json({ error: 'Invalid email or password' });
+        }
+    })
+});
 app.post('/write-paper', (req, res) =>{
     console.log('iammia', req.body);
     const { title, author, content, tag, cite_source } = req.body;
@@ -188,56 +238,6 @@ app.get('/comments/count', checkAccess(), async (req, res) => {
         res.status(500).json({error: 'Internal server error.'});
     }
 });
-
-// SignUp
-app.post('/signup', (req, res) => {
-    const { username, useremail, userpassword, confirm_password } = req.body;
-
-    // Kiểm tra xem username hoặc useremail có tồn tại hay không
-    const checkQuery = 'SELECT * FROM SignupLogIn WHERE username = ? OR useremail = ?';
-    connection.query(checkQuery, [username, useremail], (checkErr, checkData) => {
-        if (checkErr) {
-            console.error('Error checking data in database: ' + checkErr.stack);
-            return res.status(500).json({ error: 'Error checking data in database' });
-        }
-
-        if (checkData.length > 0) { // Nếu username hoặc useremail đã tồn tại
-            return res.status(400).json({ message: 'Existed' });
-        } else { // Nếu không tồn tại, tiếp tục chèn dữ liệu mới
-            const insertQuery = 'INSERT INTO SignupLogIn (username, useremail, userpassword, confirm_password) VALUES (?,?,?,?)';
-            connection.query(insertQuery, [username, useremail, userpassword, confirm_password], (insertErr, insertData) => {
-                if (insertErr) {
-                    console.error('Error inserting data into database: ' + insertErr.stack);
-                    return res.status(500).json({ error: 'Error inserting data into database' });
-                }
-                console.log('Data inserted into database');
-                res.status(200).json({ message: 'Success' });
-            });
-        }
-    });
-});
-//LogIn
-const jwtSecretKey = 'medicalweb';
-app.post('/login', (req, res) => {
-    const { username, userpassword } = req.body;
-    const query = 'select * from SignupLogIn WHERE username=? AND userpassword=?';
-    
-    connection.query(query,[username,userpassword],(error,data) => {
-        if (error) {
-            console.error('Error querying database: ' + err.stack);
-            return res.status(500).json({ error: 'Error querying database' });
-        }
-        if (data.length > 0) {
-            console.log('User found in database');
-            const user = data[0];
-            const token = jwt.sign({ userId: user.id, username: user.username, userpassword:user.userpassword }, jwtSecretKey);
-            res.status(200).json({ message: 'Success', token: token, idUser: user.id});
-        } else {
-            console.log('User not found in database');
-            return res.status(401).json({ error: 'Invalid email or password' });
-        }
-    })
-});
 app.post('/update_profile/:idUser', (req, res) => {
     const data = req.body;
     const idUser = req.params.idUser;
@@ -252,7 +252,6 @@ app.post('/update_profile/:idUser', (req, res) => {
         }
     })
 })
-//LookUp
 // Thiết lập multer để lưu trữ hình ảnh tạm thời trong thư mục uploads
 const upload = multer({ dest: 'uploads/' });
 app.post('/predict', upload.single('image'), (req, res) => {
@@ -284,7 +283,6 @@ app.post('/predict', upload.single('image'), (req, res) => {
         console.log(`Child process exited with code ${code}`);
     });
 });
-//Home
 app.get('/posts/:id', (req, res) => {
     const postID = req.params.id;
     const query1 = 'update POSTS set number_of_viewer = number_of_viewer + 1 where id = ?';

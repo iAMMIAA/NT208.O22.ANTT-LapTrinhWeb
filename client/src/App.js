@@ -28,6 +28,7 @@ function App() {
   const [fixPositionScroll, setFixPositionScroll] = useState();
   const [fullName, setFullName] = useState('Username');
   const [userName, setUserName] = useState('');
+  const [admin, setAdmin] = useState(false);
   const [haveNotif, setHaveNotif] = useState(false);
   const [listNotif, setListNotif] = useState([]);
   const [isOpenNotification, setIsOpenNotification] = useState(false);
@@ -38,7 +39,7 @@ function App() {
   const [isOpenLookUp, setIsOpenLookUp] = useState(false);
   const [isOpenWritePaper, setIsOpenWritePaper] = useState(false);
   const [isOpenMenu, setIsOpenMenu] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(true);  
+  const [isLoggedIn, setIsLoggedIn] = useState(false);  
   const [noShowLogIn, setShowLogIn] = useState(false);
   const [noShowSignUp, setShowSignUp] = useState(false);
   const [openSeeNotification, setOpenSeeNotification] = useState(false);
@@ -141,7 +142,7 @@ function App() {
   const logIn = async (formData) => {
     try {
         const response = await axios.post('http://localhost:3001/login', formData);
-        const { message, token, idUser } = response.data;
+        const { message, token, idUser, adminUser } = response.data;
 
         if (message === 'Success' && token) {
             localStorage.setItem('isLoggedIn', 'true');
@@ -160,7 +161,6 @@ function App() {
         console.error("Error while fetching result: ", error);
     }
   };
-
   const requestSignUp = async (formSignUp) => {
     try{
         const response = await axios.post('http://localhost:3001/signup', formSignUp)
@@ -207,10 +207,9 @@ function App() {
         const infoUser = response.data;
         setUserName(infoUser.username);
         setFullName(infoUser.fullName);
+        if(infoUser.adminUser === 1) setAdmin(true);
       })
-      .catch(error => {
-        console.error('error: ', error);
-      })
+      .catch(error => {console.error('error: ', error);})
 
       axios.get(`http://localhost:3001/notification/${localStorage.getItem('idUser')}`)
       .then(response => {
@@ -250,8 +249,11 @@ function App() {
                       <FontAwesomeIcon icon={faSearch} className='icon_left'/></Link></li>
                     <li><Link to='/setting_profile' onClick={openSetting}>
                       <FontAwesomeIcon icon={faGear} className='icon_left'/></Link></li>
-                    <li><Link to='/write_paper' onClick={openWritePaper}>
-                      <FontAwesomeIcon icon={faPenNib} className='icon_left'/></Link></li>
+                    {admin && (
+                      <li><Link to='/write_paper' onClick={openWritePaper}>
+                        <FontAwesomeIcon icon={faPenNib} className='icon_left'/></Link></li>
+                    )}  
+                    
                   </ul>
               </div>
               <div className='logout'>
@@ -279,9 +281,11 @@ function App() {
                     <li className={`itemMenu ${isOpenSetting ? 'active' : ''} ${darkMode ? 'dark_mode':''}` }>
                       <Link className='text_left' to='/setting_profile' onClick={openSetting}><span>CÀI ĐẶT</span></Link>
                     </li>
-                    <li className={`itemMenu ${isOpenWritePaper ? 'active' : ''} ${darkMode ? 'dark_mode':''}` }>
-                      <Link className='text_left' to='/write_paper' onClick={openWritePaper}><span>VIẾT BÀI</span></Link>
-                    </li>
+                    {admin && (
+                      <li className={`itemMenu ${isOpenWritePaper ? 'active' : ''} ${darkMode ? 'dark_mode':''}` }>
+                        <Link className='text_left' to='/write_paper' onClick={openWritePaper}><span>VIẾT BÀI</span></Link>
+                      </li>
+                    )} 
                   </ul>
               </div>
               <div className='logout'>

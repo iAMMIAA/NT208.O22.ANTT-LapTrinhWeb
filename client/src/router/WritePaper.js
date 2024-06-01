@@ -56,7 +56,7 @@ function WritePaper() {
       return;
     }
     setError('');
-    axios.post('http://localhost:3001/write-paper', formPaper) //json với object content
+    axios.post('http://localhost:3001/write-paper', formPaper) 
         .then(response => {console.log('Success:', response.data);})
         .catch(error => {console.error('Error:', error);})
   }
